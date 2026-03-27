@@ -3,7 +3,6 @@ name: Deploy site
 on:
   push:
     branches:
-      - master
       - main
     paths:
       - "assets/**"
@@ -15,22 +14,9 @@ on:
       - "**.yml"
       - "Gemfile"
       - "Gemfile.lock"
-      - "!.github/workflows/axe.yml"
       - "!.github/workflows/broken-links.yml"
-      - "!.github/workflows/deploy-docker-tag.yml"
-      - "!.github/workflows/deploy-image.yml"
-      - "!.github/workflows/docker-slim.yml"
-      - "!.github/workflows/lighthouse-badger.yml"
-      - "!.github/workflows/prettier.yml"
-      - "!lighthouse_results/**"
-      - "!CONTRIBUTING.md"
-      - "!CUSTOMIZE.md"
-      - "!FAQ.md"
-      - "!INSTALL.md"
-      - "!README.md"
   pull_request:
     branches:
-      - master
       - main
     paths:
       - "assets/**"
@@ -42,27 +28,17 @@ on:
       - "**.yml"
       - "Gemfile"
       - "Gemfile.lock"
-      - "!.github/workflows/axe.yml"
       - "!.github/workflows/broken-links.yml"
-      - "!.github/workflows/deploy-docker-tag.yml"
-      - "!.github/workflows/deploy-image.yml"
-      - "!.github/workflows/docker-slim.yml"
-      - "!.github/workflows/lighthouse-badger.yml"
-      - "!.github/workflows/prettier.yml"
-      - "!lighthouse_results/**"
-      - "!CONTRIBUTING.md"
-      - "!CUSTOMIZE.md"
-      - "!FAQ.md"
-      - "!INSTALL.md"
-      - "!README.md"
   workflow_dispatch:
 
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
-    # available images: https://github.com/actions/runner-images#available-images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
