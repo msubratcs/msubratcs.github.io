@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      The Trikafta Effect: How a Drug Approval Rewired a Research Community | Subrat Mishra
+    
+  
+</title>
+<meta name="author" content="Subrat Mishra">
+<meta name="description" content="Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+  <!-- OpenGraph -->
+  <meta property="og:site_name" content="Subrat Mishra">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Subrat Mishra | The Trikafta Effect: How a Drug Approval Rewired a Research Community">
+  <meta property="og:url" content="https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/">
+  <meta property="og:description" content="Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars">
+  
+  <meta property="og:locale" content="en">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Trikafta Effect: How a Drug Approval Rewired a Research Community">
+  <meta name="twitter:description" content="Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars">
+  
+  
+
+
+
+  <!-- Schema.org -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Subrat Mishra"
+        },
+        "url": "https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/",
+        "@type": "BlogPosting",
+        "description": "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+        "headline": "The Trikafta Effect: How a Drug Approval Rewired a Research Community",
+        
+        "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
+        
+        "name": "Subrat Mishra",
+        "@context": "https://schema.org"
+    }
+  </script>
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="/assets/img/favicon.svg?8ca7b2690517d710a352c368cbefb98d">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+<!-- GitHub Project Introduction Section -->
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Subrat</span>
+            
+            
+            Mishra
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">about
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">The Trikafta Effect: How a Drug Approval Rewired a Research Community</h1>
+    <p class="post-meta">
+      Created in April 09, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/network-analysis"> <i class="fa-solid fa-hashtag fa-sm"></i> network-analysis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/temporal-analysis"> <i class="fa-solid fa-hashtag fa-sm"></i> temporal-analysis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/node2vec"> <i class="fa-solid fa-hashtag fa-sm"></i> node2vec</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/counterfactual"> <i class="fa-solid fa-hashtag fa-sm"></i> counterfactual</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/data-science">
+              <i class="fa-solid fa-tag fa-sm"></i> data-science</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <blockquote>
+  <p><em>Part 5 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr>
+
+<h2 id="before-and-after">Before and After</h2>
+
+<p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), I can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease.</p>
+
+<p>The growth numbers are dramatic:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Era 1 (2015-2018)</th>
+      <th>Era 2 (2019-2025)</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Researchers</td>
+      <td>15,881</td>
+      <td>28,497</td>
+      <td>+79%</td>
+    </tr>
+    <tr>
+      <td>Collaboration pairs</td>
+      <td>100,349</td>
+      <td>237,350</td>
+      <td>+137%</td>
+    </tr>
+    <tr>
+      <td>Average collaborators per researcher</td>
+      <td>12.6</td>
+      <td>16.7</td>
+      <td>+32%</td>
+    </tr>
+    <tr>
+      <td>Clustering coefficient</td>
+      <td>0.880</td>
+      <td>0.877</td>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <td>Continuity researchers (span both)</td>
+      <td> </td>
+      <td>5,172</td>
+      <td>13.2% of total</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The field nearly doubled in size. But here’s the thing that surprised me: while the network grew 79% in researchers and 137% in collaboration pairs, the <a href="https://en.wikipedia.org/wiki/Clustering_coefficient" rel="external nofollow noopener" target="_blank">clustering coefficient</a> barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups off to the side. The social fabric of CF research held its structure even as it doubled in scale.</p>
+
+<p>The more interesting question isn’t the raw growth. It’s what happened <em>structurally</em>.</p>
+
+<hr>
+
+<h2 id="94-edge-turnover">94% Edge Turnover</h2>
+
+<p>Of the 237,350 collaboration pairs that exist in Era 2, only <strong>14,066 (5.9%) also existed in Era 1</strong>. That means 94.1% of the collaborations in the Trikafta era are brand new.</p>
+
+<p>Let that sink in. In a field with thousands of established researchers, nearly every collaboration pair in the post-Trikafta era is a connection that didn’t exist before 2019. To put this in perspective, in a stable scientific field you might expect 20-30% new edges per year as researchers start new projects. A 94% turnover over 4-7 years is extraordinary.</p>
+
+<p>Breaking it down:</p>
+
+<ul>
+  <li>
+<strong>86,283 dissolved collaborations</strong>: These existed in Era 1 but didn’t continue into Era 2. Some of these researchers retired, some shifted to other disease areas, and many simply moved on to new projects with new teams.</li>
+  <li>
+<strong>14,066 continued collaborations</strong>: The durable partnerships. Researchers who published together before Trikafta and continued after. These are the long-term pairs, the mentor-mentee relationships, the lab groups that stuck together through the transition.</li>
+  <li>
+<strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later. This is where the action is.</li>
+</ul>
+
+<iframe src="/assets/plotly/eda_network_evolution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The four panels above show the growth at a glance: active authors per year (top left), average team sizes growing from 6.5 to 7.8 (top right), new collaboration pairs forming each year (bottom left), and the cumulative network growth curve (bottom right). The dashed vertical line marks Trikafta’s approval.</p>
+
+<p>The 5,172 continuity researchers who span both eras deserve special attention. They make up only 13.2% of the total researcher population, but they’re the structural backbone. They carry the institutional knowledge, the methods, the clinical trial infrastructure from one era to the next. Without them, the two eras would be essentially different fields.</p>
+
+<hr>
+
+<h2 id="the-counterfactual-what-would-have-happened-without-trikafta">The Counterfactual: What Would Have Happened Without Trikafta?</h2>
+
+<p>Here’s where I got to use some of the graph ML techniques from the Stanford course. The question is simple: of all those new Era 2 collaborations, how many would have happened anyway (because researchers were already trending toward each other) vs. how many are genuinely <em>caused</em> by the Trikafta revolution?</p>
+
+<p>To answer this, I built a <a href="https://en.wikipedia.org/wiki/Counterfactual_conditional" rel="external nofollow noopener" target="_blank">counterfactual</a> model. The idea is to learn how collaborations “naturally” form based on Era 1 patterns, then predict what the Era 2 network would have looked like if nothing had changed.</p>
+
+<h3 id="how-the-model-works">How the model works</h3>
+
+<p>First, I trained <a href="https://en.wikipedia.org/wiki/Node2vec" rel="external nofollow noopener" target="_blank">Node2Vec</a> embeddings on the Era 1 graph. Node2Vec is an algorithm that learns a compact numerical representation (a 64-dimensional vector) for each researcher based on their position in the network. It works by simulating random walks through the graph: starting at a researcher, randomly hopping to a collaborator, then to that person’s collaborator, and so on. Researchers who appear in similar “neighborhoods” during these walks get similar vectors. Think of it as: “tell me who you collaborate with, and I’ll tell you what kind of researcher you are.”</p>
+
+<p>Then I trained a simple <a href="https://en.wikipedia.org/wiki/Logistic_regression" rel="external nofollow noopener" target="_blank">logistic regression</a> classifier on top of these embeddings. For each pair of researchers, I multiply their embedding vectors element-wise (this captures whether they’re in similar network positions) and the classifier predicts whether they’ll collaborate. I trained on real Era 1 edges (positive examples) and randomly sampled non-edges (negative examples).</p>
+
+<p>The model achieves an <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve" rel="external nofollow noopener" target="_blank">AUC</a> of 0.674 on Era 1 data. That’s not a perfect predictor, but it’s meaningfully above random chance (0.5), meaning it captures real patterns in how CF researchers form partnerships: things like institutional proximity, shared network neighborhoods, and similar structural positions.</p>
+
+<h3 id="the-counterfactual-results">The counterfactual results</h3>
+
+<p>Then I asked: if I apply this Era 1 model to the new Era 2 edges, how many would the pre-Trikafta model have predicted?</p>
+
+<p><strong>Only 37.5%.</strong></p>
+
+<iframe src="/assets/plotly/tier7_counterfactual.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>Of the new Era 2 collaborations I could score (27,319 edges where both researchers had Era 1 embeddings):</p>
+
+<ul>
+  <li>
+<strong>10,257 (37.5%) were “expected”</strong>: The pre-Trikafta model predicted these would happen. They follow the natural dynamics of the field: people collaborating with people in similar network neighborhoods, gradual expansion of existing clusters.</li>
+  <li>
+<strong>17,062 (62.5%) were “Trikafta-created”</strong>: The model didn’t predict these. These are collaborations that only exist because the drug approval changed the research landscape. New research questions (long-term modulator outcomes, CF in aging patients, mental health in CF) brought together researchers who had no structural reason to collaborate before 2019.</li>
+</ul>
+
+<p>And on the other side: <strong>57,397 collaborations were “Trikafta-destroyed.”</strong> The model predicted they would continue based on Era 1 patterns, but they ended. These represent research directions and partnerships that became less relevant once Trikafta transformed the standard of care. Some of these were likely infection-focused collaborations that wound down as patients on modulators had fewer lung infections.</p>
+
+<p>A caveat: “Trikafta-created” doesn’t mean Trikafta literally caused each collaboration. It means these connections don’t follow pre-2019 network dynamics. Some might be driven by other factors (COVID-19, funding shifts, career moves). But the scale of the effect (62.5% of new edges are unexplained by the pre-Trikafta model) strongly suggests the drug approval was the dominant force reshaping the network.</p>
+
+<hr>
+
+<h2 id="the-sliding-window-view">The Sliding Window View</h2>
+
+<p>To see the transition more granularly, I built the network in 3-year sliding windows from 2015-2017 through 2023-2025. Each window captures a snapshot of who was collaborating with whom during that period:</p>
+
+<iframe src="/assets/plotly/tier4_sliding_windows.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>Window</th>
+      <th>Researchers</th>
+      <th>Edges</th>
+      <th>Density</th>
+      <th>Giant Component</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2015-2017</td>
+      <td>12,461</td>
+      <td>75,414</td>
+      <td>0.00097</td>
+      <td>69.8%</td>
+    </tr>
+    <tr>
+      <td>2016-2018</td>
+      <td>12,863</td>
+      <td>79,243</td>
+      <td>0.00096</td>
+      <td>72.5%</td>
+    </tr>
+    <tr>
+      <td>2017-2019</td>
+      <td>13,061</td>
+      <td>81,540</td>
+      <td>0.00096</td>
+      <td>73.3%</td>
+    </tr>
+    <tr>
+      <td>2018-2020</td>
+      <td>14,090</td>
+      <td>92,367</td>
+      <td>0.00093</td>
+      <td>73.2%</td>
+    </tr>
+    <tr>
+      <td>2019-2021</td>
+      <td>14,693</td>
+      <td>102,095</td>
+      <td>0.00095</td>
+      <td>75.1%</td>
+    </tr>
+    <tr>
+      <td>2020-2022</td>
+      <td>14,983</td>
+      <td>108,984</td>
+      <td>0.00097</td>
+      <td>75.5%</td>
+    </tr>
+    <tr>
+      <td>2021-2023</td>
+      <td>14,562</td>
+      <td>111,292</td>
+      <td>0.00105</td>
+      <td>77.0%</td>
+    </tr>
+    <tr>
+      <td>2022-2024</td>
+      <td>14,361</td>
+      <td>113,579</td>
+      <td>0.00110</td>
+      <td>76.3%</td>
+    </tr>
+    <tr>
+      <td>2023-2025</td>
+      <td>14,514</td>
+      <td>116,961</td>
+      <td>0.00111</td>
+      <td>77.3%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Two trends jump out:</p>
+
+<p><strong>The community is becoming more connected.</strong> The <a href="https://en.wikipedia.org/wiki/Giant_component" rel="external nofollow noopener" target="_blank">giant component</a> keeps growing, from 69.8% to 77.3%. In the early windows, about 30% of researchers were in disconnected islands. By the latest windows, that’s down to 23%. More and more peripheral researchers are getting pulled into the main collaboration network. The field is consolidating.</p>
+
+<p><strong>The network is getting denser.</strong> <a href="https://en.wikipedia.org/wiki/Dense_graph" rel="external nofollow noopener" target="_blank">Network density</a> actually <em>increases</em> in the later windows (0.00097 to 0.00111), a 14% jump. This means researchers aren’t just adding more collaborators at the same rate the field is growing. They’re forming <em>tighter</em> connections within the existing network. There are more collaboration links per researcher than before. The post-Trikafta field isn’t just bigger, it’s more tightly woven.</p>
+
+<hr>
+
+<h2 id="is-collaboration-becoming-more-international">Is Collaboration Becoming More International?</h2>
+
+<p>I classified every collaboration pair as domestic (both researchers in the same country) or international (different countries):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Continued from Era 1</th>
+      <th>New in Era 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Domestic</td>
+      <td>11,441 (81.3%)</td>
+      <td>168,085 (75.3%)</td>
+    </tr>
+    <tr>
+      <td>International</td>
+      <td>2,541 (18.1%)</td>
+      <td>46,523 (20.8%)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>New collaborations in Era 2 are slightly more international than the collaborations that carried over from Era 1 (20.8% vs 18.1%). The field is globalizing, though gradually. Most CF research collaboration still happens within national borders, which makes sense: shared language, shared clinical trial networks, shared funding agencies.</p>
+
+<p>But that 2.7 percentage point shift from 18.1% to 20.8% adds up when you’re talking about 223,000 new edges. In absolute terms, Era 2 has 46,523 new international collaborations compared to 2,541 that continued from Era 1. The post-Trikafta era is dramatically more international in raw numbers, even if the ratio only shifted modestly.</p>
+
+<p>The dominant corridors tell us where the international action is:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Corridor</th>
+      <th>Shared Publications</th>
+      <th>Why it’s strong</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>UK - US</td>
+      <td>2,526</td>
+      <td>Shared language, major CF centers on both sides, joint clinical trials</td>
+    </tr>
+    <tr>
+      <td>Canada - US</td>
+      <td>2,134</td>
+      <td>Geographic proximity, Toronto-Seattle axis</td>
+    </tr>
+    <tr>
+      <td>Australia - US</td>
+      <td>1,618</td>
+      <td>Anglophone connection, shared trial infrastructure</td>
+    </tr>
+    <tr>
+      <td>Germany - US</td>
+      <td>1,400</td>
+      <td>Strong German CF program, Vertex partnerships</td>
+    </tr>
+    <tr>
+      <td>Australia - UK</td>
+      <td>1,376</td>
+      <td>Commonwealth research ties</td>
+    </tr>
+    <tr>
+      <td>France - US</td>
+      <td>1,119</td>
+      <td>Major French CF program (INSERM)</td>
+    </tr>
+    <tr>
+      <td>Germany - UK</td>
+      <td>925</td>
+      <td>European clinical trial networks</td>
+    </tr>
+    <tr>
+      <td>Germany - France</td>
+      <td>912</td>
+      <td>Strongest intra-European corridor</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Anglophone bias is striking: the top 5 corridors all involve English-speaking countries. Within continental Europe, Germany-France (912 shared publications) is the strongest partnership, but it’s less than half the UK-US corridor. Language and shared clinical trial infrastructure clearly shape who collaborates with whom, even in 2025.</p>
+
+<hr>
+
+<h2 id="rising-stars-whos-gaining-influence-fastest">Rising Stars: Who’s Gaining Influence Fastest?</h2>
+
+<p>By comparing <a href="https://en.wikipedia.org/wiki/Centrality#Degree_centrality" rel="external nofollow noopener" target="_blank">degree centrality</a> between Era 1 and Era 2, I identified researchers whose network influence grew the most. I filtered to researchers above the median Era 2 centrality to focus on people who became genuinely influential, not just someone who went from 0 to 1 connection.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Researcher</th>
+      <th>Articles</th>
+      <th>Era 1 Centrality</th>
+      <th>Era 2 Centrality</th>
+      <th>Growth</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lisa Morrison</td>
+      <td>11</td>
+      <td>0.00006</td>
+      <td>0.00523</td>
+      <td>82x</td>
+    </tr>
+    <tr>
+      <td>Laurence Kessler</td>
+      <td>7</td>
+      <td>0.00006</td>
+      <td>0.00333</td>
+      <td>52x</td>
+    </tr>
+    <tr>
+      <td>Elizabeth B. Burgener</td>
+      <td>12</td>
+      <td>0.00006</td>
+      <td>0.00281</td>
+      <td>44x</td>
+    </tr>
+    <tr>
+      <td>Meghana Nitin Sathe</td>
+      <td>28</td>
+      <td>0.00013</td>
+      <td>0.00463</td>
+      <td>36x</td>
+    </tr>
+    <tr>
+      <td>Rebecca M. Davidson</td>
+      <td>16</td>
+      <td>0.00013</td>
+      <td>0.00421</td>
+      <td>32x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>An important caveat: high growth rates are easier from a low base. Lisa Morrison’s 82x growth sounds massive, but she started from essentially zero (a single connection in Era 1). The more interesting rising stars are people like Meghana Nitin Sathe (28 articles, 36x growth) and Dana P. Albon (26 articles, 20x growth), who have substantial publication records and went from peripheral to central.</p>
+
+<p>What these rising stars have in common: they were on the edge of the field in 2015-2018, maybe a postdoc or early-career investigator with one or two papers. Then in Era 2, they became hubs in new research areas that Trikafta opened up: long-term outcomes, rare mutations, CF-related diabetes, mental health. The network structure reveals their emergence years before traditional metrics (h-index, citation counts) would flag them. For a hiring committee or funding agency trying to identify the next generation of CF leaders, this kind of analysis is exactly what you’d want.</p>
+
+<hr>
+
+<iframe src="/assets/plotly/tier4_trikafta_effect.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr>
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></em></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+    
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Subrat
+      
+      Mishra. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQB389M9P5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-WQB389M9P5');
+  </script>
+
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-about",
+        title: "about",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-blog",
+              title: "blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-publications",
+              title: "publications",
+              description: "publications by categories in reversed chronological order. generated by jekyll-scholar.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "post-research-dna-innovation-catalysts-and-knowledge-diffusion",
+          
+            title: "Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+          
+          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part7-graph-ml/";
+            
+          },
+        },{id: "post-the-institutional-backbone-and-geography-of-cf-research",
+          
+            title: "The Institutional Backbone and Geography of CF Research",
+          
+          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part6-geography-institutions/";
+            
+          },
+        },{id: "post-the-trikafta-effect-how-a-drug-approval-rewired-a-research-community",
+          
+            title: "The Trikafta Effect: How a Drug Approval Rewired a Research Community",
+          
+          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part5-trikafta-effect/";
+            
+          },
+        },{id: "post-the-small-world-of-cf-research",
+          
+            title: "The Small World of CF Research",
+          
+          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part4-network-structure/";
+            
+          },
+        },{id: "post-disambiguating-43-000-author-names-with-temporal-intelligence",
+          
+            title: "Disambiguating 43,000 Author Names with Temporal Intelligence",
+          
+          description: "Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part3-author-disambiguation/";
+            
+          },
+        },{id: "post-resolving-57-000-affiliation-strings-to-5-800-research-organizations",
+          
+            title: "Resolving 57,000 Affiliation Strings to 5,800 Research Organizations",
+          
+          description: "Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part2-institution-disambiguation/";
+            
+          },
+        },{id: "post-building-a-real-time-biomedical-research-intelligence-pipeline",
+          
+            title: "Building a Real-Time Biomedical Research Intelligence Pipeline",
+          
+          description: "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part1-data-pipeline/";
+            
+          },
+        },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0009-0004-6615-873X", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/msubratcs", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/msubratcs", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>

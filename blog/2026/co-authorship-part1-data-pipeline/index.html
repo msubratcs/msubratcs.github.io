@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Building a Real-Time Biomedical Research Intelligence Pipeline | Subrat Mishra
+    
+  
+</title>
+<meta name="author" content="Subrat Mishra">
+<meta name="description" content="Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+  <!-- OpenGraph -->
+  <meta property="og:site_name" content="Subrat Mishra">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Subrat Mishra | Building a Real-Time Biomedical Research Intelligence Pipeline">
+  <meta property="og:url" content="https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/">
+  <meta property="og:description" content="Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community">
+  
+  <meta property="og:locale" content="en">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Building a Real-Time Biomedical Research Intelligence Pipeline">
+  <meta name="twitter:description" content="Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community">
+  
+  
+
+
+
+  <!-- Schema.org -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Subrat Mishra"
+        },
+        "url": "https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/",
+        "@type": "BlogPosting",
+        "description": "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community",
+        "headline": "Building a Real-Time Biomedical Research Intelligence Pipeline",
+        
+        "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
+        
+        "name": "Subrat Mishra",
+        "@context": "https://schema.org"
+    }
+  </script>
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="/assets/img/favicon.svg?8ca7b2690517d710a352c368cbefb98d">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+<!-- GitHub Project Introduction Section -->
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Subrat</span>
+            
+            
+            Mishra
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">about
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Building a Real-Time Biomedical Research Intelligence Pipeline</h1>
+    <p class="post-meta">
+      Created in April 09, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/pubmed"> <i class="fa-solid fa-hashtag fa-sm"></i> pubmed</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/etl"> <i class="fa-solid fa-hashtag fa-sm"></i> etl</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/postgresql"> <i class="fa-solid fa-hashtag fa-sm"></i> postgresql</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/data-pipeline"> <i class="fa-solid fa-hashtag fa-sm"></i> data-pipeline</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/data-science">
+              <i class="fa-solid fa-tag fa-sm"></i> data-science</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <blockquote>
+  <p><em>Part 1 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Disclaimer:</strong> I am not a medical professional or a Cystic Fibrosis expert. This blog series is a data science and graph ML project. Nothing in this series should be construed as medical advice. For information about CF or its treatment, consult a qualified healthcare provider or visit the <a href="https://www.cff.org/" rel="external nofollow noopener" target="_blank">Cystic Fibrosis Foundation</a>.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="the-question-that-started-it-all">The Question That Started It All</h2>
+
+<p>What happens to a scientific community when a breakthrough drug transforms an entire disease? I don’t mean the clinical outcomes. Those are well-documented. I’m talking about the <em>human network</em>. Who starts collaborating with whom? Which institutions rise? Which research topics quietly die, and which ones spring up from nothing?</p>
+
+<p>These aren’t abstract questions. By the end of this series, I’ll show you that a single researcher at Imperial College London bridges <strong>40 distinct research communities</strong> across the globe. That <strong>62.5% of new collaborations</strong> in the post-breakthrough era were ones that no pre-existing pattern predicted. And that two researchers on opposite sides of the Atlantic have nearly identical “research DNA” but have never met.</p>
+
+<p>I’d been sitting on these questions for a while, looking for the right problem to dig into with some graph ML and NLP techniques I’d been picking up. I wanted something where the data was messy, the domain was rich, and the results might actually tell us something new. Biomedical co-authorship networks turned out to be exactly that kind of problem.</p>
+
+<hr>
+
+<h2 id="what-this-series-covers">What This Series Covers</h2>
+
+<p>This is a multi-part deep dive into building a research intelligence platform from scratch, starting from 26 million <a href="https://pubmed.ncbi.nlm.nih.gov/" rel="external nofollow noopener" target="_blank">PubMed</a> articles and ending with <a href="https://en.wikipedia.org/wiki/Graph_neural_network" rel="external nofollow noopener" target="_blank">graph neural networks</a> running on the collaboration patterns of 39,000 researchers. Each part tackles a different data science challenge:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Challenge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+<strong>Part 1</strong> (this post)</td>
+      <td>Building the data pipeline: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community</td>
+    </tr>
+    <tr>
+      <td><strong>Part 2</strong></td>
+      <td>Resolving 57,000 messy affiliation strings to 5,800 canonical research organizations using LLMs and systematic evaluation</td>
+    </tr>
+    <tr>
+      <td><strong>Part 3</strong></td>
+      <td>Disambiguating 43,000 author names into 39,000 real people using temporal-aware <a href="https://en.wikipedia.org/wiki/Record_linkage" rel="external nofollow noopener" target="_blank">entity resolution</a> (F1=0.9996)</td>
+    </tr>
+    <tr>
+      <td><strong>Part 4</strong></td>
+      <td>Building the co-authorship network, finding research communities, and ranking the most influential researchers</td>
+    </tr>
+    <tr>
+      <td><strong>Part 5</strong></td>
+      <td>How a breakthrough drug approval rewired the entire collaboration network</td>
+    </tr>
+    <tr>
+      <td><strong>Part 6</strong></td>
+      <td>The geography and institutional backbone of research, including which century these institutions were founded</td>
+    </tr>
+    <tr>
+      <td><strong>Part 7</strong></td>
+      <td>Graph ML innovations: research embeddings, innovation catalysts, and tracking how knowledge spreads across cities</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The techniques here are general. They apply to any biomedical research community, any disease, any time period. I chose Cystic Fibrosis as the case study for three reasons. First, its recent therapeutic history provides an extraordinary natural experiment: a before-and-after moment that lets us see how a single drug approval reshapes an entire field. Second, its research community is large enough to show complex network structure but small enough (about 11,500 articles, roughly 39,000 researchers) to keep computation and iteration manageable. Compare that with oncology or cardiovascular disease, where you’d be dealing with hundreds of thousands of papers and millions of author-article pairs. And third, CF has a passionate, well-organized research community that makes the human stories behind the network genuinely compelling.</p>
+
+<hr>
+
+<h2 id="why-cystic-fibrosis-a-disease-transformed">Why Cystic Fibrosis: A Disease Transformed</h2>
+
+<p>Cystic Fibrosis is a genetic disease caused by mutations in the <a href="https://en.wikipedia.org/wiki/Cystic_fibrosis_transmembrane_conductance_regulator" rel="external nofollow noopener" target="_blank">CFTR gene</a>. For decades, treatment was all about managing symptoms: fighting chronic lung infections, maintaining nutrition, and when things got bad enough, lung transplant. The median survival age hovered around 40.</p>
+
+<p>Then the science shifted. Instead of treating symptoms, researchers started going after the underlying molecular defect itself:</p>
+
+<ul>
+  <li>
+<strong>2012</strong>: Ivacaftor (Kalydeco), the first CFTR modulator. A real breakthrough, but it only worked for about 5% of patients who carried a specific mutation.</li>
+  <li>
+<strong>2015</strong>: Lumacaftor/ivacaftor (Orkambi) extended modulator therapy to roughly 50% of CF patients, specifically those homozygous for the most common mutation, F508del.</li>
+  <li>
+<strong>2019</strong>: Elexacaftor/tezacaftor/ivacaftor (Trikafta). This was the big one. Effective for about 90% of CF patients. Clinical trials showed improvements in lung function, nutritional status, and quality of life that nobody had seen before.</li>
+</ul>
+
+<p>To put the scale of Trikafta in perspective: imagine if a single pill suddenly worked for 90% of diabetics instead of 5%. That’s the kind of shift we’re talking about. Median survival projections jumped dramatically. Patients who had been on lung transplant waiting lists improved enough to be delisted. The entire research agenda started to pivot, from “how do we manage decline?” to “what does it mean to age with CF?”</p>
+
+<p>This gives us two natural eras for network analysis:</p>
+<ul>
+  <li>
+<strong>Era 1 (2015–2018)</strong>: Early modulators. The research community is still primarily organized around managing symptoms: infections, nutrition, transplant.</li>
+  <li>
+<strong>Era 2 (2019–2025)</strong>: The Trikafta revolution. Research pivots toward long-term outcomes, new complications of extended survival, and the subset of patients who don’t respond to modulators.</li>
+</ul>
+
+<p>The question driving this project isn’t really about CF itself. It’s about what the <em>network of researchers</em> can tell us. Did the breakthrough rewire who collaborates with whom? Did new research communities form? Did old ones dissolve? Can <a href="https://en.wikipedia.org/wiki/Graph_neural_network" rel="external nofollow noopener" target="_blank">graph machine learning</a> pick up on these shifts before traditional bibliometrics can?</p>
+
+<p>Spoiler: the answer to all of those is yes. The data tells a remarkable story.</p>
+
+<hr>
+
+<h2 id="the-data-26-million-articles-in-a-local-postgresql-database">The Data: 26 Million Articles in a Local PostgreSQL Database</h2>
+
+<p>To answer any of this, I needed data. Not a spreadsheet, but a live, queryable pipeline that could ingest the entirety of <a href="https://en.wikipedia.org/wiki/PubMed" rel="external nofollow noopener" target="_blank">PubMed’s</a> 26 million biomedical articles and let me slice into any disease, any time period, any research community.</p>
+
+<h3 id="the-infrastructure">The Infrastructure</h3>
+
+<p>My setup is deliberately unglamorous. It’s a headless Linux server running Ubuntu, accessible only via SSH. No GUI, no cloud credits burning. Just <a href="https://en.wikipedia.org/wiki/PostgreSQL" rel="external nofollow noopener" target="_blank">PostgreSQL</a>, Python, and <a href="https://www.prefect.io/" rel="external nofollow noopener" target="_blank">Prefect</a> keeping everything fresh.</p>
+
+<p>Prefect is a workflow orchestration tool, similar to Apache Airflow but lighter weight. Think of it as a scheduler that runs my data pipelines on a fixed cadence and handles all the messy things that go wrong: retries, logging, alerting if something fails.</p>
+
+<p>Why local instead of cloud? A few reasons:</p>
+
+<ol>
+  <li>
+<strong>26 million articles don’t fit in a notebook.</strong> PubMed’s annual baseline is around 35GB of compressed XML. You need a real database for this, not pandas. And running a PostgreSQL instance on a cloud VM 24/7 would cost real money for something I only query a few times a week.</li>
+  <li>
+<strong>Reproducibility.</strong> Everything is version-controlled SQL. Re-running a query three months from now gives the same results against the same schema with the same filters. No “well, the notebook was different last time I ran it.”</li>
+  <li>
+<strong>Weekly freshness.</strong> Prefect runs an <a href="https://en.wikipedia.org/wiki/Extract,_transform,_load" rel="external nofollow noopener" target="_blank">ETL</a> flow every week that pulls PubMed’s daily update files, parses the XML, and upserts into Postgres. The database is never more than 7 days behind live PubMed. New papers show up automatically.</li>
+</ol>
+
+<p>The PostgreSQL schema is designed for the kinds of analytical queries this project needs, like “give me all authors who published on Cystic Fibrosis and Pseudomonas in 2020, along with their affiliations.” Five main tables:</p>
+
+<ul>
+  <li>
+<strong>articles</strong>: 26M+ rows. Every paper in PubMed with its title, abstract, publication year, journal, DOI, and keywords.</li>
+  <li>
+<strong>article_authors</strong>: Who wrote each paper, in what order, with their ORCID (if they have one) and affiliation text.</li>
+  <li>
+<strong>article_mesh_headings</strong>: The standardized topic tags assigned to each article by human indexers (more on this below).</li>
+  <li>
+<strong>article_publication_types</strong>: Whether it’s a journal article, clinical trial, review, case report, etc.</li>
+  <li>
+<strong>article_chemicals</strong>: Substances and drugs mentioned in each paper.</li>
+</ul>
+
+<p>The weekly Prefect flow handles the messy reality of PubMed updates. Articles get revised, retracted, and re-indexed all the time. A paper published in 2022 might get new MeSH tags added in 2024. The pipeline processes update files in order, handles deletions, and maintains referential integrity across all five tables. It’s not glamorous work, but it’s the kind of plumbing that makes everything downstream possible.</p>
+
+<hr>
+
+<h2 id="filtering-26-million-articles-down-to-11500">Filtering 26 Million Articles Down to 11,500</h2>
+
+<p>With the full PubMed database sitting in Postgres, I could get surgical with the filtering. Everything is in pure SQL, which serves as the single source of truth. No Python filtering that could silently diverge from the SQL logic. If someone asks “exactly which articles did you include?”, I point them to the SQL file.</p>
+
+<p>Here’s how the funnel works:</p>
+
+<p><strong>Step 1: Disease identification via MeSH.</strong> PubMed doesn’t tag articles with plain-text disease names. Instead, it uses the <a href="https://en.wikipedia.org/wiki/Medical_Subject_Headings" rel="external nofollow noopener" target="_blank">Medical Subject Headings (MeSH)</a> controlled vocabulary, a hierarchical system of about 30,000 terms maintained by the National Library of Medicine. Every article in PubMed gets reviewed by a trained human indexer who assigns the relevant MeSH terms.</p>
+
+<p>This matters because an article tagged with MeSH descriptor “Cystic Fibrosis” has been confirmed by a human to actually be <em>about</em> CF, not just mentioning it in passing. A keyword search for “cystic fibrosis” would also catch papers that say things like “unlike cystic fibrosis, this disease…” or papers that briefly mention CF in a list of genetic diseases. MeSH filtering is dramatically more precise.</p>
+
+<p><strong>Step 2: Species filter.</strong> I specifically needed human research. MeSH helps here too: requiring the “Humans” descriptor filters out the 3% of CF articles that study only animal models. Those are important science, but animal-model researchers don’t collaborate with clinical researchers in the same way, and including them would muddy the network.</p>
+
+<p><strong>Step 3: Publication type filter.</strong> This one needed some thought. PubMed categorizes publications into roughly 80 types, and they’re not all equal for understanding collaboration. I wanted original scientific collaboration: journal articles, clinical trials (all phases), observational studies, reviews, meta-analyses, case reports, practice guidelines. These are the publication types where multiple researchers actually <em>work together</em> on a shared project.</p>
+
+<p>I explicitly excluded commentaries, letters to the editor, editorials, and news articles (over 2,700 items in total). Why? Because those represent discourse, not collaboration. A letter to the editor listing 2 authors doesn’t mean those 2 people actually did research together. Including them would create false collaboration links in the network.</p>
+
+<p><strong>Step 4: Time window.</strong> The window 2015–2025 was chosen for both data quality and scientific reasons, and these two considerations happen to align nicely:</p>
+
+<ul>
+  <li>
+<strong>Data quality</strong>: Affiliation coverage in PubMed crosses 80% around 2015. Before that, too many authors lack institutional information for meaningful network analysis. Since I need to know <em>where</em> each researcher works (not just <em>who</em> they are), going further back would mean losing a huge chunk of the data.</li>
+  <li>
+<strong>Scientific significance</strong>: 2015 marks the approval of Orkambi, the first broadly accessible CFTR modulator. 2019 marks Trikafta. That gives us the two therapeutic eras we need for the before-and-after comparison.</li>
+</ul>
+
+<p>The final filtered set: <strong>11,528 articles, 85,194 author-article pairs, spanning 11 years across two therapeutic eras</strong>.</p>
+
+<p>Here’s what the publication volume looks like year by year:</p>
+
+<iframe src="/assets/plotly/eda_publication_timeline.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The blue bars (Era 1) are clearly smaller than the orange bars (Era 2). Publication volume increased significantly after Trikafta’s approval in 2019. But the trend was already upward in the late Era 1 years, suggesting that the modulator revolution was building momentum even before Trikafta.</p>
+
+<p>And this chart shows how the research themes themselves shifted between eras:</p>
+
+<iframe src="/assets/plotly/eda_topic_streams.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>CFTR Modulator topics (blue) surge upward starting around 2019, while infection research (orange) holds relatively steady. Quality of Life research (green) shows a gradual increase across the whole period. This is the two-eras story told through data: the research community literally pivoted its focus.</p>
+
+<hr>
+
+<h2 id="what-the-raw-data-looks-like">What the Raw Data Looks Like</h2>
+
+<p>Here’s a real example of what PubMed gives us for a single article, so you can see what I’m working with:</p>
+
+<p><strong>PMID 33160331</strong>, a nephrology case report:</p>
+<ul>
+  <li>
+<strong>Authors</strong>: 8 authors, each with name, position (0-indexed, meaning the first author is position 0), initials, and an affiliation text string</li>
+  <li>
+<strong>Affiliations</strong>: Free text like <em>“The Nephrology Group Inc, 568 E Herndon Ave STE 201, Fresno, CA 93720”</em>, which mixes institution name, street address, city, state, and zip code into one long string that’s basically unparseable by a computer</li>
+  <li>
+<strong>MeSH terms</strong>: 14 descriptors, 3 flagged as major topics (meaning they’re central to the paper, not just mentioned)</li>
+  <li>
+<strong>Publication types</strong>: Journal Article, Case Reports</li>
+</ul>
+
+<p>The affiliations are by far the hardest part. They’re not structured fields with labeled columns for “institution”, “city”, “country.” They’re just whatever the journal’s submission system happened to collect when the author submitted the paper. Think of it like trying to extract someone’s employer from a string like “John Smith, the guy at the corner building next to the pharmacy on Main Street, 12345” instead of a clean field that says “Employer: Acme Corp.”</p>
+
+<p>The variation is staggering. Some affiliations have department hierarchies 7 levels deep (“Division of Pulmonary Medicine, Department of Pediatrics, College of Medicine, University of…”). Some are in French or Turkish or Chinese. Some have email addresses stuck in the middle. Some list 3 different institutions separated by semicolons because the researcher holds multiple appointments. And there are 57,675 distinct affiliation strings in our dataset that all need to be resolved to actual organizations.</p>
+
+<p>Turning all of this into something I can actually analyze is what Parts 2 and 3 are about.</p>
+
+<hr>
+
+<h2 id="the-extraction-pipeline">The Extraction Pipeline</h2>
+
+<p>With the filters defined in SQL, the extraction pipeline itself is deliberately simple. I’m a firm believer that data pipelines should be boring. The interesting work should happen in the analysis, not in the plumbing.</p>
+
+<p>The pipeline:</p>
+
+<ol>
+  <li>Connect to PostgreSQL via Unix socket (no passwords flying over the network)</li>
+  <li>Read the SQL filter definitions, which are the source of truth, parameterized with year ranges</li>
+  <li>Run the articles query, save as <a href="https://en.wikipedia.org/wiki/Apache_Parquet" rel="external nofollow noopener" target="_blank">Parquet</a> (primary format) plus CSV (for eyeballing in a spreadsheet)</li>
+  <li>Run the authors query, save the same way</li>
+  <li>Print summary statistics as a sanity check</li>
+</ol>
+
+<p>The output:</p>
+<ul>
+  <li>
+<strong>11,528 articles</strong> with title, abstract, pub_year, journal, DOI, keywords</li>
+  <li>
+<strong>85,194 author-article pairs</strong> with PMID, author position, name, ORCID, affiliations</li>
+</ul>
+
+<p>I went with Parquet as the primary format on purpose. It’s a columnar storage format that preserves data types (integers stay integers, arrays stay arrays), compresses well (20MB CSV becomes 6MB Parquet), and reads about 10x faster than CSV for the kind of column-level queries that downstream analysis needs. CSV is there as a backup for when I want to open something in a spreadsheet to sanity-check it.</p>
+
+<hr>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>The raw data has two critical problems that need to be solved before any network analysis is possible:</p>
+
+<ol>
+  <li>
+    <p><strong>The institution problem</strong>: 57,675 distinct affiliation strings that need to be resolved to roughly 5,800 actual research organizations. The same hospital shows up as “The Hospital for Sick Children”, “SickKids”, “Hospital for Sick Children, Toronto”, and a dozen other variants. If I don’t fix this, one hospital becomes 12 disconnected nodes in the network, and the analysis falls apart.</p>
+  </li>
+  <li>
+    <p><strong>The author problem</strong>: 42,949 unique name combinations that need to be resolved to about 39,000 actual people. “Wang, X” could be 4 different researchers at 4 different institutions. “Gokcen” and “Gokcen” are the same person with and without Turkish characters. If I get this wrong, I either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).</p>
+  </li>
+</ol>
+
+<p>Both problems are forms of <a href="https://en.wikipedia.org/wiki/Record_linkage" rel="external nofollow noopener" target="_blank">entity resolution</a>, one of the oldest and hardest problems in data science. Part 2 tackles the institution version using LLM-based affiliation parsing and a geo-search API. Part 3 tackles the author version with a temporal-aware disambiguation algorithm that achieves F1=0.9996 against ground truth.</p>
+
+<hr>
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part2-institution-disambiguation/">Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</a></em></p>
+
+<hr>
+
+<p><em>Acknowledgments: I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec" rel="external nofollow noopener" target="_blank">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/" rel="external nofollow noopener" target="_blank">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts" rel="external nofollow noopener" target="_blank">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/" rel="external nofollow noopener" target="_blank">CS224U: Natural Language Understanding</a>) at Stanford, whose courses gave me the foundation to take on a project like this.</em></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+    
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Subrat
+      
+      Mishra. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQB389M9P5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-WQB389M9P5');
+  </script>
+
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-about",
+        title: "about",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-blog",
+              title: "blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-publications",
+              title: "publications",
+              description: "publications by categories in reversed chronological order. generated by jekyll-scholar.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "post-research-dna-innovation-catalysts-and-knowledge-diffusion",
+          
+            title: "Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+          
+          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part7-graph-ml/";
+            
+          },
+        },{id: "post-the-institutional-backbone-and-geography-of-cf-research",
+          
+            title: "The Institutional Backbone and Geography of CF Research",
+          
+          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part6-geography-institutions/";
+            
+          },
+        },{id: "post-the-trikafta-effect-how-a-drug-approval-rewired-a-research-community",
+          
+            title: "The Trikafta Effect: How a Drug Approval Rewired a Research Community",
+          
+          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part5-trikafta-effect/";
+            
+          },
+        },{id: "post-the-small-world-of-cf-research",
+          
+            title: "The Small World of CF Research",
+          
+          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part4-network-structure/";
+            
+          },
+        },{id: "post-disambiguating-43-000-author-names-with-temporal-intelligence",
+          
+            title: "Disambiguating 43,000 Author Names with Temporal Intelligence",
+          
+          description: "Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part3-author-disambiguation/";
+            
+          },
+        },{id: "post-resolving-57-000-affiliation-strings-to-5-800-research-organizations",
+          
+            title: "Resolving 57,000 Affiliation Strings to 5,800 Research Organizations",
+          
+          description: "Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part2-institution-disambiguation/";
+            
+          },
+        },{id: "post-building-a-real-time-biomedical-research-intelligence-pipeline",
+          
+            title: "Building a Real-Time Biomedical Research Intelligence Pipeline",
+          
+          description: "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part1-data-pipeline/";
+            
+          },
+        },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0009-0004-6615-873X", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/msubratcs", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/msubratcs", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>

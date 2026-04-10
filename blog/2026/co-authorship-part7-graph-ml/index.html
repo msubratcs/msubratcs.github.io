@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Research DNA, Innovation Catalysts, and Knowledge Diffusion | Subrat Mishra
+    
+  
+</title>
+<meta name="author" content="Subrat Mishra">
+<meta name="description" content="Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+  <!-- OpenGraph -->
+  <meta property="og:site_name" content="Subrat Mishra">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Subrat Mishra | Research DNA, Innovation Catalysts, and Knowledge Diffusion">
+  <meta property="og:url" content="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/">
+  <meta property="og:description" content="Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities">
+  
+  <meta property="og:locale" content="en">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Research DNA, Innovation Catalysts, and Knowledge Diffusion">
+  <meta name="twitter:description" content="Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities">
+  
+  
+
+
+
+  <!-- Schema.org -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <script type="application/ld+json">
+    {
+        "author":
+        {
+            "@type": "Person",
+            "name": "Subrat Mishra"
+        },
+        "url": "https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/",
+        "@type": "BlogPosting",
+        "description": "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+        "headline": "Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+        
+        "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
+        
+        "name": "Subrat Mishra",
+        "@context": "https://schema.org"
+    }
+  </script>
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="/assets/img/favicon.svg?8ca7b2690517d710a352c368cbefb98d">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+<!-- GitHub Project Introduction Section -->
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Subrat</span>
+            
+            
+            Mishra
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">about
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/blog/">blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Research DNA, Innovation Catalysts, and Knowledge Diffusion</h1>
+    <p class="post-meta">
+      Created in April 09, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/graph-ml"> <i class="fa-solid fa-hashtag fa-sm"></i> graph-ml</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/metapath2vec"> <i class="fa-solid fa-hashtag fa-sm"></i> metapath2vec</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/embeddings"> <i class="fa-solid fa-hashtag fa-sm"></i> embeddings</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/knowledge-diffusion"> <i class="fa-solid fa-hashtag fa-sm"></i> knowledge-diffusion</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/data-science">
+              <i class="fa-solid fa-tag fa-sm"></i> data-science</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <blockquote>
+  <p><em>Part 7 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr>
+
+<p>This is the part I’ve been building toward since Part 1. Everything before this, the data pipeline, the disambiguation, the network construction, was infrastructure. Now I get to apply graph machine learning techniques to uncover things that traditional research metrics simply can’t see.</p>
+
+<p>Three analyses, each answering a different question:</p>
+<ol>
+  <li>Who are the “Research Twins” who should be collaborating but aren’t?</li>
+  <li>Who is best positioned to catalyze the <em>next</em> breakthrough?</li>
+  <li>How does research knowledge spread across the globe?</li>
+</ol>
+
+<hr>
+
+<h2 id="1-research-dna-embeddings-finding-your-scientific-twin">1. Research DNA Embeddings: Finding Your Scientific Twin</h2>
+
+<h3 id="the-idea">The Idea</h3>
+
+<p>Traditional co-authorship analysis captures one dimension: who works with whom. But a researcher’s identity is richer than their list of collaborators. It includes <em>what</em> they study (MeSH topics), <em>where</em> they publish (journals), <em>where</em> they work (institutions), and <em>who</em> they work with (co-authors).</p>
+
+<p>I wanted a way to encode all of these dimensions into a single numerical fingerprint, a kind of “Research DNA” for each of the 39,206 researchers. Two researchers with similar DNA would be doing similar work, even if they’d never met.</p>
+
+<h3 id="building-the-heterogeneous-graph">Building the Heterogeneous Graph</h3>
+
+<p>A regular <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)" rel="external nofollow noopener" target="_blank">graph</a> has one type of node and one type of edge. A <a href="https://en.wikipedia.org/wiki/Heterogeneous_information_network" rel="external nofollow noopener" target="_blank">heterogeneous information network</a> (HIN) has multiple types of both. Think of it this way: a simple co-authorship graph is like a phone network where everyone is just “a person” and every connection is “called each other.” A heterogeneous graph is more like a real social system where there are people, companies, topics, and locations, all connected by different kinds of relationships.</p>
+
+<p>I built a HIN with five node types and four edge types:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Author (39,206)  --authored--&gt;      Paper (11,500)
+Paper            --tagged_with--&gt;   MeSH Topic (2,094)
+Paper            --published_in--&gt;  Journal (1,601)
+Author           --affiliated--&gt;    Institution (5,799)
+</code></pre></div></div>
+
+<p>This single graph encodes the full research identity of every author. It captures not just who collaborates with whom, but what they study (through shared MeSH topics), where they publish (through shared journals), and where they’re based (through institutional affiliation). The total graph has about 58,000 nodes and over 200,000 edges across the four relationship types.</p>
+
+<h3 id="metapath2vec-learning-research-fingerprints">metapath2vec: Learning Research Fingerprints</h3>
+
+<p>To learn embeddings from this heterogeneous graph, I used <a href="https://ericdongyx.github.io/metapath2vec/m2v.html" rel="external nofollow noopener" target="_blank">metapath2vec</a>, a method designed specifically for heterogeneous networks. It’s an extension of the <a href="https://en.wikipedia.org/wiki/Word2vec" rel="external nofollow noopener" target="_blank">Word2Vec</a> idea (which learns word meanings from the company they keep in sentences) applied to graphs.</p>
+
+<p>Here’s how it works. I define a “metapath,” a recipe for walking through the graph that follows a specific sequence of node types:</p>
+
+<p><strong>Author -&gt; Paper -&gt; MeSH Topic -&gt; Paper -&gt; Author</strong></p>
+
+<p>The algorithm performs thousands of random walks following this recipe. Starting at a researcher, it hops to one of their papers, then to a MeSH topic on that paper, then to <em>another</em> paper with the same topic, then to that paper’s author. By doing this over and over (20 walks per node, each 10 steps long), the algorithm collects evidence about which researchers appear in similar “contexts.”</p>
+
+<p>The key insight: two researchers who frequently appear at the end of these walks from similar starting points are doing similar research, even if they’ve never directly collaborated. The algorithm compresses all of this context information into a compact 128-dimensional vector for each researcher.</p>
+
+<p>Think of it like this: if you told me “this researcher appears in the context of Pseudomonas topics, pediatric pulmonology journals, and European hospital affiliations,” I’d have a pretty good picture of their research profile. Metapath2vec automates that intuition across all 39,206 researchers simultaneously.</p>
+
+<p>I trained the embeddings over 5 epochs with 20 walks per node. The training took about 20 minutes on CPU.</p>
+
+<h3 id="the-umap-landscape">The UMAP Landscape</h3>
+
+<p>128 dimensions are impossible for humans to visualize, so I used <a href="https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection" rel="external nofollow noopener" target="_blank">UMAP</a> (Uniform Manifold Approximation and Projection) to squash those 128 dimensions down to 2 for plotting. UMAP is a <a href="https://en.wikipedia.org/wiki/Dimensionality_reduction" rel="external nofollow noopener" target="_blank">dimensionality reduction</a> technique that preserves the local neighborhood structure of the data: researchers who are close in 128 dimensions stay close in 2 dimensions.</p>
+
+<iframe src="/assets/plotly/tier7_embedding_umap.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Hover over any point to see the researcher’s name, institution, and country.</em></p>
+
+<p>The result is striking. The communities detected by the Leiden algorithm back in Part 4 map cleanly onto the embedding space, even though the embeddings were learned independently. Researchers in the same community cluster together, confirming that the embeddings are capturing real structure. But the embeddings also reveal something the Leiden communities don’t: gradients <em>between</em> communities. Researchers who work at the boundary of two topics (say, infection research and modulator therapy) appear in the transition zones between clusters, exactly where you’d expect to find interdisciplinary researchers.</p>
+
+<h3 id="research-twins-who-should-be-collaborating-but-isnt">Research Twins: Who Should Be Collaborating But Isn’t?</h3>
+
+<p>Here’s the payoff. For each researcher with at least 3 publications, I found their <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" rel="external nofollow noopener" target="_blank">nearest neighbor</a> in embedding space who they’ve <em>never co-authored with</em>. These are “Research Twins”: people doing remarkably similar work in different parts of the world who’ve somehow never connected.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Twin Pair</th>
+      <th>Similarity</th>
+      <th>Articles</th>
+      <th>Countries</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Michael D. Parkins / Edith T. Zemanick</td>
+      <td>0.535</td>
+      <td>49 / 59</td>
+      <td>CA / US</td>
+    </tr>
+    <tr>
+      <td>Lucas R. Hoffman / Tacjana Pressler</td>
+      <td>0.522</td>
+      <td>51 / 51</td>
+      <td>US / DK</td>
+    </tr>
+    <tr>
+      <td>Marianne Skov / Don B. Sanders</td>
+      <td>0.501</td>
+      <td>39 / 59</td>
+      <td>DK / US</td>
+    </tr>
+    <tr>
+      <td>Julia C. Emerson / Loic Guillot</td>
+      <td>0.500</td>
+      <td>9 / 20</td>
+      <td>US / FR</td>
+    </tr>
+    <tr>
+      <td>Bradley S. Quon / Quitterie Reynaud</td>
+      <td>0.498</td>
+      <td>73 / 83</td>
+      <td>CA / FR</td>
+    </tr>
+    <tr>
+      <td>Valerie J. Waters / Joanna B. Goldberg</td>
+      <td>0.495</td>
+      <td>75 / 30</td>
+      <td>CA / US</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A note on the similarity scores: they range from 0 (completely different research profiles) to 1 (identical). A score of 0.535 means these two researchers are more similar to each other than to the vast majority of the 39,206 researchers in the network. For comparison, researchers who actually co-author together typically have similarities around 0.6-0.8. So 0.535 for two people who’ve <em>never</em> met is remarkably high.</p>
+
+<p>Parkins (Calgary, Canada) and Zemanick (Colorado, US) have the highest twin similarity. Both work on CF microbiology and pulmonary infections, publish in similar journals, and have similar-sized collaboration networks. The embedding sees them as near-identical in terms of their research profile. They’re just a 3-hour flight apart.</p>
+
+<p>The Hoffman/Pressler pair is particularly interesting because it crosses the Atlantic: a US-based microbiologist paired with a Danish clinician. Their research profiles are nearly identical despite working in completely different healthcare systems on different continents.</p>
+
+<p>Why does this matter? For a funding agency like the CF Foundation, this list is a concrete starting point for catalyzing new collaborations between researchers with the highest chance of productive partnership. Traditional approaches to matchmaking (conferences, personal introductions) are hit-or-miss. This is a data-driven approach based on the structure of the entire research network.</p>
+
+<hr>
+
+<h2 id="2-innovation-catalysts-who-enables-breakthroughs">2. Innovation Catalysts: Who Enables Breakthroughs?</h2>
+
+<h3 id="beyond-betweenness">Beyond Betweenness</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Betweenness_centrality" rel="external nofollow noopener" target="_blank">Betweenness centrality</a> from Part 4 tells us who bridges different groups. But bridging isn’t the same as catalyzing innovation. A researcher might bridge two communities simply because they serve on a lot of clinical trial steering committees without doing any creative cross-pollination of ideas.</p>
+
+<p>I wanted to identify researchers who are structurally positioned to enable <em>new combinations of ideas</em>, the kind of recombinant innovation that leads to breakthroughs. The theory behind this comes from sociologist <a href="https://en.wikipedia.org/wiki/Structural_holes" rel="external nofollow noopener" target="_blank">Ronald Burt’s work on structural holes</a>: people who bridge disconnected groups have access to non-redundant information, which gives them an advantage in generating novel ideas.</p>
+
+<h3 id="the-brokerage-score">The Brokerage Score</h3>
+
+<p>I combined four signals into a composite Innovation Brokerage Score:</p>
+
+<ol>
+  <li>
+    <p><strong>Topic diversity</strong> (30% weight): Measured using <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" rel="external nofollow noopener" target="_blank">Shannon entropy</a> of each researcher’s MeSH topic distribution. A researcher who publishes across 20 different topics has higher entropy than one who focuses on 3. Topic diversity ranges from around 1 (narrow specialist) to 4.5+ (extreme generalist). Think of it as: how wide is your research menu?</p>
+  </li>
+  <li>
+    <p><strong>Topic novelty</strong> (25% weight): How often does a researcher bridge <em>unusual</em> topic combinations? Measured as the average rarity of topic pairs across their papers. If most of your papers combine topics that rarely appear together (say, “mental health” and “CFTR modulators”), you’re producing novel combinations that might spark new ideas. This captures <em>what</em> you combine, not just <em>how much</em> you cover.</p>
+  </li>
+  <li>
+    <p><strong><a href="https://en.wikipedia.org/wiki/Structural_holes" rel="external nofollow noopener" target="_blank">Structural holes</a></strong> (25% weight): Burt’s effective size metric. If your collaborators all collaborate with each other, you’re in a clique with no structural holes. There’s nothing unique flowing through you. But if your collaborators <em>don’t</em> know each other, you’re the only bridge between them, controlling unique information pathways. A researcher with an effective size of 742 (like Jane Davies) means she has 742 “non-redundant” connections: people she connects who wouldn’t otherwise be connected.</p>
+  </li>
+  <li>
+    <p><strong>Betweenness centrality</strong> (20% weight): The classic network bridging measure from Part 4, included to capture positional importance in the overall network topology.</p>
+  </li>
+</ol>
+
+<h3 id="the-top-innovation-catalysts">The Top Innovation Catalysts</h3>
+
+<iframe src="/assets/plotly/tier7_brokerage.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Left panel: top 30 catalysts. Right panel: brokerage vs traditional centrality for all researchers.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Researcher</th>
+      <th>Score</th>
+      <th>Topic Diversity</th>
+      <th>Structural Holes</th>
+      <th>Articles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Jane C. Davies</td>
+      <td>0.888</td>
+      <td>4.16</td>
+      <td>742</td>
+      <td>122</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Carla Colombo</td>
+      <td>0.860</td>
+      <td>4.39</td>
+      <td>580</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Isabelle Sermet-Gaudelus</td>
+      <td>0.801</td>
+      <td>3.94</td>
+      <td>787</td>
+      <td>123</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>J. Stuart Elborn</td>
+      <td>0.752</td>
+      <td>3.99</td>
+      <td>518</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Steven M. Rowe</td>
+      <td>0.731</td>
+      <td>3.90</td>
+      <td>595</td>
+      <td>109</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Felix A. Ratjen</td>
+      <td>0.728</td>
+      <td>4.01</td>
+      <td>660</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Christopher H. Goss</td>
+      <td>0.719</td>
+      <td>4.18</td>
+      <td>508</td>
+      <td>136</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Marcus A. Mall</td>
+      <td>0.718</td>
+      <td>3.98</td>
+      <td>680</td>
+      <td>127</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Scott C. Bell</td>
+      <td>0.718</td>
+      <td>4.13</td>
+      <td>427</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Pierre-Regis Burgel</td>
+      <td>0.695</td>
+      <td>4.01</td>
+      <td>595</td>
+      <td>109</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Jane Davies leads again (she also topped the bridge builders in Part 4), but the ordering shifts in revealing ways. Carla Colombo jumps to #2, ahead of researchers with more publications, because her topic diversity is the highest on the list at 4.39. She publishes across an unusually wide range of CF subtopics, from gastrointestinal complications to modulator therapy to quality of life. That breadth, combined with strong structural holes, makes her score higher than researchers who publish more but in narrower lanes.</p>
+
+<p>Gregory Sawicki (#14, not shown in the table) is another standout: 107 articles and the <em>highest</em> topic diversity of anyone in the top 20 at 4.50. He publishes across respiratory medicine, quality of life, health economics, and behavioral science. His brokerage score captures something that a simple publication count or h-index would completely miss.</p>
+
+<p>The most revealing comparison is between the brokerage ranking and the TOPSIS centrality ranking from Part 4. They’re correlated but not identical. Researchers who rank high on centrality but lower on brokerage are well-connected but stay in their lane. Researchers who rank high on brokerage but lower on centrality are doing creative cross-disciplinary work from a less central network position. Both are valuable, but if you’re a funding agency trying to maximize the chance of novel discoveries, you’d want to invest in the high-brokerage researchers.</p>
+
+<hr>
+
+<h2 id="3-knowledge-diffusion-how-topics-spread-across-the-globe">3. Knowledge Diffusion: How Topics Spread Across the Globe</h2>
+
+<h3 id="the-question">The Question</h3>
+
+<p>When a new research topic emerges (say, “long-term outcomes of modulator therapy”), it doesn’t appear everywhere at once. It starts in one or two cities, usually where the pioneering researchers work, and gradually spreads to other centers as expertise, clinical trial infrastructure, and funding follow. I wanted to map this diffusion process at the topic level across all 1,688 cities in the dataset.</p>
+
+<h3 id="tracking-topic-adoption">Tracking Topic Adoption</h3>
+
+<p>For each of the 2,472 major MeSH topics in the dataset, I built a timeline: which cities published on it in each year from 2015 to 2025. I focused on topics that eventually reached at least 5 cities (1,096 topics met this threshold) and computed two metrics:</p>
+
+<ul>
+  <li>
+<strong>Geographic reach</strong>: How many cities eventually published on this topic?</li>
+  <li>
+<strong>Adoption speed</strong>: What percentage of adopting cities did so within 2 years of the first publication? High speed means the topic spread quickly (like a pandemic). Low speed means it diffused slowly (like a specialized clinical technique that requires training and infrastructure).</li>
+</ul>
+
+<h3 id="what-spreads-fast-what-spreads-slow">What Spreads Fast, What Spreads Slow</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Cities Reached</th>
+      <th>Adoption Speed</th>
+      <th>Origin Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CFTR</td>
+      <td>522</td>
+      <td>6%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Pseudomonas Infections</td>
+      <td>433</td>
+      <td>19%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Quinolones (modulator component)</td>
+      <td>369</td>
+      <td>8%</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>Aminophenols (ivacaftor)</td>
+      <td>350</td>
+      <td>8%</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>Pseudomonas aeruginosa</td>
+      <td>343</td>
+      <td>26%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Indoles</td>
+      <td>286</td>
+      <td>4%</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <td><strong>COVID-19</strong></td>
+      <td><strong>277</strong></td>
+      <td><strong>60%</strong></td>
+      <td><strong>2020</strong></td>
+    </tr>
+    <tr>
+      <td>Quality of Life</td>
+      <td>274</td>
+      <td>39%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Lung Transplantation</td>
+      <td>260</td>
+      <td>27%</td>
+      <td>2015</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>COVID-19 stands out as the fastest-spreading topic in the entire dataset</strong>, with an adoption speed of 60%. Over half of the 277 cities that eventually published on COVID-19 in CF did so within 2 years of the first publications in 2020. That’s the global urgency of a pandemic at work: every CF center in the world needed to understand how COVID-19 affected their patients, and they needed to know now.</p>
+
+<p>Compare that with the CFTR modulator topics (Quinolones, Aminophenols, Benzodioxoles) at 4-8% adoption speed. These topics reached 300+ cities eventually, so they have enormous <em>reach</em>, but the <em>speed</em> is slow. Why? Because modulator research requires clinical trial infrastructure, regulatory approval, and specialized molecular biology expertise. You can’t just start publishing on CFTR modulators because you read a paper about them. You need the whole ecosystem: approved drugs, consenting patients, laboratory facilities, IRB approvals.</p>
+
+<p>The contrast is stark: COVID-19 research spreads by urgency. Modulator research spreads by infrastructure. Understanding these diffusion patterns has real implications for how medical research capacity should be built and funded.</p>
+
+<h3 id="the-animated-diffusion-map">The Animated Diffusion Map</h3>
+
+<iframe src="/assets/plotly/tier7_diffusion_animated.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Use the play button to watch topics spread across the globe year by year.</em></p>
+
+<p>The animation tracks six key topics across time and geography. Watch Pseudomonas aeruginosa (infection research) cluster heavily in European cities, while the modulator topics start from a few centers and gradually light up across both North America and Europe. Quality of Life research is the most geographically even from the start, suggesting it requires less specialized infrastructure and spreads more organically.</p>
+
+<iframe src="/assets/plotly/tier7_diffusion_speed.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr>
+
+<h2 id="what-graph-ml-reveals-that-traditional-methods-cant">What Graph ML Reveals That Traditional Methods Can’t</h2>
+
+<p>Each of these three analyses produces insights that are invisible to traditional bibliometrics:</p>
+
+<p><strong>Research Twins</strong> surface latent similarities across all dimensions of a researcher’s profile simultaneously. Citation analysis can tell you who cites whom. Co-authorship analysis can tell you who works with whom. But neither can find two people in different countries who study the same topics, publish in the same journals, and work in similar institutional contexts but have never connected. That requires encoding the full research identity into a shared vector space.</p>
+
+<p><strong>Innovation Brokerage</strong> distinguishes researchers who are merely <em>well-connected</em> from those who are <em>structurally positioned to create new combinations of ideas</em>. A traditional h-index or publication count can’t capture the difference between a researcher who publishes 100 papers all within one subfield and one who publishes 80 papers that bridge three subfields. The brokerage score can, because it measures topic diversity, topic novelty, and structural position simultaneously.</p>
+
+<p><strong>Knowledge Diffusion</strong> reveals the geography of ideas at the topic level. Knowing that modulator expertise takes 5+ years to spread from clinical trial hubs to community hospitals has real implications. If you’re a research funder, you might invest in training programs at slow-adopting institutions. If you’re a pharmaceutical company, you might target awareness campaigns at cities that haven’t yet adopted your drug’s research topic. No existing bibliometric tool provides this kind of topic-level geographic diffusion analysis for specific therapeutic areas.</p>
+
+<hr>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>This is the end of the series for now, but not the end of the analysis. The dataset and infrastructure are set up for several deeper investigations:</p>
+
+<ul>
+  <li>
+<strong>Temporal embeddings</strong>: Training separate embeddings for each era and tracking how individual researchers’ “Research DNA” evolved across the Trikafta transition. Did some researchers completely reinvent their profiles?</li>
+  <li>
+<strong>Mentorship networks</strong>: Building directed graphs from first-author/last-author relationships to map the academic genealogy of CF research. Who trained whom?</li>
+  <li>
+<strong>Succession planning</strong>: Identifying central researchers who are showing signs of winding down (fewer publications, more reviews, declining centrality) and whether there are clear successors in the network. Where are the gaps?</li>
+  <li>
+<strong>Breakthrough prediction</strong>: Can the network patterns that preceded the Trikafta papers be detected in current data, pointing to the next breakthrough?</li>
+</ul>
+
+<p>If you’re a CF researcher, a research funder, or just someone interested in the science of science, I’d love to hear from you.</p>
+
+<hr>
+
+<p><em>This is Part 7, the final part of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+
+<hr>
+
+<p><em>Acknowledgments: I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec" rel="external nofollow noopener" target="_blank">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/" rel="external nofollow noopener" target="_blank">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts" rel="external nofollow noopener" target="_blank">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/" rel="external nofollow noopener" target="_blank">CS224U: Natural Language Understanding</a>) at Stanford, whose courses gave me the foundation to take on a project like this.</em></p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+    
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2026
+      Subrat
+      
+      Mishra. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+      
+      
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js" type="text/javascript"></script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+<!-- Bootstrap Table -->
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+
+
+    
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+    
+
+    
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQB389M9P5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-WQB389M9P5');
+  </script>
+
+
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+
+    
+
+    
+
+    
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+    
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script>
+    let searchTheme = determineComputedTheme();
+    const ninjaKeys = document.querySelector('ninja-keys');
+
+    if (searchTheme === 'dark') {
+      ninjaKeys.classList.add('dark');
+    } else {
+      ninjaKeys.classList.remove('dark');
+    }
+
+    const openSearchModal = () => {
+      // collapse navbarNav if expanded on mobile
+      const $navbarNav = $('#navbarNav');
+      if ($navbarNav.hasClass('show')) {
+        $navbarNav.collapse('hide');
+      }
+      ninjaKeys.open();
+    };
+  </script>
+  <script>
+    // get the ninja-keys element
+    const ninja = document.querySelector('ninja-keys');
+
+    // add the home and posts menu items
+    ninja.data = [{
+        id: "nav-about",
+        title: "about",
+        section: "Navigation",
+        handler: () => {
+          window.location.href = "/";
+        },
+      },{id: "nav-blog",
+              title: "blog",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/blog/";
+              },
+            },{id: "nav-publications",
+              title: "publications",
+              description: "publications by categories in reversed chronological order. generated by jekyll-scholar.",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/publications/";
+              },
+            },{id: "post-research-dna-innovation-catalysts-and-knowledge-diffusion",
+          
+            title: "Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+          
+          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part7-graph-ml/";
+            
+          },
+        },{id: "post-the-institutional-backbone-and-geography-of-cf-research",
+          
+            title: "The Institutional Backbone and Geography of CF Research",
+          
+          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part6-geography-institutions/";
+            
+          },
+        },{id: "post-the-trikafta-effect-how-a-drug-approval-rewired-a-research-community",
+          
+            title: "The Trikafta Effect: How a Drug Approval Rewired a Research Community",
+          
+          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part5-trikafta-effect/";
+            
+          },
+        },{id: "post-the-small-world-of-cf-research",
+          
+            title: "The Small World of CF Research",
+          
+          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part4-network-structure/";
+            
+          },
+        },{id: "post-disambiguating-43-000-author-names-with-temporal-intelligence",
+          
+            title: "Disambiguating 43,000 Author Names with Temporal Intelligence",
+          
+          description: "Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part3-author-disambiguation/";
+            
+          },
+        },{id: "post-resolving-57-000-affiliation-strings-to-5-800-research-organizations",
+          
+            title: "Resolving 57,000 Affiliation Strings to 5,800 Research Organizations",
+          
+          description: "Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part2-institution-disambiguation/";
+            
+          },
+        },{id: "post-building-a-real-time-biomedical-research-intelligence-pipeline",
+          
+            title: "Building a Real-Time Biomedical Research Intelligence Pipeline",
+          
+          description: "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community",
+          section: "Posts",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/co-authorship-part1-data-pipeline/";
+            
+          },
+        },{
+            id: 'socials-orcid',
+            title: 'ORCID',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://orcid.org/0009-0004-6615-873X", "_blank");
+            },
+          },{
+            id: 'socials-github',
+            title: 'GitHub',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://github.com/msubratcs", "_blank");
+            },
+          },{
+            id: 'socials-linkedin',
+            title: 'LinkedIn',
+            section: 'Socials',
+            handler: () => {
+              window.open("https://www.linkedin.com/in/msubratcs", "_blank");
+            },
+          },{
+            id: 'socials-rss',
+            title: 'RSS Feed',
+            section: 'Socials',
+            handler: () => {
+              window.open("/feed.xml", "_blank");
+            },
+          },{
+          id: 'light-theme',
+          title: 'Change theme to light',
+          description: 'Change the theme of the site to Light',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("light");
+          },
+        },
+        {
+          id: 'dark-theme',
+          title: 'Change theme to dark',
+          description: 'Change the theme of the site to Dark',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("dark");
+          },
+        },
+        {
+          id: 'system-theme',
+          title: 'Use system default theme',
+          description: 'Change the theme of the site to System Default',
+          section: 'Theme',
+          handler: () => {
+            setThemeSetting("system");
+          },
+        },];
+  </script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+  </body>
+</html>

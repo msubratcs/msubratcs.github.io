@@ -1,2 +1,2951 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-27T21:14:48+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
-</subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-10T14:06:40+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
+</subtitle><entry><title type="html">Research DNA, Innovation Catalysts, and Knowledge Diffusion</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/" rel="alternate" type="text/html" title="Research DNA, Innovation Catalysts, and Knowledge Diffusion" /><published>2026-04-09T21:00:00+00:00</published><updated>2026-04-09T21:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/"><![CDATA[<blockquote>
+  <p><em>Part 7 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr />
+
+<p>This is the part I’ve been building toward since Part 1. Everything before this, the data pipeline, the disambiguation, the network construction, was infrastructure. Now I get to apply graph machine learning techniques to uncover things that traditional research metrics simply can’t see.</p>
+
+<p>Three analyses, each answering a different question:</p>
+<ol>
+  <li>Who are the “Research Twins” who should be collaborating but aren’t?</li>
+  <li>Who is best positioned to catalyze the <em>next</em> breakthrough?</li>
+  <li>How does research knowledge spread across the globe?</li>
+</ol>
+
+<hr />
+
+<h2 id="1-research-dna-embeddings-finding-your-scientific-twin">1. Research DNA Embeddings: Finding Your Scientific Twin</h2>
+
+<h3 id="the-idea">The Idea</h3>
+
+<p>Traditional co-authorship analysis captures one dimension: who works with whom. But a researcher’s identity is richer than their list of collaborators. It includes <em>what</em> they study (MeSH topics), <em>where</em> they publish (journals), <em>where</em> they work (institutions), and <em>who</em> they work with (co-authors).</p>
+
+<p>I wanted a way to encode all of these dimensions into a single numerical fingerprint, a kind of “Research DNA” for each of the 39,206 researchers. Two researchers with similar DNA would be doing similar work, even if they’d never met.</p>
+
+<h3 id="building-the-heterogeneous-graph">Building the Heterogeneous Graph</h3>
+
+<p>A regular <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a> has one type of node and one type of edge. A <a href="https://en.wikipedia.org/wiki/Heterogeneous_information_network">heterogeneous information network</a> (HIN) has multiple types of both. Think of it this way: a simple co-authorship graph is like a phone network where everyone is just “a person” and every connection is “called each other.” A heterogeneous graph is more like a real social system where there are people, companies, topics, and locations, all connected by different kinds of relationships.</p>
+
+<p>I built a HIN with five node types and four edge types:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Author (39,206)  --authored--&gt;      Paper (11,500)
+Paper            --tagged_with--&gt;   MeSH Topic (2,094)
+Paper            --published_in--&gt;  Journal (1,601)
+Author           --affiliated--&gt;    Institution (5,799)
+</code></pre></div></div>
+
+<p>This single graph encodes the full research identity of every author. It captures not just who collaborates with whom, but what they study (through shared MeSH topics), where they publish (through shared journals), and where they’re based (through institutional affiliation). The total graph has about 58,000 nodes and over 200,000 edges across the four relationship types.</p>
+
+<h3 id="metapath2vec-learning-research-fingerprints">metapath2vec: Learning Research Fingerprints</h3>
+
+<p>To learn embeddings from this heterogeneous graph, I used <a href="https://ericdongyx.github.io/metapath2vec/m2v.html">metapath2vec</a>, a method designed specifically for heterogeneous networks. It’s an extension of the <a href="https://en.wikipedia.org/wiki/Word2vec">Word2Vec</a> idea (which learns word meanings from the company they keep in sentences) applied to graphs.</p>
+
+<p>Here’s how it works. I define a “metapath,” a recipe for walking through the graph that follows a specific sequence of node types:</p>
+
+<p><strong>Author -&gt; Paper -&gt; MeSH Topic -&gt; Paper -&gt; Author</strong></p>
+
+<p>The algorithm performs thousands of random walks following this recipe. Starting at a researcher, it hops to one of their papers, then to a MeSH topic on that paper, then to <em>another</em> paper with the same topic, then to that paper’s author. By doing this over and over (20 walks per node, each 10 steps long), the algorithm collects evidence about which researchers appear in similar “contexts.”</p>
+
+<p>The key insight: two researchers who frequently appear at the end of these walks from similar starting points are doing similar research, even if they’ve never directly collaborated. The algorithm compresses all of this context information into a compact 128-dimensional vector for each researcher.</p>
+
+<p>Think of it like this: if you told me “this researcher appears in the context of Pseudomonas topics, pediatric pulmonology journals, and European hospital affiliations,” I’d have a pretty good picture of their research profile. Metapath2vec automates that intuition across all 39,206 researchers simultaneously.</p>
+
+<p>I trained the embeddings over 5 epochs with 20 walks per node. The training took about 20 minutes on CPU.</p>
+
+<h3 id="the-umap-landscape">The UMAP Landscape</h3>
+
+<p>128 dimensions are impossible for humans to visualize, so I used <a href="https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection">UMAP</a> (Uniform Manifold Approximation and Projection) to squash those 128 dimensions down to 2 for plotting. UMAP is a <a href="https://en.wikipedia.org/wiki/Dimensionality_reduction">dimensionality reduction</a> technique that preserves the local neighborhood structure of the data: researchers who are close in 128 dimensions stay close in 2 dimensions.</p>
+
+<iframe src="/assets/plotly/tier7_embedding_umap.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Hover over any point to see the researcher’s name, institution, and country.</em></p>
+
+<p>The result is striking. The communities detected by the Leiden algorithm back in Part 4 map cleanly onto the embedding space, even though the embeddings were learned independently. Researchers in the same community cluster together, confirming that the embeddings are capturing real structure. But the embeddings also reveal something the Leiden communities don’t: gradients <em>between</em> communities. Researchers who work at the boundary of two topics (say, infection research and modulator therapy) appear in the transition zones between clusters, exactly where you’d expect to find interdisciplinary researchers.</p>
+
+<h3 id="research-twins-who-should-be-collaborating-but-isnt">Research Twins: Who Should Be Collaborating But Isn’t?</h3>
+
+<p>Here’s the payoff. For each researcher with at least 3 publications, I found their <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">nearest neighbor</a> in embedding space who they’ve <em>never co-authored with</em>. These are “Research Twins”: people doing remarkably similar work in different parts of the world who’ve somehow never connected.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Twin Pair</th>
+      <th>Similarity</th>
+      <th>Articles</th>
+      <th>Countries</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Michael D. Parkins / Edith T. Zemanick</td>
+      <td>0.535</td>
+      <td>49 / 59</td>
+      <td>CA / US</td>
+    </tr>
+    <tr>
+      <td>Lucas R. Hoffman / Tacjana Pressler</td>
+      <td>0.522</td>
+      <td>51 / 51</td>
+      <td>US / DK</td>
+    </tr>
+    <tr>
+      <td>Marianne Skov / Don B. Sanders</td>
+      <td>0.501</td>
+      <td>39 / 59</td>
+      <td>DK / US</td>
+    </tr>
+    <tr>
+      <td>Julia C. Emerson / Loic Guillot</td>
+      <td>0.500</td>
+      <td>9 / 20</td>
+      <td>US / FR</td>
+    </tr>
+    <tr>
+      <td>Bradley S. Quon / Quitterie Reynaud</td>
+      <td>0.498</td>
+      <td>73 / 83</td>
+      <td>CA / FR</td>
+    </tr>
+    <tr>
+      <td>Valerie J. Waters / Joanna B. Goldberg</td>
+      <td>0.495</td>
+      <td>75 / 30</td>
+      <td>CA / US</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A note on the similarity scores: they range from 0 (completely different research profiles) to 1 (identical). A score of 0.535 means these two researchers are more similar to each other than to the vast majority of the 39,206 researchers in the network. For comparison, researchers who actually co-author together typically have similarities around 0.6-0.8. So 0.535 for two people who’ve <em>never</em> met is remarkably high.</p>
+
+<p>Parkins (Calgary, Canada) and Zemanick (Colorado, US) have the highest twin similarity. Both work on CF microbiology and pulmonary infections, publish in similar journals, and have similar-sized collaboration networks. The embedding sees them as near-identical in terms of their research profile. They’re just a 3-hour flight apart.</p>
+
+<p>The Hoffman/Pressler pair is particularly interesting because it crosses the Atlantic: a US-based microbiologist paired with a Danish clinician. Their research profiles are nearly identical despite working in completely different healthcare systems on different continents.</p>
+
+<p>Why does this matter? For a funding agency like the CF Foundation, this list is a concrete starting point for catalyzing new collaborations between researchers with the highest chance of productive partnership. Traditional approaches to matchmaking (conferences, personal introductions) are hit-or-miss. This is a data-driven approach based on the structure of the entire research network.</p>
+
+<hr />
+
+<h2 id="2-innovation-catalysts-who-enables-breakthroughs">2. Innovation Catalysts: Who Enables Breakthroughs?</h2>
+
+<h3 id="beyond-betweenness">Beyond Betweenness</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Betweenness_centrality">Betweenness centrality</a> from Part 4 tells us who bridges different groups. But bridging isn’t the same as catalyzing innovation. A researcher might bridge two communities simply because they serve on a lot of clinical trial steering committees without doing any creative cross-pollination of ideas.</p>
+
+<p>I wanted to identify researchers who are structurally positioned to enable <em>new combinations of ideas</em>, the kind of recombinant innovation that leads to breakthroughs. The theory behind this comes from sociologist <a href="https://en.wikipedia.org/wiki/Structural_holes">Ronald Burt’s work on structural holes</a>: people who bridge disconnected groups have access to non-redundant information, which gives them an advantage in generating novel ideas.</p>
+
+<h3 id="the-brokerage-score">The Brokerage Score</h3>
+
+<p>I combined four signals into a composite Innovation Brokerage Score:</p>
+
+<ol>
+  <li>
+    <p><strong>Topic diversity</strong> (30% weight): Measured using <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">Shannon entropy</a> of each researcher’s MeSH topic distribution. A researcher who publishes across 20 different topics has higher entropy than one who focuses on 3. Topic diversity ranges from around 1 (narrow specialist) to 4.5+ (extreme generalist). Think of it as: how wide is your research menu?</p>
+  </li>
+  <li>
+    <p><strong>Topic novelty</strong> (25% weight): How often does a researcher bridge <em>unusual</em> topic combinations? Measured as the average rarity of topic pairs across their papers. If most of your papers combine topics that rarely appear together (say, “mental health” and “CFTR modulators”), you’re producing novel combinations that might spark new ideas. This captures <em>what</em> you combine, not just <em>how much</em> you cover.</p>
+  </li>
+  <li>
+    <p><strong><a href="https://en.wikipedia.org/wiki/Structural_holes">Structural holes</a></strong> (25% weight): Burt’s effective size metric. If your collaborators all collaborate with each other, you’re in a clique with no structural holes. There’s nothing unique flowing through you. But if your collaborators <em>don’t</em> know each other, you’re the only bridge between them, controlling unique information pathways. A researcher with an effective size of 742 (like Jane Davies) means she has 742 “non-redundant” connections: people she connects who wouldn’t otherwise be connected.</p>
+  </li>
+  <li>
+    <p><strong>Betweenness centrality</strong> (20% weight): The classic network bridging measure from Part 4, included to capture positional importance in the overall network topology.</p>
+  </li>
+</ol>
+
+<h3 id="the-top-innovation-catalysts">The Top Innovation Catalysts</h3>
+
+<iframe src="/assets/plotly/tier7_brokerage.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Left panel: top 30 catalysts. Right panel: brokerage vs traditional centrality for all researchers.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Researcher</th>
+      <th>Score</th>
+      <th>Topic Diversity</th>
+      <th>Structural Holes</th>
+      <th>Articles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Jane C. Davies</td>
+      <td>0.888</td>
+      <td>4.16</td>
+      <td>742</td>
+      <td>122</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Carla Colombo</td>
+      <td>0.860</td>
+      <td>4.39</td>
+      <td>580</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Isabelle Sermet-Gaudelus</td>
+      <td>0.801</td>
+      <td>3.94</td>
+      <td>787</td>
+      <td>123</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>J. Stuart Elborn</td>
+      <td>0.752</td>
+      <td>3.99</td>
+      <td>518</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Steven M. Rowe</td>
+      <td>0.731</td>
+      <td>3.90</td>
+      <td>595</td>
+      <td>109</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Felix A. Ratjen</td>
+      <td>0.728</td>
+      <td>4.01</td>
+      <td>660</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Christopher H. Goss</td>
+      <td>0.719</td>
+      <td>4.18</td>
+      <td>508</td>
+      <td>136</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Marcus A. Mall</td>
+      <td>0.718</td>
+      <td>3.98</td>
+      <td>680</td>
+      <td>127</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Scott C. Bell</td>
+      <td>0.718</td>
+      <td>4.13</td>
+      <td>427</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Pierre-Regis Burgel</td>
+      <td>0.695</td>
+      <td>4.01</td>
+      <td>595</td>
+      <td>109</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Jane Davies leads again (she also topped the bridge builders in Part 4), but the ordering shifts in revealing ways. Carla Colombo jumps to #2, ahead of researchers with more publications, because her topic diversity is the highest on the list at 4.39. She publishes across an unusually wide range of CF subtopics, from gastrointestinal complications to modulator therapy to quality of life. That breadth, combined with strong structural holes, makes her score higher than researchers who publish more but in narrower lanes.</p>
+
+<p>Gregory Sawicki (#14, not shown in the table) is another standout: 107 articles and the <em>highest</em> topic diversity of anyone in the top 20 at 4.50. He publishes across respiratory medicine, quality of life, health economics, and behavioral science. His brokerage score captures something that a simple publication count or h-index would completely miss.</p>
+
+<p>The most revealing comparison is between the brokerage ranking and the TOPSIS centrality ranking from Part 4. They’re correlated but not identical. Researchers who rank high on centrality but lower on brokerage are well-connected but stay in their lane. Researchers who rank high on brokerage but lower on centrality are doing creative cross-disciplinary work from a less central network position. Both are valuable, but if you’re a funding agency trying to maximize the chance of novel discoveries, you’d want to invest in the high-brokerage researchers.</p>
+
+<hr />
+
+<h2 id="3-knowledge-diffusion-how-topics-spread-across-the-globe">3. Knowledge Diffusion: How Topics Spread Across the Globe</h2>
+
+<h3 id="the-question">The Question</h3>
+
+<p>When a new research topic emerges (say, “long-term outcomes of modulator therapy”), it doesn’t appear everywhere at once. It starts in one or two cities, usually where the pioneering researchers work, and gradually spreads to other centers as expertise, clinical trial infrastructure, and funding follow. I wanted to map this diffusion process at the topic level across all 1,688 cities in the dataset.</p>
+
+<h3 id="tracking-topic-adoption">Tracking Topic Adoption</h3>
+
+<p>For each of the 2,472 major MeSH topics in the dataset, I built a timeline: which cities published on it in each year from 2015 to 2025. I focused on topics that eventually reached at least 5 cities (1,096 topics met this threshold) and computed two metrics:</p>
+
+<ul>
+  <li><strong>Geographic reach</strong>: How many cities eventually published on this topic?</li>
+  <li><strong>Adoption speed</strong>: What percentage of adopting cities did so within 2 years of the first publication? High speed means the topic spread quickly (like a pandemic). Low speed means it diffused slowly (like a specialized clinical technique that requires training and infrastructure).</li>
+</ul>
+
+<h3 id="what-spreads-fast-what-spreads-slow">What Spreads Fast, What Spreads Slow</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Cities Reached</th>
+      <th>Adoption Speed</th>
+      <th>Origin Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CFTR</td>
+      <td>522</td>
+      <td>6%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Pseudomonas Infections</td>
+      <td>433</td>
+      <td>19%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Quinolones (modulator component)</td>
+      <td>369</td>
+      <td>8%</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>Aminophenols (ivacaftor)</td>
+      <td>350</td>
+      <td>8%</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>Pseudomonas aeruginosa</td>
+      <td>343</td>
+      <td>26%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Indoles</td>
+      <td>286</td>
+      <td>4%</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <td><strong>COVID-19</strong></td>
+      <td><strong>277</strong></td>
+      <td><strong>60%</strong></td>
+      <td><strong>2020</strong></td>
+    </tr>
+    <tr>
+      <td>Quality of Life</td>
+      <td>274</td>
+      <td>39%</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Lung Transplantation</td>
+      <td>260</td>
+      <td>27%</td>
+      <td>2015</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>COVID-19 stands out as the fastest-spreading topic in the entire dataset</strong>, with an adoption speed of 60%. Over half of the 277 cities that eventually published on COVID-19 in CF did so within 2 years of the first publications in 2020. That’s the global urgency of a pandemic at work: every CF center in the world needed to understand how COVID-19 affected their patients, and they needed to know now.</p>
+
+<p>Compare that with the CFTR modulator topics (Quinolones, Aminophenols, Benzodioxoles) at 4-8% adoption speed. These topics reached 300+ cities eventually, so they have enormous <em>reach</em>, but the <em>speed</em> is slow. Why? Because modulator research requires clinical trial infrastructure, regulatory approval, and specialized molecular biology expertise. You can’t just start publishing on CFTR modulators because you read a paper about them. You need the whole ecosystem: approved drugs, consenting patients, laboratory facilities, IRB approvals.</p>
+
+<p>The contrast is stark: COVID-19 research spreads by urgency. Modulator research spreads by infrastructure. Understanding these diffusion patterns has real implications for how medical research capacity should be built and funded.</p>
+
+<h3 id="the-animated-diffusion-map">The Animated Diffusion Map</h3>
+
+<iframe src="/assets/plotly/tier7_diffusion_animated.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Use the play button to watch topics spread across the globe year by year.</em></p>
+
+<p>The animation tracks six key topics across time and geography. Watch Pseudomonas aeruginosa (infection research) cluster heavily in European cities, while the modulator topics start from a few centers and gradually light up across both North America and Europe. Quality of Life research is the most geographically even from the start, suggesting it requires less specialized infrastructure and spreads more organically.</p>
+
+<iframe src="/assets/plotly/tier7_diffusion_speed.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr />
+
+<h2 id="what-graph-ml-reveals-that-traditional-methods-cant">What Graph ML Reveals That Traditional Methods Can’t</h2>
+
+<p>Each of these three analyses produces insights that are invisible to traditional bibliometrics:</p>
+
+<p><strong>Research Twins</strong> surface latent similarities across all dimensions of a researcher’s profile simultaneously. Citation analysis can tell you who cites whom. Co-authorship analysis can tell you who works with whom. But neither can find two people in different countries who study the same topics, publish in the same journals, and work in similar institutional contexts but have never connected. That requires encoding the full research identity into a shared vector space.</p>
+
+<p><strong>Innovation Brokerage</strong> distinguishes researchers who are merely <em>well-connected</em> from those who are <em>structurally positioned to create new combinations of ideas</em>. A traditional h-index or publication count can’t capture the difference between a researcher who publishes 100 papers all within one subfield and one who publishes 80 papers that bridge three subfields. The brokerage score can, because it measures topic diversity, topic novelty, and structural position simultaneously.</p>
+
+<p><strong>Knowledge Diffusion</strong> reveals the geography of ideas at the topic level. Knowing that modulator expertise takes 5+ years to spread from clinical trial hubs to community hospitals has real implications. If you’re a research funder, you might invest in training programs at slow-adopting institutions. If you’re a pharmaceutical company, you might target awareness campaigns at cities that haven’t yet adopted your drug’s research topic. No existing bibliometric tool provides this kind of topic-level geographic diffusion analysis for specific therapeutic areas.</p>
+
+<hr />
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>This is the end of the series for now, but not the end of the analysis. The dataset and infrastructure are set up for several deeper investigations:</p>
+
+<ul>
+  <li><strong>Temporal embeddings</strong>: Training separate embeddings for each era and tracking how individual researchers’ “Research DNA” evolved across the Trikafta transition. Did some researchers completely reinvent their profiles?</li>
+  <li><strong>Mentorship networks</strong>: Building directed graphs from first-author/last-author relationships to map the academic genealogy of CF research. Who trained whom?</li>
+  <li><strong>Succession planning</strong>: Identifying central researchers who are showing signs of winding down (fewer publications, more reviews, declining centrality) and whether there are clear successors in the network. Where are the gaps?</li>
+  <li><strong>Breakthrough prediction</strong>: Can the network patterns that preceded the Trikafta papers be detected in current data, pointing to the next breakthrough?</li>
+</ul>
+
+<p>If you’re a CF researcher, a research funder, or just someone interested in the science of science, I’d love to hear from you.</p>
+
+<hr />
+
+<p><em>This is Part 7, the final part of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+
+<hr />
+
+<p><em>Acknowledgments: I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/">CS224U: Natural Language Understanding</a>) at Stanford, whose courses gave me the foundation to take on a project like this.</em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="graph-ml" /><category term="metapath2vec" /><category term="embeddings" /><category term="knowledge-diffusion" /><summary type="html"><![CDATA[Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities]]></summary></entry><entry><title type="html">The Institutional Backbone and Geography of CF Research</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part6-geography-institutions/" rel="alternate" type="text/html" title="The Institutional Backbone and Geography of CF Research" /><published>2026-04-09T20:50:00+00:00</published><updated>2026-04-09T20:50:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part6-geography-institutions</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part6-geography-institutions/"><![CDATA[<blockquote>
+  <p><em>Part 6 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-institution-network">The Institution Network</h2>
+
+<p>So far I’ve been looking at the network through the lens of individual researchers. But there’s another way to slice it: by institution. If two institutions have authors who co-published a paper, those institutions are connected. The weight of the connection is the number of shared publications. This is essentially a <a href="https://en.wikipedia.org/wiki/Bipartite_graph">bipartite graph</a> projection: the original data has authors connected to papers, and I project it onto institutions by saying “two institutions are linked if they share at least one paper.”</p>
+
+<p>This gives us a very different view. Instead of 39,206 nodes and 323,633 edges, the institution network has <strong>5,628 institutions connected by 61,059 collaboration edges</strong>. It’s a more tractable graph, and it reveals the organizational backbone of CF research.</p>
+
+<p>Here’s a bar chart of the top 30, with bars stacked by era to show how each institution’s output split between pre- and post-Trikafta:</p>
+
+<iframe src="/assets/plotly/eda_top_institutions.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>And the same data ranked by total collaboration volume (weighted degree), colored by institution type:</p>
+
+<iframe src="/assets/plotly/tier5_top_institutions.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<h3 id="the-top-10-institutional-hubs">The Top 10 Institutional Hubs</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Institution</th>
+      <th>Country</th>
+      <th>Shared Publications</th>
+      <th>Collaborating Institutions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>University of Washington</td>
+      <td>US</td>
+      <td>2,102</td>
+      <td>534</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Cystic Fibrosis Foundation</td>
+      <td>US</td>
+      <td>1,924</td>
+      <td>532</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>University of Toronto</td>
+      <td>CA</td>
+      <td>1,736</td>
+      <td>554</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Imperial College London</td>
+      <td>GB</td>
+      <td>1,517</td>
+      <td>527</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>UNC Chapel Hill</td>
+      <td>US</td>
+      <td>1,414</td>
+      <td>496</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Univ. of Alabama at Birmingham</td>
+      <td>US</td>
+      <td>1,286</td>
+      <td>438</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>The Hospital for Sick Children</td>
+      <td>CA</td>
+      <td>1,178</td>
+      <td>431</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Charite Campus Mitte</td>
+      <td>DE</td>
+      <td>1,168</td>
+      <td>467</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>University of Queensland</td>
+      <td>AU</td>
+      <td>1,161</td>
+      <td>409</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>National Jewish Health</td>
+      <td>US</td>
+      <td>1,157</td>
+      <td>370</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The University of Toronto has the most institutional connections (554 collaborating institutions), even though the University of Washington has the most shared publications (2,102). This suggests UW has deeper relationships with fewer partners, while U of T has broader but shallower connections.</p>
+
+<p>The CF Foundation at #2 is interesting. It’s not a research university or hospital. It’s a nonprofit that funds and coordinates clinical trial networks, which is why it shows up as a shared affiliation on so many multi-center studies. Its structural position in the network reflects its role as an enabler of collaboration.</p>
+
+<hr />
+
+<h2 id="whos-collaborating-with-pharma">Who’s Collaborating With Pharma?</h2>
+
+<p>CF research has a significant industry component, mostly driven by Vertex Pharmaceuticals, which developed the CFTR modulator drugs. I classified the 5,799 organizations into broad types (academic, hospital, industry, government, other) and mapped the academic-industry collaboration patterns.</p>
+
+<p><strong>Vertex Pharmaceuticals dominates</strong> the industry side with 558 shared publications across its two main facilities (378 from the Boston campus, 180 from additional sites). No other company comes close.</p>
+
+<iframe src="/assets/plotly/tier5_industry_connections.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<h3 id="top-academic-centers-by-industry-collaboration">Top Academic Centers by Industry Collaboration</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Institution</th>
+      <th>Country</th>
+      <th>Shared Publications with Industry</th>
+      <th>Industry Partners</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Imperial College London</td>
+      <td>GB</td>
+      <td>52</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <td>Univ. of Alabama at Birmingham</td>
+      <td>US</td>
+      <td>46</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <td>Universita di Napoli Federico II</td>
+      <td>IT</td>
+      <td>44</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Charite Campus Mitte</td>
+      <td>DE</td>
+      <td>42</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>University of Toronto</td>
+      <td>CA</td>
+      <td>39</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <td>National Jewish Health</td>
+      <td>US</td>
+      <td>39</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <td>Medical Univ. of South Carolina</td>
+      <td>US</td>
+      <td>34</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <td>University of Washington</td>
+      <td>US</td>
+      <td>33</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>UNC Chapel Hill</td>
+      <td>US</td>
+      <td>30</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <td>Harvard Medical School</td>
+      <td>US</td>
+      <td>28</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>An interesting contrast: Napoli Federico II has 44 shared publications with industry but only 5 industry partners. That’s a deep relationship with a small number of companies (likely Vertex and CEINGE Biotecnologie). Meanwhile, UAB has 46 publications spread across 26 different industry partners, a much broader portfolio.</p>
+
+<hr />
+
+<h2 id="institution-type-mixing">Institution Type Mixing</h2>
+
+<p>Who collaborates with whom at the organizational level? The mixing patterns reveal the structure of the research ecosystem:</p>
+
+<iframe src="/assets/plotly/tier5_type_mixing.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>Collaboration Type</th>
+      <th>Shared Publications</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Academic - Hospital</td>
+      <td>32,707</td>
+    </tr>
+    <tr>
+      <td>Academic - Academic</td>
+      <td>26,319</td>
+    </tr>
+    <tr>
+      <td>Hospital - Hospital</td>
+      <td>15,090</td>
+    </tr>
+    <tr>
+      <td>Academic - Other</td>
+      <td>11,212</td>
+    </tr>
+    <tr>
+      <td>Hospital - Other</td>
+      <td>8,448</td>
+    </tr>
+    <tr>
+      <td>Academic - Industry</td>
+      <td>1,618</td>
+    </tr>
+    <tr>
+      <td>Hospital - Industry</td>
+      <td>1,120</td>
+    </tr>
+    <tr>
+      <td>Academic - Government</td>
+      <td>684</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The academic-hospital axis is the strongest collaboration channel in CF research, which makes sense: most CF research is clinical, conducted by university-affiliated physicians working in hospital settings. The academic-industry connection (1,618 shared publications) is smaller but growing, driven almost entirely by Vertex’s clinical trial network.</p>
+
+<hr />
+
+<h2 id="the-age-of-research-how-old-are-these-institutions">The Age of Research: How Old Are These Institutions?</h2>
+
+<p>This is something I couldn’t have done with just the Google Places data. By enriching the top 1,000 institutions with data from the <a href="https://en.wikipedia.org/wiki/Research_Organization_Registry">Research Organization Registry (ROR)</a>, an open, community-led registry of research organizations worldwide, I got founding years for 937 of them. The results add a whole new dimension to the analysis.</p>
+
+<h3 id="the-age-distribution">The Age Distribution</h3>
+
+<iframe src="/assets/plotly/ror_age_distribution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>Age Cohort</th>
+      <th>Institutions</th>
+      <th>Publication Share</th>
+      <th>Median Connections</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Legacy (pre-1900)</td>
+      <td>372 (39.7%)</td>
+      <td><strong>47.4%</strong></td>
+      <td>67</td>
+    </tr>
+    <tr>
+      <td>Established (1900-1960)</td>
+      <td>206 (22.0%)</td>
+      <td>21.6%</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <td>Modern (1960-2000)</td>
+      <td>252 (26.9%)</td>
+      <td>22.1%</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>Newcomer (2000+)</td>
+      <td>107 (11.4%)</td>
+      <td>8.8%</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Legacy institutions, places like the University of Washington (1861), University of Toronto (1827), UNC Chapel Hill (1789), and Charite (1710), make up about 40% of the institutions but account for nearly <strong>half of all CF research output</strong>. The accumulated advantages of centuries of infrastructure, reputation, and network position show up clearly in the data.</p>
+
+<p>But the newcomers are interesting too. Seattle Children’s Research Institute (2006) already has 674 shared publications. Perth Children’s Hospital (2018) and University Paris Cite (2019) are climbing fast despite being less than a decade old. Several of these “newcomer” institutions are actually reorganizations or spin-offs from existing legacy institutions, which explains their rapid rise.</p>
+
+<h3 id="does-age-predict-influence">Does Age Predict Influence?</h3>
+
+<iframe src="/assets/plotly/ror_age_vs_centrality.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Hover over points for details.</em></p>
+
+<p>I ran <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient">Spearman rank correlations</a> between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 (perfect inverse relationship) to +1 (perfect positive relationship), with 0 meaning no relationship:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Correlation (rho)</th>
+      <th>p-value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Betweenness centrality</td>
+      <td><strong>0.223</strong></td>
+      <td>4.6 x 10^-12</td>
+    </tr>
+    <tr>
+      <td>PageRank</td>
+      <td>0.151</td>
+      <td>3.3 x 10^-6</td>
+    </tr>
+    <tr>
+      <td>Degree</td>
+      <td>0.141</td>
+      <td>1.4 x 10^-5</td>
+    </tr>
+    <tr>
+      <td>Weighted degree</td>
+      <td>0.101</td>
+      <td>0.002</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The correlations are statistically significant but modest. Institutional age explains some of the variance in network position, but it’s far from deterministic. <strong>Betweenness centrality has the strongest age effect</strong> (rho = 0.223), meaning older institutions are disproportionately likely to be bridges between different research groups. This makes sense: centuries of accumulated alumni, collaborations, and institutional relationships create structural connections that newer institutions can’t replicate overnight.</p>
+
+<p>But the scatter plot tells a more nuanced story. There’s a cloud of legacy institutions at various centrality levels, meaning being old doesn’t guarantee being important. And there are newcomers punching well above their weight.</p>
+
+<h3 id="did-trikafta-shift-power-toward-newer-institutions">Did Trikafta Shift Power Toward Newer Institutions?</h3>
+
+<iframe src="/assets/plotly/ror_era_dynamics.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cohort</th>
+      <th>Era 1 Share</th>
+      <th>Era 2 Share</th>
+      <th>Shift</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Legacy (pre-1900)</td>
+      <td>49.2%</td>
+      <td>46.9%</td>
+      <td>-2.3%</td>
+    </tr>
+    <tr>
+      <td>Established (1900-1960)</td>
+      <td>19.6%</td>
+      <td>22.2%</td>
+      <td><strong>+2.6%</strong></td>
+    </tr>
+    <tr>
+      <td>Modern (1960-2000)</td>
+      <td>22.3%</td>
+      <td>22.1%</td>
+      <td>-0.2%</td>
+    </tr>
+    <tr>
+      <td>Newcomer (2000+)</td>
+      <td>8.8%</td>
+      <td>8.8%</td>
+      <td>0.0%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The shift is subtle but real. Legacy institutions lost 2.3 percentage points of network share between eras, while the Established cohort (1900-1960) gained 2.6 points. The Modern and Newcomer cohorts stayed flat.</p>
+
+<p>This doesn’t mean the Trikafta revolution redistributed power away from old institutions in any dramatic way. The legacy institutions still dominate. But the established mid-century institutions, places like the CF Foundation (1955), National Jewish Health (1899), and many of the major children’s hospitals, gained relative ground. These are exactly the institutions most deeply embedded in CF clinical trial networks, which expanded significantly in the Trikafta era.</p>
+
+<h3 id="the-age-map">The Age Map</h3>
+
+<iframe src="/assets/plotly/ror_age_map.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old powerhouses still dominate.</p>
+
+<h3 id="ror-based-type-mixing">ROR-Based Type Mixing</h3>
+
+<p>With the ROR enrichment, I can also redo the type mixing analysis from earlier using ROR’s cleaner 18-type taxonomy instead of Google’s 278 fragmented categories. The biggest difference: ROR allows multi-valued types (49% of institutions have 2+ types like “education;funder;healthcare”), which captures the reality that a university hospital is both educational and clinical:</p>
+
+<iframe src="/assets/plotly/ror_type_mixing.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The funder-education axis dominates, which makes sense: most research institutions are both educational and funded. The healthcare-funder axis is the next strongest, reflecting hospital-based research funded by grants.</p>
+
+<hr />
+
+<h2 id="the-global-map">The Global Map</h2>
+
+<p>CF research spans 95 countries, but the distribution is far from even. The map below shows every city with 5 or more CF publications, with bubble size proportional to publication count.</p>
+
+<iframe src="/assets/plotly/eda_global_map.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The concentration is striking. North America (especially the US East Coast and Toronto), Western Europe (London, Paris, Milan, Berlin), and pockets of Australia dominate. Large parts of the world, most of Africa, South Asia, Southeast Asia, Latin America, have minimal CF research presence. This reflects both the epidemiology of CF (it’s most common in populations of European descent) and the distribution of research funding.</p>
+
+<p>Even more revealing is the animated version that shows how these hubs evolved over time. Use the play button or drag the year slider to watch cities grow:</p>
+
+<iframe src="/assets/plotly/cf_hubs_animated.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation’s Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston grows steadily (home of Vertex Pharmaceuticals). And the European hubs (Paris, London, Milan) maintain their positions throughout.</p>
+
+<h3 id="top-countries">Top Countries</h3>
+
+<iframe src="/assets/plotly/eda_top_countries.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group that showed up in the centrality rankings.</p>
+
+<h3 id="international-collaboration-corridors">International Collaboration Corridors</h3>
+
+<p><strong>46% of institutional collaborations cross national borders.</strong> The strongest corridors:</p>
+
+<iframe src="/assets/plotly/tier5_intl_corridors.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within Europe, Germany-France (912) and France-Italy (647) are the strongest continental partnerships.</p>
+
+<p>The Anglophone bias is obvious: the top 5 corridors all involve English-speaking countries. The European cross-language corridors (Germany-France, France-Italy, Germany-Netherlands) are strong but consistently smaller, suggesting that language and cultural barriers still shape who collaborates with whom, even in science.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="institutions" /><category term="geography" /><category term="ror" /><summary type="html"><![CDATA[Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping]]></summary></entry><entry><title type="html">The Trikafta Effect: How a Drug Approval Rewired a Research Community</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/" rel="alternate" type="text/html" title="The Trikafta Effect: How a Drug Approval Rewired a Research Community" /><published>2026-04-09T20:40:00+00:00</published><updated>2026-04-09T20:40:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/"><![CDATA[<blockquote>
+  <p><em>Part 5 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="before-and-after">Before and After</h2>
+
+<p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), I can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease.</p>
+
+<p>The growth numbers are dramatic:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Era 1 (2015-2018)</th>
+      <th>Era 2 (2019-2025)</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Researchers</td>
+      <td>15,881</td>
+      <td>28,497</td>
+      <td>+79%</td>
+    </tr>
+    <tr>
+      <td>Collaboration pairs</td>
+      <td>100,349</td>
+      <td>237,350</td>
+      <td>+137%</td>
+    </tr>
+    <tr>
+      <td>Average collaborators per researcher</td>
+      <td>12.6</td>
+      <td>16.7</td>
+      <td>+32%</td>
+    </tr>
+    <tr>
+      <td>Clustering coefficient</td>
+      <td>0.880</td>
+      <td>0.877</td>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <td>Continuity researchers (span both)</td>
+      <td> </td>
+      <td>5,172</td>
+      <td>13.2% of total</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The field nearly doubled in size. But here’s the thing that surprised me: while the network grew 79% in researchers and 137% in collaboration pairs, the <a href="https://en.wikipedia.org/wiki/Clustering_coefficient">clustering coefficient</a> barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups off to the side. The social fabric of CF research held its structure even as it doubled in scale.</p>
+
+<p>The more interesting question isn’t the raw growth. It’s what happened <em>structurally</em>.</p>
+
+<hr />
+
+<h2 id="94-edge-turnover">94% Edge Turnover</h2>
+
+<p>Of the 237,350 collaboration pairs that exist in Era 2, only <strong>14,066 (5.9%) also existed in Era 1</strong>. That means 94.1% of the collaborations in the Trikafta era are brand new.</p>
+
+<p>Let that sink in. In a field with thousands of established researchers, nearly every collaboration pair in the post-Trikafta era is a connection that didn’t exist before 2019. To put this in perspective, in a stable scientific field you might expect 20-30% new edges per year as researchers start new projects. A 94% turnover over 4-7 years is extraordinary.</p>
+
+<p>Breaking it down:</p>
+
+<ul>
+  <li><strong>86,283 dissolved collaborations</strong>: These existed in Era 1 but didn’t continue into Era 2. Some of these researchers retired, some shifted to other disease areas, and many simply moved on to new projects with new teams.</li>
+  <li><strong>14,066 continued collaborations</strong>: The durable partnerships. Researchers who published together before Trikafta and continued after. These are the long-term pairs, the mentor-mentee relationships, the lab groups that stuck together through the transition.</li>
+  <li><strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later. This is where the action is.</li>
+</ul>
+
+<iframe src="/assets/plotly/eda_network_evolution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The four panels above show the growth at a glance: active authors per year (top left), average team sizes growing from 6.5 to 7.8 (top right), new collaboration pairs forming each year (bottom left), and the cumulative network growth curve (bottom right). The dashed vertical line marks Trikafta’s approval.</p>
+
+<p>The 5,172 continuity researchers who span both eras deserve special attention. They make up only 13.2% of the total researcher population, but they’re the structural backbone. They carry the institutional knowledge, the methods, the clinical trial infrastructure from one era to the next. Without them, the two eras would be essentially different fields.</p>
+
+<hr />
+
+<h2 id="the-counterfactual-what-would-have-happened-without-trikafta">The Counterfactual: What Would Have Happened Without Trikafta?</h2>
+
+<p>Here’s where I got to use some of the graph ML techniques from the Stanford course. The question is simple: of all those new Era 2 collaborations, how many would have happened anyway (because researchers were already trending toward each other) vs. how many are genuinely <em>caused</em> by the Trikafta revolution?</p>
+
+<p>To answer this, I built a <a href="https://en.wikipedia.org/wiki/Counterfactual_conditional">counterfactual</a> model. The idea is to learn how collaborations “naturally” form based on Era 1 patterns, then predict what the Era 2 network would have looked like if nothing had changed.</p>
+
+<h3 id="how-the-model-works">How the model works</h3>
+
+<p>First, I trained <a href="https://en.wikipedia.org/wiki/Node2vec">Node2Vec</a> embeddings on the Era 1 graph. Node2Vec is an algorithm that learns a compact numerical representation (a 64-dimensional vector) for each researcher based on their position in the network. It works by simulating random walks through the graph: starting at a researcher, randomly hopping to a collaborator, then to that person’s collaborator, and so on. Researchers who appear in similar “neighborhoods” during these walks get similar vectors. Think of it as: “tell me who you collaborate with, and I’ll tell you what kind of researcher you are.”</p>
+
+<p>Then I trained a simple <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> classifier on top of these embeddings. For each pair of researchers, I multiply their embedding vectors element-wise (this captures whether they’re in similar network positions) and the classifier predicts whether they’ll collaborate. I trained on real Era 1 edges (positive examples) and randomly sampled non-edges (negative examples).</p>
+
+<p>The model achieves an <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve">AUC</a> of 0.674 on Era 1 data. That’s not a perfect predictor, but it’s meaningfully above random chance (0.5), meaning it captures real patterns in how CF researchers form partnerships: things like institutional proximity, shared network neighborhoods, and similar structural positions.</p>
+
+<h3 id="the-counterfactual-results">The counterfactual results</h3>
+
+<p>Then I asked: if I apply this Era 1 model to the new Era 2 edges, how many would the pre-Trikafta model have predicted?</p>
+
+<p><strong>Only 37.5%.</strong></p>
+
+<iframe src="/assets/plotly/tier7_counterfactual.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>Of the new Era 2 collaborations I could score (27,319 edges where both researchers had Era 1 embeddings):</p>
+
+<ul>
+  <li><strong>10,257 (37.5%) were “expected”</strong>: The pre-Trikafta model predicted these would happen. They follow the natural dynamics of the field: people collaborating with people in similar network neighborhoods, gradual expansion of existing clusters.</li>
+  <li><strong>17,062 (62.5%) were “Trikafta-created”</strong>: The model didn’t predict these. These are collaborations that only exist because the drug approval changed the research landscape. New research questions (long-term modulator outcomes, CF in aging patients, mental health in CF) brought together researchers who had no structural reason to collaborate before 2019.</li>
+</ul>
+
+<p>And on the other side: <strong>57,397 collaborations were “Trikafta-destroyed.”</strong> The model predicted they would continue based on Era 1 patterns, but they ended. These represent research directions and partnerships that became less relevant once Trikafta transformed the standard of care. Some of these were likely infection-focused collaborations that wound down as patients on modulators had fewer lung infections.</p>
+
+<p>A caveat: “Trikafta-created” doesn’t mean Trikafta literally caused each collaboration. It means these connections don’t follow pre-2019 network dynamics. Some might be driven by other factors (COVID-19, funding shifts, career moves). But the scale of the effect (62.5% of new edges are unexplained by the pre-Trikafta model) strongly suggests the drug approval was the dominant force reshaping the network.</p>
+
+<hr />
+
+<h2 id="the-sliding-window-view">The Sliding Window View</h2>
+
+<p>To see the transition more granularly, I built the network in 3-year sliding windows from 2015-2017 through 2023-2025. Each window captures a snapshot of who was collaborating with whom during that period:</p>
+
+<iframe src="/assets/plotly/tier4_sliding_windows.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>Window</th>
+      <th>Researchers</th>
+      <th>Edges</th>
+      <th>Density</th>
+      <th>Giant Component</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2015-2017</td>
+      <td>12,461</td>
+      <td>75,414</td>
+      <td>0.00097</td>
+      <td>69.8%</td>
+    </tr>
+    <tr>
+      <td>2016-2018</td>
+      <td>12,863</td>
+      <td>79,243</td>
+      <td>0.00096</td>
+      <td>72.5%</td>
+    </tr>
+    <tr>
+      <td>2017-2019</td>
+      <td>13,061</td>
+      <td>81,540</td>
+      <td>0.00096</td>
+      <td>73.3%</td>
+    </tr>
+    <tr>
+      <td>2018-2020</td>
+      <td>14,090</td>
+      <td>92,367</td>
+      <td>0.00093</td>
+      <td>73.2%</td>
+    </tr>
+    <tr>
+      <td>2019-2021</td>
+      <td>14,693</td>
+      <td>102,095</td>
+      <td>0.00095</td>
+      <td>75.1%</td>
+    </tr>
+    <tr>
+      <td>2020-2022</td>
+      <td>14,983</td>
+      <td>108,984</td>
+      <td>0.00097</td>
+      <td>75.5%</td>
+    </tr>
+    <tr>
+      <td>2021-2023</td>
+      <td>14,562</td>
+      <td>111,292</td>
+      <td>0.00105</td>
+      <td>77.0%</td>
+    </tr>
+    <tr>
+      <td>2022-2024</td>
+      <td>14,361</td>
+      <td>113,579</td>
+      <td>0.00110</td>
+      <td>76.3%</td>
+    </tr>
+    <tr>
+      <td>2023-2025</td>
+      <td>14,514</td>
+      <td>116,961</td>
+      <td>0.00111</td>
+      <td>77.3%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Two trends jump out:</p>
+
+<p><strong>The community is becoming more connected.</strong> The <a href="https://en.wikipedia.org/wiki/Giant_component">giant component</a> keeps growing, from 69.8% to 77.3%. In the early windows, about 30% of researchers were in disconnected islands. By the latest windows, that’s down to 23%. More and more peripheral researchers are getting pulled into the main collaboration network. The field is consolidating.</p>
+
+<p><strong>The network is getting denser.</strong> <a href="https://en.wikipedia.org/wiki/Dense_graph">Network density</a> actually <em>increases</em> in the later windows (0.00097 to 0.00111), a 14% jump. This means researchers aren’t just adding more collaborators at the same rate the field is growing. They’re forming <em>tighter</em> connections within the existing network. There are more collaboration links per researcher than before. The post-Trikafta field isn’t just bigger, it’s more tightly woven.</p>
+
+<hr />
+
+<h2 id="is-collaboration-becoming-more-international">Is Collaboration Becoming More International?</h2>
+
+<p>I classified every collaboration pair as domestic (both researchers in the same country) or international (different countries):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Continued from Era 1</th>
+      <th>New in Era 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Domestic</td>
+      <td>11,441 (81.3%)</td>
+      <td>168,085 (75.3%)</td>
+    </tr>
+    <tr>
+      <td>International</td>
+      <td>2,541 (18.1%)</td>
+      <td>46,523 (20.8%)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>New collaborations in Era 2 are slightly more international than the collaborations that carried over from Era 1 (20.8% vs 18.1%). The field is globalizing, though gradually. Most CF research collaboration still happens within national borders, which makes sense: shared language, shared clinical trial networks, shared funding agencies.</p>
+
+<p>But that 2.7 percentage point shift from 18.1% to 20.8% adds up when you’re talking about 223,000 new edges. In absolute terms, Era 2 has 46,523 new international collaborations compared to 2,541 that continued from Era 1. The post-Trikafta era is dramatically more international in raw numbers, even if the ratio only shifted modestly.</p>
+
+<p>The dominant corridors tell us where the international action is:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Corridor</th>
+      <th>Shared Publications</th>
+      <th>Why it’s strong</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>UK - US</td>
+      <td>2,526</td>
+      <td>Shared language, major CF centers on both sides, joint clinical trials</td>
+    </tr>
+    <tr>
+      <td>Canada - US</td>
+      <td>2,134</td>
+      <td>Geographic proximity, Toronto-Seattle axis</td>
+    </tr>
+    <tr>
+      <td>Australia - US</td>
+      <td>1,618</td>
+      <td>Anglophone connection, shared trial infrastructure</td>
+    </tr>
+    <tr>
+      <td>Germany - US</td>
+      <td>1,400</td>
+      <td>Strong German CF program, Vertex partnerships</td>
+    </tr>
+    <tr>
+      <td>Australia - UK</td>
+      <td>1,376</td>
+      <td>Commonwealth research ties</td>
+    </tr>
+    <tr>
+      <td>France - US</td>
+      <td>1,119</td>
+      <td>Major French CF program (INSERM)</td>
+    </tr>
+    <tr>
+      <td>Germany - UK</td>
+      <td>925</td>
+      <td>European clinical trial networks</td>
+    </tr>
+    <tr>
+      <td>Germany - France</td>
+      <td>912</td>
+      <td>Strongest intra-European corridor</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Anglophone bias is striking: the top 5 corridors all involve English-speaking countries. Within continental Europe, Germany-France (912 shared publications) is the strongest partnership, but it’s less than half the UK-US corridor. Language and shared clinical trial infrastructure clearly shape who collaborates with whom, even in 2025.</p>
+
+<hr />
+
+<h2 id="rising-stars-whos-gaining-influence-fastest">Rising Stars: Who’s Gaining Influence Fastest?</h2>
+
+<p>By comparing <a href="https://en.wikipedia.org/wiki/Centrality#Degree_centrality">degree centrality</a> between Era 1 and Era 2, I identified researchers whose network influence grew the most. I filtered to researchers above the median Era 2 centrality to focus on people who became genuinely influential, not just someone who went from 0 to 1 connection.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Researcher</th>
+      <th>Articles</th>
+      <th>Era 1 Centrality</th>
+      <th>Era 2 Centrality</th>
+      <th>Growth</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lisa Morrison</td>
+      <td>11</td>
+      <td>0.00006</td>
+      <td>0.00523</td>
+      <td>82x</td>
+    </tr>
+    <tr>
+      <td>Laurence Kessler</td>
+      <td>7</td>
+      <td>0.00006</td>
+      <td>0.00333</td>
+      <td>52x</td>
+    </tr>
+    <tr>
+      <td>Elizabeth B. Burgener</td>
+      <td>12</td>
+      <td>0.00006</td>
+      <td>0.00281</td>
+      <td>44x</td>
+    </tr>
+    <tr>
+      <td>Meghana Nitin Sathe</td>
+      <td>28</td>
+      <td>0.00013</td>
+      <td>0.00463</td>
+      <td>36x</td>
+    </tr>
+    <tr>
+      <td>Rebecca M. Davidson</td>
+      <td>16</td>
+      <td>0.00013</td>
+      <td>0.00421</td>
+      <td>32x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>An important caveat: high growth rates are easier from a low base. Lisa Morrison’s 82x growth sounds massive, but she started from essentially zero (a single connection in Era 1). The more interesting rising stars are people like Meghana Nitin Sathe (28 articles, 36x growth) and Dana P. Albon (26 articles, 20x growth), who have substantial publication records and went from peripheral to central.</p>
+
+<p>What these rising stars have in common: they were on the edge of the field in 2015-2018, maybe a postdoc or early-career investigator with one or two papers. Then in Era 2, they became hubs in new research areas that Trikafta opened up: long-term outcomes, rare mutations, CF-related diabetes, mental health. The network structure reveals their emergence years before traditional metrics (h-index, citation counts) would flag them. For a hiring committee or funding agency trying to identify the next generation of CF leaders, this kind of analysis is exactly what you’d want.</p>
+
+<hr />
+
+<iframe src="/assets/plotly/tier4_trikafta_effect.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="temporal-analysis" /><category term="node2vec" /><category term="counterfactual" /><summary type="html"><![CDATA[Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars]]></summary></entry><entry><title type="html">The Small World of CF Research</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part4-network-structure/" rel="alternate" type="text/html" title="The Small World of CF Research" /><published>2026-04-09T20:30:00+00:00</published><updated>2026-04-09T20:30:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part4-network-structure</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part4-network-structure/"><![CDATA[<blockquote>
+  <p><em>Part 4 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="building-the-graph">Building the Graph</h2>
+
+<p>With 39,206 disambiguated authors and 11,500 publications from Parts 2 and 3, I can now build what this entire project has been leading to: the <a href="https://en.wikipedia.org/wiki/Co-authorship_network">co-authorship network</a>.</p>
+
+<p>The basic idea is straightforward. Two researchers are connected if they co-authored a paper. But not all authorship positions carry the same meaning. In biomedical research, authorship order is a strong signal of contribution: the first author typically did most of the hands-on work (running experiments, analyzing data, writing the paper), and the last author is usually the senior investigator who led the project and whose lab it came out of. Middle authors contributed specific expertise, a statistical analysis, a patient cohort, a reagent, but their role in the direct collaboration is less central.</p>
+
+<p>So instead of treating every co-authorship equally, I used a position-weighted scheme:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Weight</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>First author</td>
+      <td>1.0</td>
+      <td>Did the primary work</td>
+    </tr>
+    <tr>
+      <td>Last author</td>
+      <td>1.0</td>
+      <td>Led the project</td>
+    </tr>
+    <tr>
+      <td>Second author</td>
+      <td>0.6</td>
+      <td>Often a close collaborator or co-lead</td>
+    </tr>
+    <tr>
+      <td>Second-to-last</td>
+      <td>0.5</td>
+      <td>Often contributed significantly</td>
+    </tr>
+    <tr>
+      <td>All other middle</td>
+      <td>0.3</td>
+      <td>Contributed, but less central to the collaboration</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The edge weight between two researchers equals the sum of their position weights across all shared papers. If Felix Ratjen (last author, weight 1.0) and a trainee (first author, weight 1.0) published 5 papers together, their edge weight is 5.0, a strong, repeated partnership. Compare that with two middle authors (weight 0.3 each) who appeared on a single large clinical trial: their edge weight is just 0.09. This distinction matters because a clinical trial with 40 authors doesn’t represent 780 meaningful collaborations. It represents one coordinated effort.</p>
+
+<hr />
+
+<h2 id="the-numbers">The Numbers</h2>
+
+<p>The resulting network:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Researchers (nodes)</td>
+      <td>39,206</td>
+    </tr>
+    <tr>
+      <td>Collaboration pairs (edges)</td>
+      <td>323,633</td>
+    </tr>
+    <tr>
+      <td>Isolated researchers (no co-authors)</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <td>Average collaborators per researcher</td>
+      <td>16.5</td>
+    </tr>
+    <tr>
+      <td>Median collaborators</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Most connected researcher</td>
+      <td>819 collaborators</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>That last number caught my eye. 819 distinct collaborators means this person has co-authored papers with more than 2% of the entire CF research community. This typically happens with researchers who coordinate large multi-center clinical trials, where a single Phase 3 trial paper might list 40+ authors from 20 different institutions. They’re not necessarily the deepest collaborators, but they’re the ultimate connectors.</p>
+
+<p>The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few “super-connectors” pull the average way up. This is the hallmark of a <a href="https://en.wikipedia.org/wiki/Power_law">power-law distribution</a>, and it’s exactly what you’d expect in a real scientific collaboration network.</p>
+
+<iframe src="/assets/plotly/degree_distribution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr />
+
+<h2 id="its-a-small-world">It’s a Small World</h2>
+
+<p>Here’s where things get interesting. The <a href="https://en.wikipedia.org/wiki/Giant_component">giant connected component</a>, the largest chunk of the network where you can trace a path between any two researchers through shared co-authorships, contains <strong>32,760 researchers (83.6%)</strong>. That means 5 out of every 6 CF researchers in the world are connected to each other through some chain of collaborations.</p>
+
+<p>The remaining 16.4% are scattered across 1,276 smaller disconnected groups. These are mostly pairs or small teams who published one or two papers on a CF-related topic and never connected to the broader community. Think of a gastroenterology team that published a single case report about CF pancreatic disease but otherwise works on non-CF topics.</p>
+
+<p>Within the giant component, the average <a href="https://en.wikipedia.org/wiki/Shortest_path_problem">shortest path</a> between any two researchers is <strong>4.31 hops</strong>. To make that concrete: pick any two CF researchers anywhere in the world, say a pulmonologist in Sao Paulo and a geneticist in Seoul. On average, they’re connected through just 4 intermediate people. “I know someone who knows someone who knows someone who knows them.” The maximum distance I found (from a sample of 500 starting nodes) was 12 hops, but that’s an extreme outlier at the periphery.</p>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Clustering_coefficient">clustering coefficient</a> is <strong>0.862</strong>, which is extremely high. In plain language: if Researcher A collaborates with both Researcher B and Researcher C, there’s an 86% chance that B and C also collaborate with each other. CF research teams are tight-knit groups where everyone on a team tends to work with everyone else on that team. It’s more like a collection of overlapping friend circles than a loose web.</p>
+
+<p>These three properties together, short path lengths (4.31), high clustering (0.862), and a sparse overall structure (density = 0.0004), are the textbook signature of a <a href="https://en.wikipedia.org/wiki/Small-world_network">small-world network</a>. The sparsity might seem to contradict the “small world” idea, but it actually reinforces it: despite the fact that most researchers don’t collaborate with most others (sparse), the ones who do collaborate form tight cliques (high clustering) that are connected to each other through a surprisingly small number of hops (short paths).</p>
+
+<p>CF research, despite spanning 95 countries and thousands of institutions, behaves like a village.</p>
+
+<hr />
+
+<h2 id="who-matters-five-ways-to-measure-influence">Who Matters? Five Ways to Measure Influence</h2>
+
+<p>Asking “who is the most important researcher?” turns out to have at least five different answers, depending on what you mean by “important.” Each <a href="https://en.wikipedia.org/wiki/Centrality">centrality measure</a> captures a different kind of influence:</p>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/Degree_(graph_theory)">Degree centrality</a></strong>: Who has the most collaborators? This is the simplest measure, just counting connections. It favors researchers on large multi-center clinical trials where one paper can add 30+ co-authors. High degree doesn’t necessarily mean deep collaboration, it often means broad reach.</p>
+
+<p><strong>Weighted degree</strong>: Who has the <em>strongest</em> collaboration relationships? This uses the position weights from above, so repeated first/last author partnerships score much higher than a single shared trial. A researcher with 20 collaborators but deep, repeated partnerships might have a higher weighted degree than someone with 200 one-off trial co-authorships.</p>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/Betweenness_centrality">Betweenness centrality</a></strong>: Who bridges different groups? Imagine removing this person from the network. How many connections would break? How many shortest paths would get longer? Betweenness identifies researchers who sit in the “structural holes” between communities, serving as conduits for ideas and introductions. These people are often the translators, the ones who connect infection researchers to drug developers, or link European clinicians to North American epidemiologists.</p>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/Eigenvector_centrality">Eigenvector centrality</a></strong>: Who is connected to other well-connected people? This captures the “inner circle” effect. You might not have the most collaborators, but if your collaborators are themselves highly connected, you’re sitting at the center of a powerful network neighborhood. Think of it as: “it’s not just who you know, it’s who <em>they</em> know.”</p>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/PageRank">PageRank</a></strong>: The algorithm Google originally used to rank web pages, adapted for networks. Similar to eigenvector centrality but dampened, so influence doesn’t concentrate as heavily at the very top. It answers: “if you randomly followed collaboration links from one researcher to another, where would you end up most often?”</p>
+
+<h3 id="combining-five-measures-into-one-ranking">Combining Five Measures Into One Ranking</h3>
+
+<p>Rather than picking one measure and declaring it the ranking, I used <a href="https://en.wikipedia.org/wiki/TOPSIS">TOPSIS</a> (Technique for Order of Preference by Similarity to Ideal Solution) to combine all five into a single composite score. The intuition behind TOPSIS: imagine a hypothetical “ideal researcher” who scores best on all five measures, and a hypothetical “worst researcher” who scores worst on all five. TOPSIS ranks everyone by how close they are to the ideal and how far from the worst. It naturally balances researchers who are strong across multiple dimensions against those who are extreme on just one.</p>
+
+<h3 id="the-topsis-top-10">The TOPSIS Top 10</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Researcher</th>
+      <th>Articles</th>
+      <th>Country</th>
+      <th>What makes them rank high</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Deniz Dogru Ersoz</td>
+      <td>58</td>
+      <td>TR</td>
+      <td>Extremely high eigenvector centrality</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Hayriye Ugur Ozcelik</td>
+      <td>57</td>
+      <td>TR</td>
+      <td>Same Turkish network, very high eigenvector</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Emine Nural Kiper</td>
+      <td>47</td>
+      <td>TR</td>
+      <td>Same cluster</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Nagehan Emiralioglu</td>
+      <td>49</td>
+      <td>TR</td>
+      <td>Same cluster</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Ebru Elmas Yalcin</td>
+      <td>52</td>
+      <td>TR</td>
+      <td>Same cluster</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Jane C. Davies</td>
+      <td>122</td>
+      <td>GB</td>
+      <td><strong>Highest betweenness in the entire network</strong> (0.033)</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Isabelle Sermet-Gaudelus</td>
+      <td>123</td>
+      <td>FR</td>
+      <td>Second-highest betweenness (0.026)</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Felix A. Ratjen</td>
+      <td>166</td>
+      <td>CA</td>
+      <td>Most prolific author, high across all measures</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Carla Colombo</td>
+      <td>91</td>
+      <td>IT</td>
+      <td>Third-highest betweenness (0.029)</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Marcus A. Mall</td>
+      <td>127</td>
+      <td>DE</td>
+      <td>Strong across degree and betweenness</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The top 5 are a surprise. They’re a tightly connected Turkish pediatric pulmonology group at Hacettepe University in Ankara. They dominate eigenvector centrality because they form a dense <a href="https://en.wikipedia.org/wiki/Clique_(graph_theory)">clique</a> where every member is connected to every other member, and their collaborators are also well-connected within that same network. But they rank lower on betweenness because they’re not bridging <em>across</em> to other communities as much. They’re the center of a strong local network, not a global connector.</p>
+
+<p>The “traditional” CF leaders start at rank 6. Jane Davies, Isabelle Sermet-Gaudelus, Felix Ratjen, and Carla Colombo. These researchers score highest on betweenness and degree. They’re the ones connecting different parts of the global CF network: linking UK researchers to US trials, connecting French clinicians to German drug development teams.</p>
+
+<p>This is exactly the kind of insight that a single ranking metric would miss. The Turkish group is genuinely influential within their community. The global leaders are influential <em>across</em> communities. Both matter, in different ways. And TOPSIS, by considering all five dimensions simultaneously, surfaces both.</p>
+
+<hr />
+
+<h2 id="what-are-people-studying-the-mesh-topic-landscape">What Are People Studying? The MeSH Topic Landscape</h2>
+
+<p>Before looking at communities, it helps to understand what the research is actually about. The MeSH topic evolution chart shows which research topics grew and which shrank between eras:</p>
+
+<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>Green bars on the right are topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.</p>
+
+<p>The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:</p>
+
+<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr />
+
+<h2 id="the-seven-tribes-of-cf-research">The Seven Tribes of CF Research</h2>
+
+<p>Using the <a href="https://en.wikipedia.org/wiki/Leiden_algorithm">Leiden algorithm</a> for <a href="https://en.wikipedia.org/wiki/Community_structure">community detection</a>, I found <strong>1,231 communities</strong> with a <a href="https://en.wikipedia.org/wiki/Modularity_(networks)">modularity</a> of 0.815.</p>
+
+<p>A quick explanation: the Leiden algorithm looks for groups of researchers who collaborate more with each other than you’d expect by chance. It’s an improvement over the older <a href="https://en.wikipedia.org/wiki/Louvain_method">Louvain method</a> because it guarantees that every detected community is internally well-connected, not just well-separated from others. Modularity is a score from 0 to 1 that measures how cleanly the network splits into communities. A score of 0.815 is very high, meaning CF research has genuinely distinct research clusters, not a homogeneous blob.</p>
+
+<p>Most of the 1,231 communities are small groups of 2-9 people. But <strong>208 communities have 10 or more members</strong>, and the largest ones tell a clear story about how CF research is organized:</p>
+
+<iframe src="/assets/plotly/community_network.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Hover for researcher names; colors represent communities.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Community</th>
+      <th>Authors</th>
+      <th>Pubs</th>
+      <th>Theme</th>
+      <th>Anchor Institution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2,790</td>
+      <td>1,862</td>
+      <td>CFTR modulators + transplant</td>
+      <td>Univ. of Washington, CF Foundation (US)</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2,333</td>
+      <td>864</td>
+      <td>CFTR modulators</td>
+      <td>INSERM, Sainte-Perine Hospital (France)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1,954</td>
+      <td>697</td>
+      <td>CFTR modulators</td>
+      <td>Univ. of Rome, Univ. of Naples (Italy)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1,682</td>
+      <td>639</td>
+      <td>CFTR + Pseudomonas</td>
+      <td>MHH Hannover (Germany)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1,449</td>
+      <td>861</td>
+      <td>Pseudomonas infections</td>
+      <td>Univ. of Liverpool, Manchester NHS (UK)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>1,318</td>
+      <td>742</td>
+      <td>Lung transplantation</td>
+      <td>Univ. of Toronto, SickKids (Canada)</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>964</td>
+      <td>282</td>
+      <td>Pseudomonas microbiology</td>
+      <td>Carlos III Institute (Spain)</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>912</td>
+      <td>495</td>
+      <td>Exercise + Quality of Life</td>
+      <td>Univ. of Sydney, UNSW (Australia)</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>795</td>
+      <td>318</td>
+      <td>NTM infections + sinusitis</td>
+      <td>Specialized centers</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Two patterns jump out:</p>
+
+<p><strong>Communities map to geography.</strong> Community 0 is US-centric, Community 1 is French, Community 2 is Italian, Community 3 is German, Community 4 is British, Community 5 is Canadian, Community 7 is Spanish, and Community 9 is Australian. CF research is still organized primarily along national lines, with each country having its own research ecosystem anchored by one or two major centers. Language, funding structures, and clinical trial networks all reinforce national boundaries.</p>
+
+<p><strong>But topics also cluster.</strong> The microbiology-focused communities (4, 7) are clearly distinct from the modulator-focused communities (0, 1, 2, 3). The Australian community stands out with its focus on exercise and quality of life, a topic that barely appears in the European clusters. And the Canadian community (#5) has a strong transplant focus, reflecting Toronto’s role as a global center for lung transplantation. The “anchor institution” in each community is typically where the community leader works and where the most publications originate.</p>
+
+<hr />
+
+<h2 id="the-bridge-builders">The Bridge Builders</h2>
+
+<p>The most interesting researchers aren’t always the most prolific. They’re the ones who connect communities that would otherwise be isolated from each other. If the communities above are “tribes,” these are the diplomats.</p>
+
+<p>Jane C. Davies at Imperial College London bridges <strong>40 different communities</strong>. That’s not a typo. She has co-authored with researchers in 40 of the 1,231 communities detected by Leiden. To put that in perspective, the average researcher who bridges at all connects to just 3-4 communities. Jane Davies connects to 40. She’s the single most important structural connector in the entire CF research network.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Researcher</th>
+      <th>Communities Bridged</th>
+      <th>Articles</th>
+      <th>Primary Base</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Jane C. Davies</td>
+      <td>40</td>
+      <td>122</td>
+      <td>Imperial College London (GB)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Pierre-Regis Burgel</td>
+      <td>37</td>
+      <td>109</td>
+      <td>Cochin Hospital, Paris (FR)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Edward F. McKone</td>
+      <td>37</td>
+      <td>52</td>
+      <td>St. Vincent’s Hospital, Dublin (IE)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Christopher H. Goss</td>
+      <td>35</td>
+      <td>136</td>
+      <td>Univ. of Washington (US)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>J. Stuart Elborn</td>
+      <td>33</td>
+      <td>91</td>
+      <td>Queen’s University Belfast (GB)</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Felix A. Ratjen</td>
+      <td>33</td>
+      <td>166</td>
+      <td>SickKids, Toronto (CA)</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Steven M. Rowe</td>
+      <td>31</td>
+      <td>109</td>
+      <td>UAB (US)</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>John P. Clancy</td>
+      <td>31</td>
+      <td>83</td>
+      <td>Cincinnati Children’s (US)</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Isabelle Sermet-Gaudelus</td>
+      <td>30</td>
+      <td>123</td>
+      <td>Necker Hospital, Paris (FR)</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Carla Colombo</td>
+      <td>29</td>
+      <td>91</td>
+      <td>Milan (IT)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>What stands out: <strong>Edward McKone at #3 with “only” 52 articles but bridging 37 communities.</strong> He’s punching well above his publication weight in terms of structural importance. Same with Silvia Gartner (28 articles, 25 communities bridged). These are researchers whose value to the field goes far beyond their publication count. They’re connectors, the people who introduce a French microbiologist to a Canadian transplant surgeon because they happen to collaborate with both.</p>
+
+<p>Why does this matter? Because ideas flow through people. A breakthrough in Pseudomonas treatment in Liverpool only reaches the transplant community in Toronto if someone bridges those two groups. Bridge builders are the people through whom knowledge diffuses across the field. Remove them, and the network fragments into national or topical silos.</p>
+
+<p>In total, <strong>5,549 researchers</strong> (14.2% of the network) bridge two or more communities. That’s the connective tissue holding the CF research world together. The other 85.8% publish within a single community. Both roles are valuable, but the 14.2% of bridge builders have an outsized influence on how quickly ideas spread.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="graph-theory" /><category term="community-detection" /><category term="centrality" /><summary type="html"><![CDATA[Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders]]></summary></entry><entry><title type="html">Disambiguating 43,000 Author Names with Temporal Intelligence</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part3-author-disambiguation/" rel="alternate" type="text/html" title="Disambiguating 43,000 Author Names with Temporal Intelligence" /><published>2026-04-09T20:20:00+00:00</published><updated>2026-04-09T20:20:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part3-author-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part3-author-disambiguation/"><![CDATA[<blockquote>
+  <p><em>Part 3 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-author-identity-problem">The Author Identity Problem</h2>
+
+<p>In PubMed, authors are identified by name. Not by a unique ID, not by an account number. Just their name as it appears on the paper. This is the <a href="https://en.wikipedia.org/wiki/Record_linkage">entity resolution</a> problem: figuring out which records in a database refer to the same real-world entity. It creates two opposite problems:</p>
+
+<ol>
+  <li><strong>Name collisions</strong>: “Wang, X” in the dataset matches 4 different researchers. “Zhang, L” matches 3. These are genuinely different people who happen to share a last name and initial.</li>
+  <li><strong>Name variants</strong>: “Gokcen” and “Gokcen” are the same person, one with Turkish special characters and one without. “Silva-Filho” and “Silva Filho” are the same person, one hyphenated and one not. “Greg” and “Gregory” and “Gregory S” are all the same person at different levels of name completeness.</li>
+</ol>
+
+<p>The scale of it: <strong>42,949 unique (last name, first name, initials) combinations</strong> across 85,194 author-article appearances. Some unknown fraction of those are duplicates. Some are collisions. The goal is to figure out which is which and resolve them into about 39,000 real people.</p>
+
+<hr />
+
+<h2 id="the-signals-ranked-by-reliability">The Signals, Ranked by Reliability</h2>
+
+<h3 id="1-orcid-ground-truth-13-coverage">1. ORCID: Ground Truth (13% coverage)</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/ORCID">ORCID</a> is a persistent digital identifier for researchers, like a Social Security number for scientists. When two records share an ORCID, they’re definitively the same person. The dataset has 6,293 unique ORCIDs covering 14,593 author-article rows (13.1%). That’s enough to serve as ground truth for evaluating the algorithm, even though it only covers a fraction of the data.</p>
+
+<p>ORCIDs do double duty here: they anchor known identities, and they give us ground truth for measuring how well the disambiguation works on the other 87%.</p>
+
+<h3 id="2-organization-id-strong-signal-915-coverage">2. Organization ID: Strong Signal (91.5% coverage)</h3>
+
+<p>From Part 2, I have a canonical org_id for 91.5% of author rows. “Smith, John” at the same institution across multiple papers is very likely the same person. That said, there are 20 known exceptions where the same (name, org) combination maps to different ORCIDs, meaning genuinely different people at the same institution with the same name.</p>
+
+<h3 id="3-name-similarity-moderate-signal">3. Name Similarity: Moderate Signal</h3>
+
+<p>Name matching sounds simple. It really isn’t. Here’s what the matcher has to deal with:</p>
+
+<ul>
+  <li><strong>Compound last names</strong>: “Silva-Filho” should match “Silva Filho” (hyphen variants). The algorithm normalizes hyphens, sorts name parts alphabetically, and computes overlap.</li>
+  <li><strong>First/last name swaps</strong>: “Tana Aslan, Ayse” vs “Aslan, Ayse Tana”. This comes up a lot with Turkish and Brazilian naming conventions. The algorithm detects cross-part overlap between the first and last name fields.</li>
+  <li><strong>Prefix matching with length guards</strong>: “Mirjam” should match “M” (it’s just an initial). But “Fang” should NOT match “Fangyu”. The shorter name has to be at least 60% of the longer one to qualify.</li>
+  <li><strong>Unicode normalization</strong>: “Ozturk” becomes “Ozturk” via transliteration before any comparison.</li>
+</ul>
+
+<p>The name matcher produces a score from 0.0 to 1.0, combining a last-name component (compound handling, swap detection) with a first-name component (exact match, prefix match, initial match).</p>
+
+<h3 id="4-co-authorship-overlap-supporting-signal">4. Co-authorship Overlap: Supporting Signal</h3>
+
+<p>If two name variants frequently show up on papers with the same co-authors, they’re likely the same person. This is computed as <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard similarity</a> of co-author name sets across papers. Jaccard similarity is simply the size of the overlap divided by the size of the union: if two authors share 3 co-authors out of 10 total unique co-authors between them, the Jaccard similarity is 3/10 = 0.3.</p>
+
+<hr />
+
+<h2 id="the-collision-aware-strategy">The Collision-Aware Strategy</h2>
+
+<p>Not all names deserve the same treatment. “Felix Ratjen” is unique enough that name similarity alone can safely merge records. “Wang, X” is so common that merging on name alone would be catastrophic.</p>
+
+<p>I maintain a curated set of 40+ <strong>high-collision surnames</strong> (Zhang, Wang, Li, Chen, Kim, Patel, Smith, Brown, and so on) that need extra confirmation before merging:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>What’s required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rare name, high name score (&gt;=0.85)</td>
+      <td>Name alone is enough</td>
+    </tr>
+    <tr>
+      <td>Rare name, moderate score (&gt;=0.5)</td>
+      <td>Name + org match OR co-author overlap</td>
+    </tr>
+    <tr>
+      <td><strong>High-collision name</strong>, high score (&gt;=0.85)</td>
+      <td>Name + org match, OR name + co-author overlap</td>
+    </tr>
+    <tr>
+      <td><strong>High-collision name</strong>, very high score (&gt;=0.95)</td>
+      <td>Name + org match</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This asymmetry is intentional. For co-authorship networks, <strong>false positives are worse than false negatives</strong>. A wrong merge creates fake connections between unrelated research groups. A missed merge just means one researcher shows up as two nodes. Not ideal, but not destructive either.</p>
+
+<hr />
+
+<h2 id="the-temporal-problem-researchers-move">The Temporal Problem: Researchers Move</h2>
+
+<p>Here’s where publication dates become critical. Consider this:</p>
+
+<ul>
+  <li>“Krick, Stefanie” published from UAB Medical Center in 2015 through 2017</li>
+  <li>“Krick, Stefanie” published from UAB Hospital starting in 2017 through 2025</li>
+</ul>
+
+<p>Without temporal awareness, the algorithm sees two different org_ids and might hesitate to merge (especially if the name were more common). But with temporal awareness, it sees a plausible career transition: the first affiliation ends right as the second one begins.</p>
+
+<h3 id="how-common-are-institution-changes">How Common Are Institution Changes?</h3>
+
+<p>Using ORCID ground truth (6,126 researchers who have both an ORCID and an org_id) to measure the actual prevalence:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Researchers at exactly 1 org (2015–2025)</td>
+      <td>4,332 (70.7%)</td>
+    </tr>
+    <tr>
+      <td>Researchers at 2+ orgs</td>
+      <td>1,794 (29.3%)</td>
+    </tr>
+    <tr>
+      <td>Researchers at 3+ orgs</td>
+      <td>505 (8.2%)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Nearly 1 in 3 researchers published from multiple institutions over those 10 years.</strong> This isn’t some rare edge case. It’s just how academic science works.</p>
+
+<h3 id="transition-patterns">Transition Patterns</h3>
+
+<p>Those 1,794 multi-org researchers fall into three patterns:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Count</th>
+      <th>Pct</th>
+      <th>What it looks like</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Overlapping</td>
+      <td>1,278</td>
+      <td>71.2%</td>
+      <td>Published from both orgs in the same year range, usually a transition period or dual affiliation</td>
+    </tr>
+    <tr>
+      <td>Concurrent</td>
+      <td>348</td>
+      <td>19.4%</td>
+      <td>Sustained dual appointment (hospital + university, for instance)</td>
+    </tr>
+    <tr>
+      <td>Sequential</td>
+      <td>168</td>
+      <td>9.4%</td>
+      <td>A clean move: stopped publishing from org A, then started at org B</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Real examples from the data:</strong></p>
+
+<ul>
+  <li><strong>Sequential move</strong>: Aykut Eski went from Ege University (2020) to Istanbul University (2025). A clear career move with a 5-year gap.</li>
+  <li><strong>Overlapping transition</strong>: Kevin J. Downes had Children’s Hospital of Philadelphia (2022–2023) overlapping with University of Pennsylvania (2022). Dual appointment during the transition.</li>
+  <li><strong>Concurrent affiliation</strong>: Abbey Sawyer was at Curtin University, the Institute for Respiratory Health, <em>and</em> Sir Charles Gairdner Hospital all at the same time (2020–2021). Three simultaneous affiliations.</li>
+</ul>
+
+<h3 id="year-gap-calibration">Year Gap Calibration</h3>
+
+<p>For sequential transitions, how many years typically pass between the last publication at org A and the first at org B?</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gap (years)</th>
+      <th>Percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1 year</td>
+      <td>24.4%</td>
+    </tr>
+    <tr>
+      <td>2 years</td>
+      <td>30.1%</td>
+    </tr>
+    <tr>
+      <td>3 years</td>
+      <td>18.8%</td>
+    </tr>
+    <tr>
+      <td>4 years</td>
+      <td>12.5%</td>
+    </tr>
+    <tr>
+      <td>5 years</td>
+      <td>8.5%</td>
+    </tr>
+    <tr>
+      <td>6+ years</td>
+      <td>5.7%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>94.3% of transitions happen within a 5-year gap.</strong> This directly calibrates the algorithm: two records with different orgs but publication years within 5 years of each other are temporally compatible. They <em>could</em> be the same person who moved.</p>
+
+<h3 id="whats-the-false-positive-risk">What’s the False Positive Risk?</h3>
+
+<p>The big question: if I allow cross-org merging with temporal compatibility, how often will it incorrectly merge two different people?</p>
+
+<p>Among ORCID-bearing names that appear at 2+ orgs:</p>
+<ul>
+  <li><strong>1,778 (96.6%)</strong> are the same person. Safe to merge.</li>
+  <li><strong>63 (3.4%)</strong> are genuinely different people. These would be false positives.</li>
+</ul>
+
+<p>And those 63 cases are almost entirely high-collision names (Kim, Wang, Zhang, Li). The collision-aware strategy already requires co-author confirmation for those, which catches them.</p>
+
+<hr />
+
+<h2 id="the-full-algorithm">The Full Algorithm</h2>
+
+<p>The disambiguation runs in four phases:</p>
+
+<p><strong>Phase 1: ORCID Anchoring.</strong> All records sharing an ORCID get pre-merged. This handles 6,293 known identities covering 10,097 records.</p>
+
+<p><strong>Phase 2: Affiliation Imputation.</strong> 9,453 rows are missing an org_id. Two safe imputation strategies recover 2,526 of them:</p>
+<ul>
+  <li>ORCID-based: if the same ORCID appears elsewhere with an org, assign that org (647 rows)</li>
+  <li>Unique-name: if “Smith, John” only shows up at one org across the entire dataset, assign that org to the missing rows (1,879 rows)</li>
+</ul>
+
+<p><strong>Phase 3: Pairwise Comparison.</strong> Records get grouped (“blocked”) by normalized last name parts to avoid comparing every possible pair (85K x 85K would be 3.6 billion comparisons). Within each block, every pair gets scored on name similarity, org overlap, temporal compatibility, and co-author overlap. The decision logic applies the collision-aware thresholds.</p>
+
+<p>All merge decisions feed into a <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure">union-find</a> data structure with path compression. Union-find is an elegant data structure that handles transitive merges automatically. Think of it like a family tree: if I determine that record A and record B are the same person, and separately that B and C are the same person, union-find automatically figures out that A, B, and C are all the same person without me having to check every possible pair. This is critical because with 85K records, checking all pairs (3.6 billion comparisons) would be computationally infeasible.</p>
+
+<p><strong>Phase 4: ORCID Propagation.</strong> After clustering, ORCIDs propagate within clusters. If any record in a cluster has an ORCID, every record in that cluster inherits it. This expanded ORCID coverage from 10,097 records to 31,087, a 3x increase.</p>
+
+<hr />
+
+<h2 id="results">Results</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Input: author-article appearances</td>
+      <td>84,709</td>
+    </tr>
+    <tr>
+      <td>Output: unique author IDs</td>
+      <td>39,206</td>
+    </tr>
+    <tr>
+      <td>Reduction</td>
+      <td>53.7%</td>
+    </tr>
+    <tr>
+      <td>Singletons (1 appearance only)</td>
+      <td>27,881</td>
+    </tr>
+    <tr>
+      <td>Largest cluster</td>
+      <td>166 articles (Felix Ratjen, the most prolific CF researcher)</td>
+    </tr>
+    <tr>
+      <td>ORCID propagation</td>
+      <td>+20,990 records gained an ORCID</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="validation-against-orcid-ground-truth">Validation Against ORCID Ground Truth</h3>
+
+<p>The 6,293 ORCIDs give us a solid evaluation: for every pair of records sharing an ORCID, did the algorithm put them in the same cluster?</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Without temporal awareness</th>
+      <th>With temporal enhancement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Precision</td>
+      <td>0.988</td>
+      <td><strong>0.9992</strong></td>
+    </tr>
+    <tr>
+      <td>Recall</td>
+      <td>0.947</td>
+      <td><strong>1.0000</strong></td>
+    </tr>
+    <tr>
+      <td>F1</td>
+      <td>0.967</td>
+      <td><strong>0.9996</strong></td>
+    </tr>
+    <tr>
+      <td>False negative ORCIDs (split)</td>
+      <td>150</td>
+      <td><strong>0</strong></td>
+    </tr>
+    <tr>
+      <td>False positive clusters</td>
+      <td>49</td>
+      <td>45</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The temporal enhancement eliminated all 150 false negatives. Every single ORCID-confirmed person was correctly unified. It also knocked a few false positives off.</p>
+
+<p>The 45 remaining false positive clusters aren’t actually algorithm errors. They’re ORCID data quality issues: researchers who somehow ended up with multiple ORCID IDs. Schwarz, Carsten, for example, has two different ORCIDs that both belong to the same person.</p>
+
+<h3 id="mobility-in-the-final-dataset">Mobility in the Final Dataset</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Authors</th>
+      <th>Pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single organization</td>
+      <td>29,385</td>
+      <td>75.0%</td>
+    </tr>
+    <tr>
+      <td>Concurrent affiliations</td>
+      <td>8,015</td>
+      <td>20.4%</td>
+    </tr>
+    <tr>
+      <td>Sequential career move</td>
+      <td>1,806</td>
+      <td>4.6%</td>
+    </tr>
+    <tr>
+      <td><strong>Total at 2+ orgs</strong></td>
+      <td><strong>9,821</strong></td>
+      <td><strong>25.0%</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each author’s record includes a full affiliation timeline: every org they published from, along with the year range. This makes temporal analysis of career trajectories possible across the entire research community.</p>
+
+<hr />
+
+<h2 id="the-most-prolific-researchers">The Most Prolific Researchers</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Articles</th>
+      <th>Orgs</th>
+      <th>Years Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Felix A. Ratjen</td>
+      <td>166</td>
+      <td>6</td>
+      <td>2015–2025</td>
+    </tr>
+    <tr>
+      <td>Christopher H. Goss</td>
+      <td>136</td>
+      <td>13</td>
+      <td>2015–2025</td>
+    </tr>
+    <tr>
+      <td>Marcus A. Mall</td>
+      <td>127</td>
+      <td>42</td>
+      <td>2015–2025</td>
+    </tr>
+    <tr>
+      <td>Isabelle Sermet-Gaudelus</td>
+      <td>123</td>
+      <td>35</td>
+      <td>2015–2025</td>
+    </tr>
+    <tr>
+      <td>Jane C. Davies</td>
+      <td>122</td>
+      <td>26</td>
+      <td>2015–2025</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The high org counts for top researchers reflect multi-institutional clinical trials. A single trial paper can list 30+ institutional affiliations. Marcus Mall didn’t actually work at 42 different places.</p>
+
+<hr />
+
+<h2 id="the-clean-dataset">The Clean Dataset</h2>
+
+<p>Before jumping into the schema, here’s a bird’s-eye view of what the disambiguated dataset looks like:</p>
+
+<iframe src="/assets/plotly/eda_author_productivity.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The left panel shows the classic power-law distribution of scientific productivity: the vast majority of researchers (27,881) published just one paper in the CF field, while a small number published dozens or even over 100. The right panel shows the era breakdown: 10,709 researchers only published in Era 1 (and then left the field or retired), 23,325 are newcomers who only appear in Era 2, and 5,172 span both eras. Those 5,172 continuity researchers will turn out to be the structural backbone of the network in Part 4.</p>
+
+<iframe src="/assets/plotly/eda_era_comparison.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The era comparison dashboard shows the scale of the shift: Era 2 has nearly twice the publications, 80% more unique authors, and almost double the number of unique MeSH topics. The donut chart (top left) shows how author populations overlap between eras, and the bar charts compare country-level and institution-type distributions.</p>
+
+<p>The final output is a normalized, relational dataset ready for network analysis:</p>
+
+<p><strong>Entity tables:</strong></p>
+<ul>
+  <li>11,500 publications with title, abstract, journal, year, MeSH terms</li>
+  <li>39,206 disambiguated authors with canonical names, ORCIDs, and mobility patterns</li>
+  <li>5,799 research organizations with coordinates and categories</li>
+</ul>
+
+<p><strong>Relationship tables:</strong></p>
+<ul>
+  <li>84,709 publication-to-author links (with author position)</li>
+  <li>53,689 author-to-organization links (with year ranges)</li>
+  <li>37,832 publication-to-organization links</li>
+  <li>138,062 publication-to-MeSH term links (with major/minor flags)</li>
+</ul>
+
+<p>Every foreign key validated. Zero orphan records. Ready for graph construction.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="entity-resolution" /><category term="disambiguation" /><category term="orcid" /><summary type="html"><![CDATA[Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996]]></summary></entry><entry><title type="html">Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part2-institution-disambiguation/" rel="alternate" type="text/html" title="Resolving 57,000 Affiliation Strings to 5,800 Research Organizations" /><published>2026-04-09T20:10:00+00:00</published><updated>2026-04-09T20:10:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part2-institution-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part2-institution-disambiguation/"><![CDATA[<blockquote>
+  <p><em>Part 2 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>Every author on a PubMed article has an affiliation string. In theory, this tells you where they work. In practice, it tells you whatever the journal’s submission system happened to collect that day.</p>
+
+<p>Here’s what 57,675 distinct affiliation strings look like in the wild:</p>
+
+<ul>
+  <li><em>“Division of Pulmonary Medicine, Department of Pediatrics, Hospital for Sick Children, Toronto, ON, Canada”</em></li>
+  <li><em>“SickKids Research Institute, Peter Gilgan Centre for Research and Learning, Toronto, Canada”</em></li>
+  <li><em>“The Hospital for Sick Children, University of Toronto, Toronto, ON, Canada M5G 1X8; felix.ratjen@sickkids.ca”</em></li>
+</ul>
+
+<p>These are all the same hospital. But to a computer, they’re three completely different strings.</p>
+
+<p>Or consider the University of Alabama at Birmingham, which shows up as:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"University of Alabama at Birmingham"
+"University of Alabama at Birmingham (UAB)"
+"University of Alabama at Birmingham (UAB) School of Medicine"
+"UAB School of Medicine"
+</code></pre></div></div>
+
+<p>For a co-authorship network, each institution needs to be a single node, not 4 variants creating 4 disconnected clusters.</p>
+
+<p>The challenge breaks down into three pieces:</p>
+
+<ol>
+  <li><strong>Parsing</strong>: Pull out the institution name, city, and country from free text that’s a mess of department hierarchies, street addresses, postal codes, and email addresses.</li>
+  <li><strong>Deduplication</strong>: Merge variants of the same institution. Language differences (“Universite de Montreal” vs “University of Montreal”), abbreviations (“UCSF” vs “University of California San Francisco”), granularity mismatches (“Johns Hopkins University” vs “Johns Hopkins University School of Medicine”).</li>
+  <li><strong>Enrichment</strong>: Give each institution a canonical ID, geographic coordinates, and a category (university, hospital, pharma company, government lab).</li>
+</ol>
+
+<hr />
+
+<h2 id="why-algorithmic-approaches-plateau">Why Algorithmic Approaches Plateau</h2>
+
+<p>Before reaching for LLMs, it made sense to try pure algorithmic approaches first. Five strategies, all evaluated against ORCID-linked ground truth. The logic: if two author records share an ORCID, their affiliations should resolve to the same institution.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Consistency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Token-based Jaccard similarity</td>
+      <td>74.6%</td>
+    </tr>
+    <tr>
+      <td>Structured parsing into key match</td>
+      <td>70.8%</td>
+    </tr>
+    <tr>
+      <td>Combined key + city + country</td>
+      <td>75.7%</td>
+    </tr>
+    <tr>
+      <td>Priority-based institution extraction</td>
+      <td>64.4%</td>
+    </tr>
+    <tr>
+      <td>City + institution composite</td>
+      <td>68.6%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The theoretical ceiling is around 87%, because roughly 13% of <a href="https://en.wikipedia.org/wiki/ORCID">ORCID</a> pairs represent genuine institution changes where the researcher actually moved between 2015 and 2025. So the best algorithmic approach captures about 87% of what’s theoretically possible. Not bad, but not good enough for what I’m trying to build. At 76% consistency, roughly 1 in 4 institution assignments would be wrong, and those errors would create fake institutional connections in the network downstream.</p>
+
+<p>The fundamental problem is that affiliations are natural language written for humans, not machines. “School of Medicine” appears 555 times across dozens of different universities. No amount of string similarity can tell you <em>which</em> School of Medicine without understanding the surrounding context.</p>
+
+<hr />
+
+<h2 id="the-llm-first-strategy">The LLM-First Strategy</h2>
+
+<p>Instead of trying to pattern-match raw text, why not use a <a href="https://en.wikipedia.org/wiki/Large_language_model">large language model</a> (LLM) to do what humans do naturally? Read the affiliation string and pull out the structured information. LLMs are trained on massive amounts of text and have seen enough university names, hospital hierarchies, and address formats to understand what “CHU de Toulouse - Hopital des Enfants” means even though it’s in French and uses abbreviations.</p>
+
+<p>Here’s the full pipeline from start to finish:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>85,194 author rows
+  → Explode affiliation arrays, split on semicolons
+108,264 affiliation segments
+  → Strip, clean, deduplicate
+50,981 distinct affiliations
+  → LLM structured extraction
+50,981 parsed records (entity_type, org_chain, city, country, etc.)
+  → Normalize org names (lowercase, remove accents/quotes)
+8,815 unique clean org names
+  → Geocode via search API (5 iterative runs)
+8,805 geocoded orgs (99.9%)
+  → Deduplicate by canonical Place ID
+5,799 unique research organizations
+</code></pre></div></div>
+
+<p>That’s a 93% reduction from raw affiliations to unique orgs.</p>
+
+<h3 id="structured-output-design">Structured Output Design</h3>
+
+<p>The LLM extracts each affiliation into a structured schema with 12 fields:</p>
+
+<ul>
+  <li><strong>org_chain</strong>: The full organizational hierarchy from innermost to outermost, like <code class="language-plaintext highlighter-rouge">["Division of Pulmonary Medicine", "Department of Pediatrics", "Hospital for Sick Children"]</code></li>
+  <li><strong>entity_type</strong>: Classification into one of 12 types (department, institute, hospital, university, company, government, etc.)</li>
+  <li><strong>top_parent_org</strong>: The highest-level organization. This becomes the dedup key.</li>
+  <li><strong>city, state_or_region, country, postal_code</strong>: Geographic anchors</li>
+  <li><strong>institution_name_english</strong>: A translation for non-English names</li>
+  <li><strong>email, phone, street_address</strong>: Contact info that sometimes shows up in affiliations</li>
+  <li><strong>unclassified_text</strong>: A catch-all for postal codes, street fragments, and noise the model can’t confidently assign</li>
+</ul>
+
+<p>The prompt uses Jinja2 templating with 4 carefully chosen few-shot examples covering the key extraction challenges: a deep academic hierarchy, a hospital-within-university, a government agency with a relationship qualifier, and a degenerate single-department input. There’s also an explicit rule: “Never assume or infer information not explicitly present in the text.”</p>
+
+<p>Structured output guarantees are handled differently by each provider. OpenAI enforces the JSON schema at decoding time and returns typed Pydantic instances. Anthropic uses forced tool calls where the tool’s input schema is the Pydantic JSON schema. Each approach has its quirks, but they all guarantee valid structured output on every call.</p>
+
+<h3 id="what-it-actually-looks-like-input-vs-output">What It Actually Looks Like: Input vs Output</h3>
+
+<p>To make this concrete, here’s what the LLM actually does with a real affiliation from the dataset.</p>
+
+<p><strong>Input:</strong></p>
+<blockquote>
+  <p>“Division of Pulmonary Medicine, Department of Pediatrics, Nationwide Children’s Hospital, ED 444 700 Children’s Drive, Columbus, OH, 43205, USA, shahid.sheikh@nationwidechildrens.org.”</p>
+</blockquote>
+
+<p>There’s a lot packed into that string: a 3-level organizational hierarchy, a street address, a zip code, a state abbreviation, and an email address. The LLM disentangles all of it:</p>
+
+<p><strong>Output:</strong></p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hospital"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"division"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Division of Pulmonary Medicine"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"department"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Department of Pediatrics"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hospital"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nationwide Children's Hospital"</span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nationwide Children's Hospital"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Columbus"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state_province"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OH"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"postal_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"43205"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"street_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ED 444 700 Children's Drive"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shahid.sheikh@nationwidechildrens.org"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The org_chain captures the full hierarchy from innermost (division) to outermost (hospital). The top_parent_org identifies “Nationwide Children’s Hospital” as the parent institution, which becomes the dedup key. And all the noise (street address, zip code, email) gets cleanly separated into its own fields.</p>
+
+<p>Here are a few more examples showing the range of what we’re dealing with:</p>
+
+<p><strong>Pharma company (straightforward):</strong></p>
+<blockquote>
+  <p>“Vertex Pharmaceuticals Incorporated, Boston, MA, United States.”</p>
+</blockquote>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"industry"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"company"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vertex Pharmaceuticals Incorporated"</span><span class="p">}],</span><span class="w">
+  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vertex Pharmaceuticals Incorporated"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boston"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state_province"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>French academic with 4-level hierarchy:</strong></p>
+<blockquote>
+  <p>“L’UNAM Universite, Universite d’Angers, Groupe d’Etude des Interactions Hote-Pathogene, EA 3142, Angers, France”</p>
+</blockquote>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"academic"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"university"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L'UNAM Universite"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"university"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Universite d'Angers"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Groupe d'Etude des Interactions Hote-Pathogene"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EA 3142"</span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Universite d'Angers"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Angers"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"France"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice that the model correctly identifies “Universite d’Angers” as the top parent, even though “L’UNAM Universite” appears first in the text. L’UNAM is actually a multi-university consortium, not the parent org. Getting this right requires understanding the French academic system.</p>
+
+<p><strong>Spanish hospital with embedded email:</strong></p>
+<blockquote>
+  <p>“Pediatric Pulmonology Unit, ‘Virgen de la Arrixaca’ Children’s University Hospital, University of Murcia, Murcia, Spain. Electronic address: msolis@um.es.”</p>
+</blockquote>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hospital"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pediatric Pulmonology Unit"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hospital"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgen de la Arrixaca Children's University Hospital"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"university"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"University of Murcia"</span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"University of Murcia"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Murcia"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Spain"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"msolis@um.es"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"unclassified_text"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Electronic address:"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The “Electronic address:” prefix gets put into unclassified_text (it’s not part of the org or the email itself), and the model correctly routes the email to its own field. The top_parent_org is “University of Murcia” because the hospital is a university hospital within that system.</p>
+
+<hr />
+
+<h2 id="i-needed-a-proper-eval">I Needed a Proper Eval</h2>
+
+<p>You can’t just pick an LLM and hope for the best. Different models handle edge cases differently, and I needed to know exactly where each one breaks down before committing to processing 50,000+ affiliations.</p>
+
+<h3 id="building-the-gold-dataset">Building the Gold Dataset</h3>
+
+<p>I hand-labeled 50 affiliations sampled across 9 difficulty buckets:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Bucket</th>
+      <th>Count</th>
+      <th>What makes it hard</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Easy standard</td>
+      <td>8</td>
+      <td>Straightforward English academic affiliations</td>
+    </tr>
+    <tr>
+      <td>Deep hierarchy</td>
+      <td>7</td>
+      <td>4+ organizational levels nested inside each other</td>
+    </tr>
+    <tr>
+      <td>Multilingual</td>
+      <td>6</td>
+      <td>French, German, Turkish, Chinese institution names</td>
+    </tr>
+    <tr>
+      <td>Industry</td>
+      <td>5</td>
+      <td>Pharma companies, biotech, CROs</td>
+    </tr>
+    <tr>
+      <td>Government/nonprofit</td>
+      <td>5</td>
+      <td>NIH, NHS Trusts, INSERM, national health agencies</td>
+    </tr>
+    <tr>
+      <td>Address noise</td>
+      <td>5</td>
+      <td>Street addresses, zip codes mixed into the text</td>
+    </tr>
+    <tr>
+      <td>Ambiguous/bad</td>
+      <td>4</td>
+      <td>Truncated strings, typos, genuinely malformed input</td>
+    </tr>
+    <tr>
+      <td>Has email</td>
+      <td>5</td>
+      <td>Email addresses embedded in the affiliation</td>
+    </tr>
+    <tr>
+      <td>Multi-institution</td>
+      <td>5</td>
+      <td>Two or more institutions in a single string</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="the-mlflow-setup">The MLflow Setup</h3>
+
+<p>Before running any evaluations, I needed proper infrastructure to track everything. This is where MLflow comes in, and honestly, the GenAI features in recent releases have been a game-changer for this kind of work.</p>
+
+<p>Here’s what the setup looks like:</p>
+
+<ul>
+  <li><strong>Prompt Registry</strong>: The extraction prompt is versioned in MLflow’s Prompt Registry. Re-running the eval only creates a new prompt version if the template actually changed. This means I can iterate on the prompt and always know exactly which version produced which results.</li>
+  <li><strong>Dataset Lineage</strong>: The 50-example gold dataset is registered as an MLflow dataset with a content digest. Every evaluation run links back to the exact data it was scored against. If someone later asks “what data did you evaluate on?”, there’s no ambiguity.</li>
+  <li><strong>Auto-tracing</strong>: MLflow autolog captures token counts, latency, and cost per API call. Every single LLM call during evaluation is traced, so I can drill into individual examples to see exactly what the model returned and why it scored the way it did.</li>
+  <li><strong>Experiment Tracking</strong>: All 6 model evaluations live under a single MLflow experiment. Comparing runs side-by-side in the MLflow UI makes it trivially easy to spot which model wins on which metric.</li>
+</ul>
+
+<h3 id="six-models-head-to-head">Six Models, Head to Head</h3>
+
+<p>I evaluated 6 models from three providers (OpenAI, Anthropic, Google) using 11 deterministic scorers. No LLM-as-judge here. Some evaluation frameworks use one LLM to judge the output of another, but that introduces stochastic variance: you might get a different score if you run it again. For structured extraction where I have known ground truth (my 50 hand-labeled examples), deterministic <a href="https://en.wikipedia.org/wiki/F-score">precision/recall/F1</a> metrics are more informative and perfectly reproducible.</p>
+
+<p>The scorers form a hierarchy from structural validity (did the model return valid JSON? did it pass Pydantic validation?) through geographic accuracy (city, country, state) to semantic accuracy (org_chain F1, entity_type, top_parent_org).</p>
+
+<p><a href="https://mlflow.org/">MLflow</a> tracked every run: model version, prompt version, per-field metrics, cost, latency, token counts, and cache hit rates. MLflow is an open-source platform for managing the ML lifecycle. It’s especially powerful here because it provides prompt versioning (so I know exactly which prompt produced which results), dataset lineage (linking every run to the exact test data), and auto-tracing that captures every API call. Every evaluation links back to the exact gold dataset version it was scored against.</p>
+
+<p><strong>The results:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th style="text-align: center">org_chain F1</th>
+      <th style="text-align: center">top_parent_org</th>
+      <th style="text-align: center">entity_type</th>
+      <th style="text-align: center">city</th>
+      <th style="text-align: center">country</th>
+      <th style="text-align: center">Cost/example</th>
+      <th style="text-align: center">Latency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>gpt-5.4-mini</strong></td>
+      <td style="text-align: center"><strong>0.960</strong></td>
+      <td style="text-align: center">0.960</td>
+      <td style="text-align: center">0.860</td>
+      <td style="text-align: center"><strong>1.000</strong></td>
+      <td style="text-align: center"><strong>1.000</strong></td>
+      <td style="text-align: center"><strong>$0.0005</strong></td>
+      <td style="text-align: center"><strong>1.3s</strong></td>
+    </tr>
+    <tr>
+      <td>gemini-3-flash</td>
+      <td style="text-align: center">0.895</td>
+      <td style="text-align: center">0.880</td>
+      <td style="text-align: center">0.820</td>
+      <td style="text-align: center">0.920</td>
+      <td style="text-align: center">0.940</td>
+      <td style="text-align: center">$0.0014</td>
+      <td style="text-align: center">7.0s</td>
+    </tr>
+    <tr>
+      <td>gpt-5.4</td>
+      <td style="text-align: center">0.940</td>
+      <td style="text-align: center">0.980</td>
+      <td style="text-align: center">0.860</td>
+      <td style="text-align: center">0.980</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">$0.0015</td>
+      <td style="text-align: center">2.0s</td>
+    </tr>
+    <tr>
+      <td>claude-haiku-4-5</td>
+      <td style="text-align: center">0.936</td>
+      <td style="text-align: center">0.880</td>
+      <td style="text-align: center">0.820</td>
+      <td style="text-align: center">0.980</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">$0.0046</td>
+      <td style="text-align: center">1.8s</td>
+    </tr>
+    <tr>
+      <td>gemini-3.1-pro</td>
+      <td style="text-align: center">0.960</td>
+      <td style="text-align: center">0.980</td>
+      <td style="text-align: center">0.880</td>
+      <td style="text-align: center">0.980</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">$0.0058</td>
+      <td style="text-align: center">11.0s</td>
+    </tr>
+    <tr>
+      <td>claude-sonnet-4-6</td>
+      <td style="text-align: center">0.955</td>
+      <td style="text-align: center">0.960</td>
+      <td style="text-align: center">0.900</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">$0.0059</td>
+      <td style="text-align: center">3.3s</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="what-i-learned">What I Learned</h3>
+
+<p>The aggregate numbers only tell part of the story. The per-bucket breakdown is where things get interesting.</p>
+
+<p>City and country extraction was near-perfect across all models. That’s the easy part. The real differentiator was <strong>org_chain</strong> and <strong>entity_type</strong>. Parsing “CHU de Toulouse - Hopital Purpan” into the correct parent institution, or knowing that an NHS Trust is a hospital and not a government agency, takes genuine language understanding.</p>
+
+<p>Some surprises in the per-bucket results:</p>
+<ul>
+  <li>On the <strong>government/nonprofit</strong> bucket, most models struggled with entity_type classification. Is “INSERM” a government agency or a research institute? Is an NHS Trust a hospital or a government body? These categories are genuinely ambiguous.</li>
+  <li>On <strong>multilingual</strong> affiliations, gpt-5.4-mini and Claude Sonnet were the strongest. Gemini Flash had more trouble with accent handling and non-Latin scripts.</li>
+  <li>The <strong>ambiguous/bad</strong> bucket was interesting because the best response to garbage input is to honestly say “I don’t know” rather than hallucinate structure that isn’t there.</li>
+</ul>
+
+<p>Prompt caching behavior varied wildly across providers. OpenAI does automatic prefix caching (55% hit rate in production). Anthropic Sonnet requires explicit <code class="language-plaintext highlighter-rouge">cache_control</code> annotations but works well. Anthropic Haiku silently fails at caching because my prompt (~3,200 tokens) falls below its 4,096-token minimum. Gemini does implicit caching that shows up in pricing but isn’t reported in metadata.</p>
+
+<p>One gotcha I ran into: MLflow uses LiteLLM under the hood for cost tracking, and LiteLLM’s cost calculation is buggy for cached Anthropic calls. When Anthropic returns <code class="language-plaintext highlighter-rouge">cache_read_input_tokens</code>, LiteLLM computes a <em>negative</em> input cost because it doesn’t properly account for the discounted cache pricing. The costs reported in MLflow traces for Anthropic models were just wrong. I ended up computing costs myself from the raw token breakdowns using published per-token pricing from each vendor’s pricing page. Worth knowing if you’re doing similar evaluations.</p>
+
+<h3 id="the-winner">The Winner</h3>
+
+<p><strong>gpt-5.4-mini</strong> matched or nearly matched frontier models on every accuracy metric while costing 3-12x less per call:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th style="text-align: center">gpt-5.4-mini</th>
+      <th style="text-align: center">Best frontier</th>
+      <th style="text-align: center">Gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>org_chain F1</td>
+      <td style="text-align: center">0.960</td>
+      <td style="text-align: center">0.960 (gemini-3.1-pro)</td>
+      <td style="text-align: center">tied</td>
+    </tr>
+    <tr>
+      <td>top_parent_org</td>
+      <td style="text-align: center">0.960</td>
+      <td style="text-align: center">0.980 (gpt-5.4)</td>
+      <td style="text-align: center">-0.02</td>
+    </tr>
+    <tr>
+      <td>city</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">tied</td>
+    </tr>
+    <tr>
+      <td>country</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">1.000</td>
+      <td style="text-align: center">tied</td>
+    </tr>
+    <tr>
+      <td>Cost per call</td>
+      <td style="text-align: center"><strong>$0.0005</strong></td>
+      <td style="text-align: center">$0.0059 (sonnet)</td>
+      <td style="text-align: center"><strong>12x cheaper</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The 2% gap on top_parent_org means roughly 1 in 50 affiliations might get a slightly wrong parent org name. At 50K affiliations that’s maybe 1,000 cases. But since I’m deduplicating downstream by geocoding, many of these “wrong” names still resolve to the correct physical location. The cost savings of $0.005 per call x 50K = $250 more than justified the tiny accuracy tradeoff.</p>
+
+<hr />
+
+<h2 id="batch-processing-at-scale">Batch Processing at Scale</h2>
+
+<p>With the model chosen, I needed to process all 50,981 distinct affiliations. At real-time API rates that would be expensive. The OpenAI Batch API offers 50% discounts for non-time-sensitive workloads.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Records</td>
+      <td>50,981</td>
+    </tr>
+    <tr>
+      <td>Batches</td>
+      <td>6 (5 x 10K + 1 x 981, due to OpenAI’s 200MB file size limit)</td>
+    </tr>
+    <tr>
+      <td>Total tokens</td>
+      <td>101.8M</td>
+    </tr>
+    <tr>
+      <td>Cache hit rate</td>
+      <td>55%</td>
+    </tr>
+    <tr>
+      <td>Total time</td>
+      <td>2.5 hours</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>$33 (actual bill)</td>
+    </tr>
+    <tr>
+      <td>Success rate</td>
+      <td>100% (zero failures)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>$33 to parse 51,000 affiliations. That felt like a good deal.</p>
+
+<hr />
+
+<h2 id="from-parsed-affiliations-to-geocoded-organizations">From Parsed Affiliations to Geocoded Organizations</h2>
+
+<p>LLM parsing produced 50,981 parsed records. After normalizing the org names (lowercasing, removing accents and quotation marks, collapsing whitespace), I ended up with <strong>8,815 unique organization names</strong>. Already a huge reduction.</p>
+
+<p>But variants still existed:</p>
+<ul>
+  <li>“Academic Medical Center” vs “Academic Medical Centre”</li>
+  <li>“Universidade de Sao Paulo” (correctly translated, still a duplicate)</li>
+  <li>Department-level names that slipped through, like “Department of Immunology” (which university though?)</li>
+</ul>
+
+<h3 id="the-geo-search-approach">The Geo-Search Approach</h3>
+
+<p>For each unique org name + city combination, I queried a geo-search API that returns a canonical place ID (a globally unique identifier for a physical location), official name, geographic coordinates, category, and address.</p>
+
+<p>Here’s the key insight: <strong>two different strings that resolve to the same physical location are the same institution.</strong> “The Hospital for Sick Children” and “SickKids” both resolve to the same place ID at 555 University Avenue, Toronto. Here’s another great example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"post graduate institute of medical education and research"
+"post graduate institute of medical education and research (pgimer)"
+"post-graduate institute of medical education and research"
+"postgraduate institute of medical education and research"
+"postgraduate institute of medical education and research (pgimer)"
+  → All resolve to: "Post Graduate Institute of Medical Education &amp; Research, Chandigarh"
+  → Same Place ID: ChIJ-xpmZ3_yDzkRg5rh7uCJQ60
+</code></pre></div></div>
+
+<p>Five name variants, one physical institution.</p>
+
+<p>For orgs with a city and country (8,085 of 8,815), the query was straightforward: <code class="language-plaintext highlighter-rouge">"org_name, city, country"</code>. For the 730 orgs missing geographic context, I used the full raw affiliation string as the search query, which often contained enough context for the API to figure it out. Between API runs, fuzzy matching (SequenceMatcher &gt;= 0.8 threshold) filled in additional orgs by matching unresolved names to already-geocoded ones.</p>
+
+<p><strong>Final geocoding result</strong>: 8,805 out of 8,815 orgs matched (99.9%). The remaining 10 are genuinely not physical places (patient advocacy groups, journal editorial offices, research network names).</p>
+
+<h3 id="dedup-by-place-id">Dedup by Place ID</h3>
+
+<p>The last step: multiple name variants that resolved to the same place ID get collapsed into a single org record.</p>
+
+<p><strong>8,815 org name variants -&gt; 5,799 unique Place IDs.</strong> A 34% dedup reduction on top of everything else.</p>
+
+<hr />
+
+<h2 id="the-full-cost-picture">The Full Cost Picture</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Tool</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LLM evaluation (6 models x 50 examples)</td>
+      <td>MLflow + OpenAI/Anthropic/Gemini</td>
+      <td>~$1</td>
+    </tr>
+    <tr>
+      <td>LLM extraction (50,981 affiliations)</td>
+      <td>OpenAI Batch API (gpt-5.4-mini)</td>
+      <td>~$33</td>
+    </tr>
+    <tr>
+      <td>Geocoding (8,815 orgs, 5 iterative runs)</td>
+      <td>Geo-search API</td>
+      <td>~$48</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td> </td>
+      <td><strong>~$82</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The entire institution disambiguation pipeline, from raw affiliations to 5,799 geocoded organizations, cost $82. That seemed worth it.</p>
+
+<hr />
+
+<h2 id="coverage-statistics">Coverage Statistics</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Author-article pairs</td>
+      <td>85,194</td>
+    </tr>
+    <tr>
+      <td>Rows with org_id</td>
+      <td>102,332 (91.5%)</td>
+    </tr>
+    <tr>
+      <td>Rows without org_id</td>
+      <td>9,453 (8.5%)</td>
+    </tr>
+    <tr>
+      <td>Unique research orgs</td>
+      <td>5,799</td>
+    </tr>
+    <tr>
+      <td>Unique countries</td>
+      <td>95</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The 8.5% without an org_id are mostly collective/group authors (471 consortium names like “ECFS Diagnostic Network Working Group”), truly empty affiliations, and edge cases where the affiliation text just didn’t contain anything parseable.</p>
+
+<hr />
+
+<h2 id="real-examples-the-hard-cases">Real Examples: The Hard Cases</h2>
+
+<p><strong>Multilingual ambiguity</strong>: <em>“Centre Hospitalier Universitaire de Toulouse, Hopital des Enfants, Toulouse, France”</em>. The LLM correctly identified “Centre Hospitalier Universitaire de Toulouse” as the parent institution, not “Hopital des Enfants”, which is actually a department within the CHU.</p>
+
+<p><strong>Multi-institutional affiliations</strong>: <em>“Department of Pediatrics, University of North Carolina at Chapel Hill; and Marsico Lung Institute/Cystic Fibrosis Research Center, Chapel Hill, NC”</em>. Pre-split on semicolons, each segment gets parsed independently. The author ends up with two org_ids, correctly representing a dual appointment.</p>
+
+<p><strong>Pharma companies</strong>: <em>“Vertex Pharmaceuticals Incorporated, Boston, MA, USA”</em> parses cleanly. But <em>“Vertex Pharmaceuticals (Europe) Ltd, London, United Kingdom”</em> gets a different place ID than the Boston office, and it should. They’re separate facilities.</p>
+
+<p><strong>The generic problem</strong>: <em>“School of Medicine”</em> shows up 555 times across dozens of different universities. Without a city or country, there’s no way to figure out which one. These fall into the 8.5% without org_id. The LLM returns the institution name just fine, but the geo-search can’t disambiguate without geographic context.</p>
+
+<hr />
+
+<h2 id="lessons-learned">Lessons Learned</h2>
+
+<p>A few things that weren’t obvious going in:</p>
+
+<ol>
+  <li><strong>Always evaluate before committing to a model.</strong> gpt-5.4-mini matched frontier accuracy at 3-12x lower cost. I would have wasted hundreds of dollars if I’d just picked the “best” model without checking.</li>
+  <li><strong>Prompt caching varies wildly across providers.</strong> OpenAI does it automatically, Anthropic needs explicit annotations (with minimum token thresholds that can silently fail), Gemini does it implicitly. Check each provider’s docs.</li>
+  <li><strong>Plan for iterative geocoding.</strong> Don’t expect 100% match in one run. The internal dedup behavior of geo-search tools means you need 4-5 rounds of progressively smaller retry batches.</li>
+  <li><strong>Track costs religiously.</strong> I logged token counts, cache hits, and compute costs per run. My initial cost estimate was 5x too low because of wrong pricing assumptions. Always verify against the vendor’s actual pricing page.</li>
+  <li><strong>Don’t trust auto-computed LLM costs blindly.</strong> LiteLLM (which MLflow uses for cost tracking) produced negative costs for cached Anthropic calls. I had to compute costs manually from raw token counts. The tooling is getting better fast, but it’s not fully reliable yet for multi-provider comparisons with caching enabled.</li>
+</ol>
+
+<hr />
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>With 5,799 organizations resolved and geolocated, I can now tackle the harder problem: <strong>author disambiguation</strong>. The organization IDs become a critical signal. “Smith, John at MIT” showing up on two papers is probably the same person. But “Smith, John at MIT” and “Smith, John at Stanford” might be the same person who moved… or they might be two completely different people.</p>
+
+<p>Part 3 builds a temporal-aware disambiguation algorithm that uses publication dates to tell the difference between career moves and name collisions. It achieves F1=0.9996 against ORCID ground truth.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part3-author-disambiguation/">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="llm" /><category term="entity-resolution" /><category term="mlflow" /><category term="evaluation" /><summary type="html"><![CDATA[Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication]]></summary></entry><entry><title type="html">Building a Real-Time Biomedical Research Intelligence Pipeline</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/" rel="alternate" type="text/html" title="Building a Real-Time Biomedical Research Intelligence Pipeline" /><published>2026-04-09T20:00:00+00:00</published><updated>2026-04-09T20:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/"><![CDATA[<blockquote>
+  <p><em>Part 1 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Disclaimer:</strong> I am not a medical professional or a Cystic Fibrosis expert. This blog series is a data science and graph ML project. Nothing in this series should be construed as medical advice. For information about CF or its treatment, consult a qualified healthcare provider or visit the <a href="https://www.cff.org/">Cystic Fibrosis Foundation</a>.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="the-question-that-started-it-all">The Question That Started It All</h2>
+
+<p>What happens to a scientific community when a breakthrough drug transforms an entire disease? I don’t mean the clinical outcomes. Those are well-documented. I’m talking about the <em>human network</em>. Who starts collaborating with whom? Which institutions rise? Which research topics quietly die, and which ones spring up from nothing?</p>
+
+<p>These aren’t abstract questions. By the end of this series, I’ll show you that a single researcher at Imperial College London bridges <strong>40 distinct research communities</strong> across the globe. That <strong>62.5% of new collaborations</strong> in the post-breakthrough era were ones that no pre-existing pattern predicted. And that two researchers on opposite sides of the Atlantic have nearly identical “research DNA” but have never met.</p>
+
+<p>I’d been sitting on these questions for a while, looking for the right problem to dig into with some graph ML and NLP techniques I’d been picking up. I wanted something where the data was messy, the domain was rich, and the results might actually tell us something new. Biomedical co-authorship networks turned out to be exactly that kind of problem.</p>
+
+<hr />
+
+<h2 id="what-this-series-covers">What This Series Covers</h2>
+
+<p>This is a multi-part deep dive into building a research intelligence platform from scratch, starting from 26 million <a href="https://pubmed.ncbi.nlm.nih.gov/">PubMed</a> articles and ending with <a href="https://en.wikipedia.org/wiki/Graph_neural_network">graph neural networks</a> running on the collaboration patterns of 39,000 researchers. Each part tackles a different data science challenge:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Challenge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Part 1</strong> (this post)</td>
+      <td>Building the data pipeline: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community</td>
+    </tr>
+    <tr>
+      <td><strong>Part 2</strong></td>
+      <td>Resolving 57,000 messy affiliation strings to 5,800 canonical research organizations using LLMs and systematic evaluation</td>
+    </tr>
+    <tr>
+      <td><strong>Part 3</strong></td>
+      <td>Disambiguating 43,000 author names into 39,000 real people using temporal-aware <a href="https://en.wikipedia.org/wiki/Record_linkage">entity resolution</a> (F1=0.9996)</td>
+    </tr>
+    <tr>
+      <td><strong>Part 4</strong></td>
+      <td>Building the co-authorship network, finding research communities, and ranking the most influential researchers</td>
+    </tr>
+    <tr>
+      <td><strong>Part 5</strong></td>
+      <td>How a breakthrough drug approval rewired the entire collaboration network</td>
+    </tr>
+    <tr>
+      <td><strong>Part 6</strong></td>
+      <td>The geography and institutional backbone of research, including which century these institutions were founded</td>
+    </tr>
+    <tr>
+      <td><strong>Part 7</strong></td>
+      <td>Graph ML innovations: research embeddings, innovation catalysts, and tracking how knowledge spreads across cities</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The techniques here are general. They apply to any biomedical research community, any disease, any time period. I chose Cystic Fibrosis as the case study for three reasons. First, its recent therapeutic history provides an extraordinary natural experiment: a before-and-after moment that lets us see how a single drug approval reshapes an entire field. Second, its research community is large enough to show complex network structure but small enough (about 11,500 articles, roughly 39,000 researchers) to keep computation and iteration manageable. Compare that with oncology or cardiovascular disease, where you’d be dealing with hundreds of thousands of papers and millions of author-article pairs. And third, CF has a passionate, well-organized research community that makes the human stories behind the network genuinely compelling.</p>
+
+<hr />
+
+<h2 id="why-cystic-fibrosis-a-disease-transformed">Why Cystic Fibrosis: A Disease Transformed</h2>
+
+<p>Cystic Fibrosis is a genetic disease caused by mutations in the <a href="https://en.wikipedia.org/wiki/Cystic_fibrosis_transmembrane_conductance_regulator">CFTR gene</a>. For decades, treatment was all about managing symptoms: fighting chronic lung infections, maintaining nutrition, and when things got bad enough, lung transplant. The median survival age hovered around 40.</p>
+
+<p>Then the science shifted. Instead of treating symptoms, researchers started going after the underlying molecular defect itself:</p>
+
+<ul>
+  <li><strong>2012</strong>: Ivacaftor (Kalydeco), the first CFTR modulator. A real breakthrough, but it only worked for about 5% of patients who carried a specific mutation.</li>
+  <li><strong>2015</strong>: Lumacaftor/ivacaftor (Orkambi) extended modulator therapy to roughly 50% of CF patients, specifically those homozygous for the most common mutation, F508del.</li>
+  <li><strong>2019</strong>: Elexacaftor/tezacaftor/ivacaftor (Trikafta). This was the big one. Effective for about 90% of CF patients. Clinical trials showed improvements in lung function, nutritional status, and quality of life that nobody had seen before.</li>
+</ul>
+
+<p>To put the scale of Trikafta in perspective: imagine if a single pill suddenly worked for 90% of diabetics instead of 5%. That’s the kind of shift we’re talking about. Median survival projections jumped dramatically. Patients who had been on lung transplant waiting lists improved enough to be delisted. The entire research agenda started to pivot, from “how do we manage decline?” to “what does it mean to age with CF?”</p>
+
+<p>This gives us two natural eras for network analysis:</p>
+<ul>
+  <li><strong>Era 1 (2015–2018)</strong>: Early modulators. The research community is still primarily organized around managing symptoms: infections, nutrition, transplant.</li>
+  <li><strong>Era 2 (2019–2025)</strong>: The Trikafta revolution. Research pivots toward long-term outcomes, new complications of extended survival, and the subset of patients who don’t respond to modulators.</li>
+</ul>
+
+<p>The question driving this project isn’t really about CF itself. It’s about what the <em>network of researchers</em> can tell us. Did the breakthrough rewire who collaborates with whom? Did new research communities form? Did old ones dissolve? Can <a href="https://en.wikipedia.org/wiki/Graph_neural_network">graph machine learning</a> pick up on these shifts before traditional bibliometrics can?</p>
+
+<p>Spoiler: the answer to all of those is yes. The data tells a remarkable story.</p>
+
+<hr />
+
+<h2 id="the-data-26-million-articles-in-a-local-postgresql-database">The Data: 26 Million Articles in a Local PostgreSQL Database</h2>
+
+<p>To answer any of this, I needed data. Not a spreadsheet, but a live, queryable pipeline that could ingest the entirety of <a href="https://en.wikipedia.org/wiki/PubMed">PubMed’s</a> 26 million biomedical articles and let me slice into any disease, any time period, any research community.</p>
+
+<h3 id="the-infrastructure">The Infrastructure</h3>
+
+<p>My setup is deliberately unglamorous. It’s a headless Linux server running Ubuntu, accessible only via SSH. No GUI, no cloud credits burning. Just <a href="https://en.wikipedia.org/wiki/PostgreSQL">PostgreSQL</a>, Python, and <a href="https://www.prefect.io/">Prefect</a> keeping everything fresh.</p>
+
+<p>Prefect is a workflow orchestration tool, similar to Apache Airflow but lighter weight. Think of it as a scheduler that runs my data pipelines on a fixed cadence and handles all the messy things that go wrong: retries, logging, alerting if something fails.</p>
+
+<p>Why local instead of cloud? A few reasons:</p>
+
+<ol>
+  <li><strong>26 million articles don’t fit in a notebook.</strong> PubMed’s annual baseline is around 35GB of compressed XML. You need a real database for this, not pandas. And running a PostgreSQL instance on a cloud VM 24/7 would cost real money for something I only query a few times a week.</li>
+  <li><strong>Reproducibility.</strong> Everything is version-controlled SQL. Re-running a query three months from now gives the same results against the same schema with the same filters. No “well, the notebook was different last time I ran it.”</li>
+  <li><strong>Weekly freshness.</strong> Prefect runs an <a href="https://en.wikipedia.org/wiki/Extract,_transform,_load">ETL</a> flow every week that pulls PubMed’s daily update files, parses the XML, and upserts into Postgres. The database is never more than 7 days behind live PubMed. New papers show up automatically.</li>
+</ol>
+
+<p>The PostgreSQL schema is designed for the kinds of analytical queries this project needs, like “give me all authors who published on Cystic Fibrosis and Pseudomonas in 2020, along with their affiliations.” Five main tables:</p>
+
+<ul>
+  <li><strong>articles</strong>: 26M+ rows. Every paper in PubMed with its title, abstract, publication year, journal, DOI, and keywords.</li>
+  <li><strong>article_authors</strong>: Who wrote each paper, in what order, with their ORCID (if they have one) and affiliation text.</li>
+  <li><strong>article_mesh_headings</strong>: The standardized topic tags assigned to each article by human indexers (more on this below).</li>
+  <li><strong>article_publication_types</strong>: Whether it’s a journal article, clinical trial, review, case report, etc.</li>
+  <li><strong>article_chemicals</strong>: Substances and drugs mentioned in each paper.</li>
+</ul>
+
+<p>The weekly Prefect flow handles the messy reality of PubMed updates. Articles get revised, retracted, and re-indexed all the time. A paper published in 2022 might get new MeSH tags added in 2024. The pipeline processes update files in order, handles deletions, and maintains referential integrity across all five tables. It’s not glamorous work, but it’s the kind of plumbing that makes everything downstream possible.</p>
+
+<hr />
+
+<h2 id="filtering-26-million-articles-down-to-11500">Filtering 26 Million Articles Down to 11,500</h2>
+
+<p>With the full PubMed database sitting in Postgres, I could get surgical with the filtering. Everything is in pure SQL, which serves as the single source of truth. No Python filtering that could silently diverge from the SQL logic. If someone asks “exactly which articles did you include?”, I point them to the SQL file.</p>
+
+<p>Here’s how the funnel works:</p>
+
+<p><strong>Step 1: Disease identification via MeSH.</strong> PubMed doesn’t tag articles with plain-text disease names. Instead, it uses the <a href="https://en.wikipedia.org/wiki/Medical_Subject_Headings">Medical Subject Headings (MeSH)</a> controlled vocabulary, a hierarchical system of about 30,000 terms maintained by the National Library of Medicine. Every article in PubMed gets reviewed by a trained human indexer who assigns the relevant MeSH terms.</p>
+
+<p>This matters because an article tagged with MeSH descriptor “Cystic Fibrosis” has been confirmed by a human to actually be <em>about</em> CF, not just mentioning it in passing. A keyword search for “cystic fibrosis” would also catch papers that say things like “unlike cystic fibrosis, this disease…” or papers that briefly mention CF in a list of genetic diseases. MeSH filtering is dramatically more precise.</p>
+
+<p><strong>Step 2: Species filter.</strong> I specifically needed human research. MeSH helps here too: requiring the “Humans” descriptor filters out the 3% of CF articles that study only animal models. Those are important science, but animal-model researchers don’t collaborate with clinical researchers in the same way, and including them would muddy the network.</p>
+
+<p><strong>Step 3: Publication type filter.</strong> This one needed some thought. PubMed categorizes publications into roughly 80 types, and they’re not all equal for understanding collaboration. I wanted original scientific collaboration: journal articles, clinical trials (all phases), observational studies, reviews, meta-analyses, case reports, practice guidelines. These are the publication types where multiple researchers actually <em>work together</em> on a shared project.</p>
+
+<p>I explicitly excluded commentaries, letters to the editor, editorials, and news articles (over 2,700 items in total). Why? Because those represent discourse, not collaboration. A letter to the editor listing 2 authors doesn’t mean those 2 people actually did research together. Including them would create false collaboration links in the network.</p>
+
+<p><strong>Step 4: Time window.</strong> The window 2015–2025 was chosen for both data quality and scientific reasons, and these two considerations happen to align nicely:</p>
+
+<ul>
+  <li><strong>Data quality</strong>: Affiliation coverage in PubMed crosses 80% around 2015. Before that, too many authors lack institutional information for meaningful network analysis. Since I need to know <em>where</em> each researcher works (not just <em>who</em> they are), going further back would mean losing a huge chunk of the data.</li>
+  <li><strong>Scientific significance</strong>: 2015 marks the approval of Orkambi, the first broadly accessible CFTR modulator. 2019 marks Trikafta. That gives us the two therapeutic eras we need for the before-and-after comparison.</li>
+</ul>
+
+<p>The final filtered set: <strong>11,528 articles, 85,194 author-article pairs, spanning 11 years across two therapeutic eras</strong>.</p>
+
+<p>Here’s what the publication volume looks like year by year:</p>
+
+<iframe src="/assets/plotly/eda_publication_timeline.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>The blue bars (Era 1) are clearly smaller than the orange bars (Era 2). Publication volume increased significantly after Trikafta’s approval in 2019. But the trend was already upward in the late Era 1 years, suggesting that the modulator revolution was building momentum even before Trikafta.</p>
+
+<p>And this chart shows how the research themes themselves shifted between eras:</p>
+
+<iframe src="/assets/plotly/eda_topic_streams.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>CFTR Modulator topics (blue) surge upward starting around 2019, while infection research (orange) holds relatively steady. Quality of Life research (green) shows a gradual increase across the whole period. This is the two-eras story told through data: the research community literally pivoted its focus.</p>
+
+<hr />
+
+<h2 id="what-the-raw-data-looks-like">What the Raw Data Looks Like</h2>
+
+<p>Here’s a real example of what PubMed gives us for a single article, so you can see what I’m working with:</p>
+
+<p><strong>PMID 33160331</strong>, a nephrology case report:</p>
+<ul>
+  <li><strong>Authors</strong>: 8 authors, each with name, position (0-indexed, meaning the first author is position 0), initials, and an affiliation text string</li>
+  <li><strong>Affiliations</strong>: Free text like <em>“The Nephrology Group Inc, 568 E Herndon Ave STE 201, Fresno, CA 93720”</em>, which mixes institution name, street address, city, state, and zip code into one long string that’s basically unparseable by a computer</li>
+  <li><strong>MeSH terms</strong>: 14 descriptors, 3 flagged as major topics (meaning they’re central to the paper, not just mentioned)</li>
+  <li><strong>Publication types</strong>: Journal Article, Case Reports</li>
+</ul>
+
+<p>The affiliations are by far the hardest part. They’re not structured fields with labeled columns for “institution”, “city”, “country.” They’re just whatever the journal’s submission system happened to collect when the author submitted the paper. Think of it like trying to extract someone’s employer from a string like “John Smith, the guy at the corner building next to the pharmacy on Main Street, 12345” instead of a clean field that says “Employer: Acme Corp.”</p>
+
+<p>The variation is staggering. Some affiliations have department hierarchies 7 levels deep (“Division of Pulmonary Medicine, Department of Pediatrics, College of Medicine, University of…”). Some are in French or Turkish or Chinese. Some have email addresses stuck in the middle. Some list 3 different institutions separated by semicolons because the researcher holds multiple appointments. And there are 57,675 distinct affiliation strings in our dataset that all need to be resolved to actual organizations.</p>
+
+<p>Turning all of this into something I can actually analyze is what Parts 2 and 3 are about.</p>
+
+<hr />
+
+<h2 id="the-extraction-pipeline">The Extraction Pipeline</h2>
+
+<p>With the filters defined in SQL, the extraction pipeline itself is deliberately simple. I’m a firm believer that data pipelines should be boring. The interesting work should happen in the analysis, not in the plumbing.</p>
+
+<p>The pipeline:</p>
+
+<ol>
+  <li>Connect to PostgreSQL via Unix socket (no passwords flying over the network)</li>
+  <li>Read the SQL filter definitions, which are the source of truth, parameterized with year ranges</li>
+  <li>Run the articles query, save as <a href="https://en.wikipedia.org/wiki/Apache_Parquet">Parquet</a> (primary format) plus CSV (for eyeballing in a spreadsheet)</li>
+  <li>Run the authors query, save the same way</li>
+  <li>Print summary statistics as a sanity check</li>
+</ol>
+
+<p>The output:</p>
+<ul>
+  <li><strong>11,528 articles</strong> with title, abstract, pub_year, journal, DOI, keywords</li>
+  <li><strong>85,194 author-article pairs</strong> with PMID, author position, name, ORCID, affiliations</li>
+</ul>
+
+<p>I went with Parquet as the primary format on purpose. It’s a columnar storage format that preserves data types (integers stay integers, arrays stay arrays), compresses well (20MB CSV becomes 6MB Parquet), and reads about 10x faster than CSV for the kind of column-level queries that downstream analysis needs. CSV is there as a backup for when I want to open something in a spreadsheet to sanity-check it.</p>
+
+<hr />
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>The raw data has two critical problems that need to be solved before any network analysis is possible:</p>
+
+<ol>
+  <li>
+    <p><strong>The institution problem</strong>: 57,675 distinct affiliation strings that need to be resolved to roughly 5,800 actual research organizations. The same hospital shows up as “The Hospital for Sick Children”, “SickKids”, “Hospital for Sick Children, Toronto”, and a dozen other variants. If I don’t fix this, one hospital becomes 12 disconnected nodes in the network, and the analysis falls apart.</p>
+  </li>
+  <li>
+    <p><strong>The author problem</strong>: 42,949 unique name combinations that need to be resolved to about 39,000 actual people. “Wang, X” could be 4 different researchers at 4 different institutions. “Gokcen” and “Gokcen” are the same person with and without Turkish characters. If I get this wrong, I either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).</p>
+  </li>
+</ol>
+
+<p>Both problems are forms of <a href="https://en.wikipedia.org/wiki/Record_linkage">entity resolution</a>, one of the oldest and hardest problems in data science. Part 2 tackles the institution version using LLM-based affiliation parsing and a geo-search API. Part 3 tackles the author version with a temporal-aware disambiguation algorithm that achieves F1=0.9996 against ground truth.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/co-authorship-part2-institution-disambiguation/">Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</a></em></p>
+
+<hr />
+
+<p><em>Acknowledgments: I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/">CS224U: Natural Language Understanding</a>) at Stanford, whose courses gave me the foundation to take on a project like this.</em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="pubmed" /><category term="etl" /><category term="postgresql" /><category term="data-pipeline" /><summary type="html"><![CDATA[Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community]]></summary></entry></feed>
