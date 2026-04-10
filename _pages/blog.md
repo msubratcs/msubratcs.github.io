@@ -8,7 +8,7 @@ pagination:
   enabled: true
   collection: posts
   permalink: /page/:num/
-  per_page: 5
+  per_page: 10
   sort_field: date
   sort_reverse: true
   trail:
@@ -101,6 +101,24 @@ pagination:
 
 {% endif %}
 
+  {% assign series_posts = site.posts | where: "series_part", true | sort: "date" %}
+  {% if series_posts.size > 0 %}
+  <div class="container mb-4">
+    <a href="{{ '/blog/co-authorship-series/' | relative_url }}" style="text-decoration: none; color: inherit;">
+      <div class="card hoverable">
+        <div class="card-body">
+          <h3 class="card-title text-lowercase">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</h3>
+          <p class="card-text">A Deep Dive: 7-part series on building a research intelligence platform from 26 million PubMed articles, disambiguating 39,000 researchers, and applying graph ML to uncover how a breakthrough drug rewired an entire scientific community.</p>
+          <p class="post-meta">
+            {{ series_posts.size }} parts &nbsp; &middot; &nbsp;
+            {{ series_posts.first.date | date: '%B %d, %Y' }}
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endif %}
+
   <ul class="post-list">
 
     {% if page.pagination.enabled %}
@@ -110,6 +128,10 @@ pagination:
     {% endif %}
 
     {% for post in postlist %}
+
+    {% if post.series_part %}
+      {% continue %}
+    {% endif %}
 
     {% if post.external_source == blank %}
       {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
