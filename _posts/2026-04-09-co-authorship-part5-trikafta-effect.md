@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Trikafta Effect: How a Drug Approval Rewired a Research Community"
+title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community"
 date: 2026-04-09 20:40:00
 description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars"
 tags: [co-authorship, network-analysis, temporal-analysis, node2vec, counterfactual]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 5 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 5 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 

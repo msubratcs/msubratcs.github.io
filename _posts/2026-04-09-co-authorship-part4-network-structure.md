@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Small World of CF Research"
+title: "Part 4: The Small World of CF Research"
 date: 2026-04-09 20:30:00
 description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders"
 tags: [co-authorship, network-analysis, graph-theory, community-detection, centrality]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 4 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 4 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 

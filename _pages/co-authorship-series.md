@@ -2,7 +2,7 @@
 layout: page
 title: "From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration"
 description: "A Deep Dive"
-permalink: /blog/co-authorship-series/
+permalink: /blog/cf-research-network-analysis/
 nav: false
 ---
 

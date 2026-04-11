@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Institutional Backbone and Geography of CF Research"
+title: "Part 6: The Institutional Backbone and Geography of CF Research"
 date: 2026-04-09 20:50:00
 description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping"
 tags: [co-authorship, network-analysis, institutions, geography, ror]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 6 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 6 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 

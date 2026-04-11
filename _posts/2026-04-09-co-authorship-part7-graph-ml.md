@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Research DNA, Innovation Catalysts, and Knowledge Diffusion"
+title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion"
 date: 2026-04-09 21:00:00
 description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities"
 tags: [co-authorship, graph-ml, metapath2vec, embeddings, knowledge-diffusion]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 7 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 7 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 
@@ -209,7 +209,7 @@ If you're a CF researcher, a research funder, or just someone interested in the 
 
 ---
 
-*This is Part 7, the final part of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+*This is Part 7, the final part of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 

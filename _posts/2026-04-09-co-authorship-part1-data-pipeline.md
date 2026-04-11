@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building a Real-Time Biomedical Research Intelligence Pipeline"
+title: "Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline"
 date: 2026-04-09 20:00:00
 description: "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community"
 tags: [co-authorship, pubmed, etl, postgresql, data-pipeline]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 1 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 1 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 > **Disclaimer:** I am not a medical professional or a Cystic Fibrosis expert. This blog series is a data science and graph ML project. Nothing in this series should be construed as medical advice. For information about CF or its treatment, consult a qualified healthcare provider or visit the [Cystic Fibrosis Foundation](https://www.cff.org/).
 

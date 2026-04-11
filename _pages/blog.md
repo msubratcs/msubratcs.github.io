@@ -104,7 +104,7 @@ pagination:
   {% assign series_posts = site.posts | where: "series_part", true | sort: "date" %}
   {% if series_posts.size > 0 %}
   <div class="container mb-4">
-    <a href="{{ '/blog/co-authorship-series/' | relative_url }}" style="text-decoration: none; color: inherit;">
+    <a href="{{ '/blog/cf-research-network-analysis/' | relative_url }}" style="text-decoration: none; color: inherit;">
       <div class="card hoverable">
         <div class="card-body">
           <h3 class="card-title text-lowercase">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</h3>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Disambiguating 43,000 Author Names with Temporal Intelligence"
+title: "Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence"
 date: 2026-04-09 20:20:00
 description: "Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996"
 tags: [co-authorship, entity-resolution, disambiguation, orcid]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 3 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 3 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 

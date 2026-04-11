@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Resolving 57,000 Affiliation Strings to 5,800 Research Organizations"
+title: "Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations"
 date: 2026-04-09 20:10:00
 description: "Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication"
 tags: [co-authorship, llm, entity-resolution, mlflow, evaluation]
@@ -10,7 +10,7 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 2 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
+> *Part 2 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/cf-research-network-analysis/)***
 
 ---
 
