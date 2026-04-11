@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-11T02:18:57+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-11T02:31:26+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
 </subtitle><entry><title type="html">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/" rel="alternate" type="text/html" title="Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion" /><published>2026-04-09T21:00:00+00:00</published><updated>2026-04-09T21:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/"><![CDATA[<blockquote>
-  <p><em>Part 7 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 7 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -389,12 +389,12 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<p><em>This is Part 7, the final part of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+<p><em>This is Part 7, the final part of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 
 <hr />
 
 <p><em>Acknowledgments: I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/">CS224U: Natural Language Understanding</a>) at Stanford, whose courses gave me the foundation to take on a project like this.</em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="graph-ml" /><category term="metapath2vec" /><category term="embeddings" /><category term="knowledge-diffusion" /><summary type="html"><![CDATA[Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities]]></summary></entry><entry><title type="html">Part 6: The Institutional Backbone and Geography of CF Research</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part6-geography-institutions/" rel="alternate" type="text/html" title="Part 6: The Institutional Backbone and Geography of CF Research" /><published>2026-04-09T20:50:00+00:00</published><updated>2026-04-09T20:50:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part6-geography-institutions</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part6-geography-institutions/"><![CDATA[<blockquote>
-  <p><em>Part 6 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 6 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -831,7 +831,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 <hr />
 
 <p><em>Next: <a href="/blog/2026/co-authorship-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="institutions" /><category term="geography" /><category term="ror" /><summary type="html"><![CDATA[Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping]]></summary></entry><entry><title type="html">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/" rel="alternate" type="text/html" title="Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community" /><published>2026-04-09T20:40:00+00:00</published><updated>2026-04-09T20:40:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part5-trikafta-effect/"><![CDATA[<blockquote>
-  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -1191,7 +1191,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 <hr />
 
 <p><em>Next: <a href="/blog/2026/co-authorship-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="temporal-analysis" /><category term="node2vec" /><category term="counterfactual" /><summary type="html"><![CDATA[Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars]]></summary></entry><entry><title type="html">Part 4: The Small World of CF Research</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part4-network-structure/" rel="alternate" type="text/html" title="Part 4: The Small World of CF Research" /><published>2026-04-09T20:30:00+00:00</published><updated>2026-04-09T20:30:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part4-network-structure</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part4-network-structure/"><![CDATA[<blockquote>
-  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -1629,7 +1629,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 <hr />
 
 <p><em>Next: <a href="/blog/2026/co-authorship-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="graph-theory" /><category term="community-detection" /><category term="centrality" /><summary type="html"><![CDATA[Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders]]></summary></entry><entry><title type="html">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part3-author-disambiguation/" rel="alternate" type="text/html" title="Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence" /><published>2026-04-09T20:20:00+00:00</published><updated>2026-04-09T20:20:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part3-author-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part3-author-disambiguation/"><![CDATA[<blockquote>
-  <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -2076,7 +2076,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 <hr />
 
 <p><em>Next: <a href="/blog/2026/co-authorship-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="entity-resolution" /><category term="disambiguation" /><category term="orcid" /><summary type="html"><![CDATA[Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996]]></summary></entry><entry><title type="html">Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part2-institution-disambiguation/" rel="alternate" type="text/html" title="Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations" /><published>2026-04-09T20:10:00+00:00</published><updated>2026-04-09T20:10:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part2-institution-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part2-institution-disambiguation/"><![CDATA[<blockquote>
-  <p><em>Part 2 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 2 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -2720,7 +2720,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 <hr />
 
 <p><em>Next: <a href="/blog/2026/co-authorship-part3-author-disambiguation/">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="llm" /><category term="entity-resolution" /><category term="mlflow" /><category term="evaluation" /><summary type="html"><![CDATA[Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication]]></summary></entry><entry><title type="html">Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/" rel="alternate" type="text/html" title="Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline" /><published>2026-04-09T20:00:00+00:00</published><updated>2026-04-09T20:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part1-data-pipeline/"><![CDATA[<blockquote>
-  <p><em>Part 1 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
+  <p><em>Part 1 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
 <blockquote>
