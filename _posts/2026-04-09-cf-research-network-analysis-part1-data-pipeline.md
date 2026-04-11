@@ -131,6 +131,3 @@ Both problems are forms of [entity resolution](https://en.wikipedia.org/wiki/Rec
 
 *Next: [Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %})*
 
----
-
-*Acknowledgments: I'm grateful to Prof. [Jure Leskovec](https://profiles.stanford.edu/jure-leskovec) ([CS224W: Machine Learning with Graphs](https://web.stanford.edu/class/cs224w/)) and Prof. [Chris Potts](https://profiles.stanford.edu/christopher-potts) ([CS224U: Natural Language Understanding](https://web.stanford.edu/class/cs224u/)) at Stanford, whose courses gave me the foundation to take on a project like this.*
