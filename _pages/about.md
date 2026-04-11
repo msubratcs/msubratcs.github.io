@@ -2,6 +2,8 @@
 layout: about
 title: about
 permalink: /about/
+nav: true
+nav_order: 2
 subtitle:
 
 profile:
