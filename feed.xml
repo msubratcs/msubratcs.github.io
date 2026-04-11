@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-10T14:06:40+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-11T01:59:13+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
 </subtitle><entry><title type="html">Research DNA, Innovation Catalysts, and Knowledge Diffusion</title><link href="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/" rel="alternate" type="text/html" title="Research DNA, Innovation Catalysts, and Knowledge Diffusion" /><published>2026-04-09T21:00:00+00:00</published><updated>2026-04-09T21:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/co-authorship-part7-graph-ml/"><![CDATA[<blockquote>
   <p><em>Part 7 of the series: <strong><a href="/blog/co-authorship-series/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive</a></strong></em></p>
 </blockquote>
@@ -58,7 +58,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>128 dimensions are impossible for humans to visualize, so I used <a href="https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection">UMAP</a> (Uniform Manifold Approximation and Projection) to squash those 128 dimensions down to 2 for plotting. UMAP is a <a href="https://en.wikipedia.org/wiki/Dimensionality_reduction">dimensionality reduction</a> technique that preserves the local neighborhood structure of the data: researchers who are close in 128 dimensions stay close in 2 dimensions.</p>
 
-<iframe src="/assets/plotly/tier7_embedding_umap.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier7_embedding_umap.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Hover over any point to see the researcher’s name, institution, and country.</em></p>
 
 <p>The result is striking. The communities detected by the Leiden algorithm back in Part 4 map cleanly onto the embedding space, even though the embeddings were learned independently. Researchers in the same community cluster together, confirming that the embeddings are capturing real structure. But the embeddings also reveal something the Leiden communities don’t: gradients <em>between</em> communities. Researchers who work at the boundary of two topics (say, infection research and modulator therapy) appear in the transition zones between clusters, exactly where you’d expect to find interdisciplinary researchers.</p>
@@ -155,7 +155,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="the-top-innovation-catalysts">The Top Innovation Catalysts</h3>
 
-<iframe src="/assets/plotly/tier7_brokerage.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier7_brokerage.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Left panel: top 30 catalysts. Right panel: brokerage vs traditional centrality for all researchers.</em></p>
 
 <table>
@@ -353,12 +353,12 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="the-animated-diffusion-map">The Animated Diffusion Map</h3>
 
-<iframe src="/assets/plotly/tier7_diffusion_animated.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier7_diffusion_animated.html" frameborder="0" scrolling="no" height="710px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Use the play button to watch topics spread across the globe year by year.</em></p>
 
 <p>The animation tracks six key topics across time and geography. Watch Pseudomonas aeruginosa (infection research) cluster heavily in European cities, while the modulator topics start from a few centers and gradually light up across both North America and Europe. Quality of Life research is the most geographically even from the start, suggesting it requires less specialized infrastructure and spreads more organically.</p>
 
-<iframe src="/assets/plotly/tier7_diffusion_speed.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier7_diffusion_speed.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <hr />
 
@@ -407,11 +407,11 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Here’s a bar chart of the top 30, with bars stacked by era to show how each institution’s output split between pre- and post-Trikafta:</p>
 
-<iframe src="/assets/plotly/eda_top_institutions.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_top_institutions.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>And the same data ranked by total collaboration volume (weighted degree), colored by institution type:</p>
 
-<iframe src="/assets/plotly/tier5_top_institutions.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier5_top_institutions.html" frameborder="0" scrolling="no" height="860px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <h3 id="the-top-10-institutional-hubs">The Top 10 Institutional Hubs</h3>
 
@@ -511,7 +511,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p><strong>Vertex Pharmaceuticals dominates</strong> the industry side with 558 shared publications across its two main facilities (378 from the Boston campus, 180 from additional sites). No other company comes close.</p>
 
-<iframe src="/assets/plotly/tier5_industry_connections.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier5_industry_connections.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <h3 id="top-academic-centers-by-industry-collaboration">Top Academic Centers by Industry Collaboration</h3>
 
@@ -596,7 +596,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Who collaborates with whom at the organizational level? The mixing patterns reveal the structure of the research ecosystem:</p>
 
-<iframe src="/assets/plotly/tier5_type_mixing.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier5_type_mixing.html" frameborder="0" scrolling="no" height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <table>
   <thead>
@@ -651,7 +651,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="the-age-distribution">The Age Distribution</h3>
 
-<iframe src="/assets/plotly/ror_age_distribution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/ror_age_distribution.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <table>
   <thead>
@@ -696,7 +696,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="does-age-predict-influence">Does Age Predict Influence?</h3>
 
-<iframe src="/assets/plotly/ror_age_vs_centrality.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/ror_age_vs_centrality.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Hover over points for details.</em></p>
 
 <p>I ran <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient">Spearman rank correlations</a> between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 (perfect inverse relationship) to +1 (perfect positive relationship), with 0 meaning no relationship:</p>
@@ -739,7 +739,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="did-trikafta-shift-power-toward-newer-institutions">Did Trikafta Shift Power Toward Newer Institutions?</h3>
 
-<iframe src="/assets/plotly/ror_era_dynamics.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/ror_era_dynamics.html" frameborder="0" scrolling="no" height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <table>
   <thead>
@@ -784,7 +784,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="the-age-map">The Age Map</h3>
 
-<iframe src="/assets/plotly/ror_age_map.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/ror_age_map.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old powerhouses still dominate.</p>
 
@@ -792,7 +792,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>With the ROR enrichment, I can also redo the type mixing analysis from earlier using ROR’s cleaner 18-type taxonomy instead of Google’s 278 fragmented categories. The biggest difference: ROR allows multi-valued types (49% of institutions have 2+ types like “education;funder;healthcare”), which captures the reality that a university hospital is both educational and clinical:</p>
 
-<iframe src="/assets/plotly/ror_type_mixing.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/ror_type_mixing.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The funder-education axis dominates, which makes sense: most research institutions are both educational and funded. The healthcare-funder axis is the next strongest, reflecting hospital-based research funded by grants.</p>
 
@@ -802,19 +802,19 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>CF research spans 95 countries, but the distribution is far from even. The map below shows every city with 5 or more CF publications, with bubble size proportional to publication count.</p>
 
-<iframe src="/assets/plotly/eda_global_map.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_global_map.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The concentration is striking. North America (especially the US East Coast and Toronto), Western Europe (London, Paris, Milan, Berlin), and pockets of Australia dominate. Large parts of the world, most of Africa, South Asia, Southeast Asia, Latin America, have minimal CF research presence. This reflects both the epidemiology of CF (it’s most common in populations of European descent) and the distribution of research funding.</p>
 
 <p>Even more revealing is the animated version that shows how these hubs evolved over time. Use the play button or drag the year slider to watch cities grow:</p>
 
-<iframe src="/assets/plotly/cf_hubs_animated.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/cf_hubs_animated.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation’s Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston grows steadily (home of Vertex Pharmaceuticals). And the European hubs (Paris, London, Milan) maintain their positions throughout.</p>
 
 <h3 id="top-countries">Top Countries</h3>
 
-<iframe src="/assets/plotly/eda_top_countries.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_top_countries.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group that showed up in the centrality rankings.</p>
 
@@ -822,7 +822,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p><strong>46% of institutional collaborations cross national borders.</strong> The strongest corridors:</p>
 
-<iframe src="/assets/plotly/tier5_intl_corridors.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier5_intl_corridors.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within Europe, Germany-France (912) and France-Italy (647) are the strongest continental partnerships.</p>
 
@@ -905,7 +905,7 @@ Author           --affiliated--&gt;    Institution (5,799)
   <li><strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later. This is where the action is.</li>
 </ul>
 
-<iframe src="/assets/plotly/eda_network_evolution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_network_evolution.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The four panels above show the growth at a glance: active authors per year (top left), average team sizes growing from 6.5 to 7.8 (top right), new collaboration pairs forming each year (bottom left), and the cumulative network growth curve (bottom right). The dashed vertical line marks Trikafta’s approval.</p>
 
@@ -933,7 +933,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p><strong>Only 37.5%.</strong></p>
 
-<iframe src="/assets/plotly/tier7_counterfactual.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier7_counterfactual.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>Of the new Era 2 collaborations I could score (27,319 edges where both researchers had Era 1 embeddings):</p>
 
@@ -952,7 +952,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>To see the transition more granularly, I built the network in 3-year sliding windows from 2015-2017 through 2023-2025. Each window captures a snapshot of who was collaborating with whom during that period:</p>
 
-<iframe src="/assets/plotly/tier4_sliding_windows.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier4_sliding_windows.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <table>
   <thead>
@@ -1186,7 +1186,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<iframe src="/assets/plotly/tier4_trikafta_effect.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/tier4_trikafta_effect.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <hr />
 
@@ -1288,7 +1288,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few “super-connectors” pull the average way up. This is the hallmark of a <a href="https://en.wikipedia.org/wiki/Power_law">power-law distribution</a>, and it’s exactly what you’d expect in a real scientific collaboration network.</p>
 
-<iframe src="/assets/plotly/degree_distribution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/degree_distribution.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <hr />
 
@@ -1424,13 +1424,13 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Before looking at communities, it helps to understand what the research is actually about. The MeSH topic evolution chart shows which research topics grew and which shrank between eras:</p>
 
-<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>Green bars on the right are topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.</p>
 
 <p>The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:</p>
 
-<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <hr />
 
@@ -1442,7 +1442,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Most of the 1,231 communities are small groups of 2-9 people. But <strong>208 communities have 10 or more members</strong>, and the largest ones tell a clear story about how CF research is organized:</p>
 
-<iframe src="/assets/plotly/community_network.html" frameborder="0" scrolling="no" height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/community_network.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Hover for researcher names; colors represent communities.</em></p>
 
 <table>
@@ -2046,11 +2046,11 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Before jumping into the schema, here’s a bird’s-eye view of what the disambiguated dataset looks like:</p>
 
-<iframe src="/assets/plotly/eda_author_productivity.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_author_productivity.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The left panel shows the classic power-law distribution of scientific productivity: the vast majority of researchers (27,881) published just one paper in the CF field, while a small number published dozens or even over 100. The right panel shows the era breakdown: 10,709 researchers only published in Era 1 (and then left the field or retired), 23,325 are newcomers who only appear in Era 2, and 5,172 span both eras. Those 5,172 continuity researchers will turn out to be the structural backbone of the network in Part 4.</p>
 
-<iframe src="/assets/plotly/eda_era_comparison.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_era_comparison.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The era comparison dashboard shows the scale of the shift: Era 2 has nearly twice the publications, 80% more unique authors, and almost double the number of unique MeSH topics. The donut chart (top left) shows how author populations overlap between eras, and the bar charts compare country-level and institution-type distributions.</p>
 
@@ -2871,13 +2871,13 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Here’s what the publication volume looks like year by year:</p>
 
-<iframe src="/assets/plotly/eda_publication_timeline.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_publication_timeline.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>The blue bars (Era 1) are clearly smaller than the orange bars (Era 2). Publication volume increased significantly after Trikafta’s approval in 2019. But the trend was already upward in the late Era 1 years, suggesting that the modulator revolution was building momentum even before Trikafta.</p>
 
 <p>And this chart shows how the research themes themselves shifted between eras:</p>
 
-<iframe src="/assets/plotly/eda_topic_streams.html" frameborder="0" scrolling="no" height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="/assets/plotly/eda_topic_streams.html" frameborder="0" scrolling="no" height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <p>CFTR Modulator topics (blue) surge upward starting around 2019, while infection research (orange) holds relatively steady. Quality of Life research (green) shows a gradual increase across the whole period. This is the two-eras story told through data: the research community literally pivoted its focus.</p>
 
