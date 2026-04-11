@@ -236,4 +236,4 @@ Every foreign key validated. Zero orphan records. Ready for graph construction.
 
 ---
 
-*Next: [Part 4: The Small World of CF Research]({% post_url 2026-04-09-co-authorship-part4-network-structure %})*
+*Next: [Part 4: The Small World of CF Research]({% post_url 2026-04-09-cf-research-network-analysis-part4-network-structure %})*

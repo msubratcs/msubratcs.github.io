@@ -181,7 +181,7 @@ Both problems are forms of [entity resolution](https://en.wikipedia.org/wiki/Rec
 
 ---
 
-*Next: [Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations]({% post_url 2026-04-09-co-authorship-part2-institution-disambiguation %})*
+*Next: [Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %})*
 
 ---
 

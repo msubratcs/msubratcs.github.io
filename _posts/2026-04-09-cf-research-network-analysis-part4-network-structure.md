@@ -184,4 +184,4 @@ In total, **5,549 researchers** (14.2% of the network) bridge two or more commun
 
 ---
 
-*Next: [Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community]({% post_url 2026-04-09-co-authorship-part5-trikafta-effect %})*
+*Next: [Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community]({% post_url 2026-04-09-cf-research-network-analysis-part5-trikafta-effect %})*

@@ -389,4 +389,4 @@ Part 3 builds a temporal-aware disambiguation algorithm that uses publication da
 
 ---
 
-*Next: [Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence]({% post_url 2026-04-09-co-authorship-part3-author-disambiguation %})*
+*Next: [Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %})*

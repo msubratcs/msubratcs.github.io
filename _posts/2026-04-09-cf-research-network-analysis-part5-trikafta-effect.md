@@ -165,4 +165,4 @@ What these rising stars have in common: they were on the edge of the field in 20
 
 ---
 
-*Next: [Part 6: The Institutional Backbone and Geography of CF Research]({% post_url 2026-04-09-co-authorship-part6-geography-institutions %})*
+*Next: [Part 6: The Institutional Backbone and Geography of CF Research]({% post_url 2026-04-09-cf-research-network-analysis-part6-geography-institutions %})*

@@ -197,4 +197,4 @@ The Anglophone bias is obvious: the top 5 corridors all involve English-speaking
 
 ---
 
-*Next: [Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion]({% post_url 2026-04-09-co-authorship-part7-graph-ml %})*
+*Next: [Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion]({% post_url 2026-04-09-cf-research-network-analysis-part7-graph-ml %})*
