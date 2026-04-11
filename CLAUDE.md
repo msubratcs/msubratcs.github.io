@@ -34,7 +34,7 @@ BibTeX + Markdown + Liquid templates → Jekyll + plugins → static HTML/CSS/JS
 
 ### Key Directories
 
-- `_pages/` — Static pages: `about.md` (homepage at `/`), `blog.md`, `publications.md`, `404.md`
+- `_pages/` — Static pages: `about.md` (homepage at `/`), `blog.md`, `publications.md`, `404.md`, `co-authorship-series.md` (series landing page)
 - `_posts/` — Blog posts (format: `YYYY-MM-DD-title.md`)
 - `_bibliography/papers.bib` — Publications in BibTeX format, rendered by `jekyll-scholar`
 - `_layouts/` — Liquid templates (`post.liquid`, `about.liquid`, `bib.liquid`, etc.)
@@ -42,6 +42,7 @@ BibTeX + Markdown + Liquid templates → Jekyll + plugins → static HTML/CSS/JS
 - `_plugins/` — Custom Ruby plugins (cache-busting, external post fetching, citation counts)
 - `_sass/` — SCSS; `_variables.scss` for colors/sizing, `_themes.scss` for light/dark mode
 - `_data/` — `coauthors.yml` (author name mappings), `venues.yml` (conference abbreviations)
+- `assets/plotly/` — Interactive Plotly HTML visualizations embedded via `<iframe>` in blog posts
 
 ### Theme Customization
 
@@ -56,6 +57,27 @@ BibTeX + Markdown + Liquid templates → Jekyll + plugins → static HTML/CSS/JS
 - Scholar configured for APA style in `_config.yml` under `scholar:` section
 - Author highlighting: matches `last_name: [Mishra]`, `first_name: [Subrat, S.]`
 - Publication badges: Altmetric, Dimensions, Google Scholar (configured under `enable_publication_badges:`)
+
+### Blog Series System
+
+The blog supports multi-part series with a landing page pattern:
+
+- **Series landing page**: `_pages/co-authorship-series.md` at `/blog/cf-research-network-analysis/`. Lists all parts in reading order with descriptions.
+- **Series posts**: Individual posts have `series_part: true` in front matter. This hides them from the main blog listing.
+- **Blog page card**: `_pages/blog.md` has a custom card section that shows series as a single entry linking to the landing page. Posts with `series_part: true` are skipped in the regular post loop.
+- **Cross-linking**: Each post links to the series landing page via its subtitle, and to the next part via `{% post_url %}` at the bottom.
+
+### Interactive Visualizations
+
+Plotly HTML charts live in `assets/plotly/`. They are self-contained files that load Plotly from CDN. Embedded in posts via iframe:
+```html
+<iframe src="{{ '/assets/plotly/chart_name.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+```
+Charts use `width: 100%` and `responsive: true` so they fill the content area. Set iframe `height` to match the chart's actual height + 60px for the Plotly toolbar.
+
+### Content Width
+
+Site-wide max content width is set in `_config.yml` as `max_width: 1200px` (applied via `$max-content-width` in `_sass/_layout.scss`).
 
 ### Navigation
 
