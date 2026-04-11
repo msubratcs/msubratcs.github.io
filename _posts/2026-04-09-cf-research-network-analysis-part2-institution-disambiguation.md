@@ -336,7 +336,7 @@ The last step: multiple name variants that resolved to the same place ID get col
 |------|------|------|
 | LLM evaluation (6 models x 50 examples) | MLflow + OpenAI/Anthropic/Gemini | ~$1 |
 | LLM extraction (50,981 affiliations) | OpenAI Batch API (gpt-5.4-mini) | ~$33 |
-| Geocoding (8,815 orgs, 5 iterative runs) | Geo-search API | ~$48 |
+| Geocoding (8,815 orgs) | Geo-search API | ~$48 |
 | **Total** | | **~$82** |
 
 The entire institution disambiguation pipeline, from raw affiliations to 5,799 geocoded organizations, cost $82. That seemed worth it.
@@ -375,9 +375,8 @@ A few things that weren't obvious going in:
 
 1. **Always evaluate before committing to a model.** gpt-5.4-mini matched frontier accuracy at 3-12x lower cost. I would have wasted hundreds of dollars if I'd just picked the "best" model without checking.
 2. **Prompt caching varies wildly across providers.** OpenAI does it automatically, Anthropic needs explicit annotations (with minimum token thresholds that can silently fail), Gemini does it implicitly. Check each provider's docs.
-3. **Plan for iterative geocoding.** Don't expect 100% match in one run. The internal dedup behavior of geo-search tools means you need 4-5 rounds of progressively smaller retry batches.
-4. **Track costs religiously.** I logged token counts, cache hits, and compute costs per run. My initial cost estimate was 5x too low because of wrong pricing assumptions. Always verify against the vendor's actual pricing page.
-5. **Don't trust auto-computed LLM costs blindly.** LiteLLM (which MLflow uses for cost tracking) produced negative costs for cached Anthropic calls. I had to compute costs manually from raw token counts. The tooling is getting better fast, but it's not fully reliable yet for multi-provider comparisons with caching enabled.
+3. **Track costs religiously.** I logged token counts, cache hits, and compute costs per run. My initial cost estimate was 5x too low because of wrong pricing assumptions. Always verify against the vendor's actual pricing page.
+4. **Don't trust auto-computed LLM costs blindly.** LiteLLM (which MLflow uses for cost tracking) produced negative costs for cached Anthropic calls. I had to compute costs manually from raw token counts. The tooling is getting better fast, but it's not fully reliable yet for multi-provider comparisons with caching enabled.
 
 ---
 
