@@ -8,8 +8,6 @@ categories: data-science
 series_part: true
 giscus_comments: false
 related_posts: false
-toc:
-  sidebar: left
 ---
 
 > *Part 7 of the series: **[From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration: A Deep Dive](/blog/co-authorship-series/)***
