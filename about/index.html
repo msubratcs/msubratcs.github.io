@@ -273,13 +273,25 @@
             
           
             
+              
+                
+                <li class="nav-item active">
+                  
+                  <a class="nav-link" href="/index.html">blog
+                    
+                  </a>
+                </li>
+              
+            
           
             
               
                 
                 <li class="nav-item active">
                   
-                  <a class="nav-link" href="/index.html">blog
+                  <a class="nav-link" href="/about/">about
+                    
+                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -740,6 +752,13 @@
               section: "Navigation",
               handler: () => {
                 window.location.href = "/index.html";
+              },
+            },{id: "nav-about",
+              title: "about",
+              description: "",
+              section: "Navigation",
+              handler: () => {
+                window.location.href = "/about/";
               },
             },{id: "nav-publications",
               title: "publications",
