@@ -987,7 +987,7 @@
       <td>~$33</td>
     </tr>
     <tr>
-      <td>Geocoding (8,815 orgs, 5 iterative runs)</td>
+      <td>Geocoding (8,815 orgs)</td>
       <td>Geo-search API</td>
       <td>~$48</td>
     </tr>
@@ -1061,8 +1061,6 @@
 <strong>Always evaluate before committing to a model.</strong> gpt-5.4-mini matched frontier accuracy at 3-12x lower cost. I would have wasted hundreds of dollars if I’d just picked the “best” model without checking.</li>
   <li>
 <strong>Prompt caching varies wildly across providers.</strong> OpenAI does it automatically, Anthropic needs explicit annotations (with minimum token thresholds that can silently fail), Gemini does it implicitly. Check each provider’s docs.</li>
-  <li>
-<strong>Plan for iterative geocoding.</strong> Don’t expect 100% match in one run. The internal dedup behavior of geo-search tools means you need 4-5 rounds of progressively smaller retry batches.</li>
   <li>
 <strong>Track costs religiously.</strong> I logged token counts, cache hits, and compute costs per run. My initial cost estimate was 5x too low because of wrong pricing assumptions. Always verify against the vendor’s actual pricing page.</li>
   <li>
