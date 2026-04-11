@@ -68,7 +68,7 @@ I trained the embeddings over 5 epochs with 20 walks per node. The training took
 
 128 dimensions are impossible for humans to visualize, so I used [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection) (Uniform Manifold Approximation and Projection) to squash those 128 dimensions down to 2 for plotting. UMAP is a [dimensionality reduction](https://en.wikipedia.org/wiki/Dimensionality_reduction) technique that preserves the local neighborhood structure of the data: researchers who are close in 128 dimensions stay close in 2 dimensions.
 
-<iframe src="{{ '/assets/plotly/tier7_embedding_umap.html' | relative_url }}" frameborder='0' scrolling='no' height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier7_embedding_umap.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 *Hover over any point to see the researcher's name, institution, and country.*
 
 The result is striking. The communities detected by the Leiden algorithm back in Part 4 map cleanly onto the embedding space, even though the embeddings were learned independently. Researchers in the same community cluster together, confirming that the embeddings are capturing real structure. But the embeddings also reveal something the Leiden communities don't: gradients *between* communities. Researchers who work at the boundary of two topics (say, infection research and modulator therapy) appear in the transition zones between clusters, exactly where you'd expect to find interdisciplinary researchers.
@@ -118,7 +118,7 @@ I combined four signals into a composite Innovation Brokerage Score:
 
 ### The Top Innovation Catalysts
 
-<iframe src="{{ '/assets/plotly/tier7_brokerage.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier7_brokerage.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 *Left panel: top 30 catalysts. Right panel: brokerage vs traditional centrality for all researchers.*
 
 | Rank | Researcher | Score | Topic Diversity | Structural Holes | Articles |
@@ -177,12 +177,12 @@ The contrast is stark: COVID-19 research spreads by urgency. Modulator research 
 
 ### The Animated Diffusion Map
 
-<iframe src="{{ '/assets/plotly/tier7_diffusion_animated.html' | relative_url }}" frameborder='0' scrolling='no' height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier7_diffusion_animated.html' | relative_url }}" frameborder='0' scrolling='no' height="710px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 *Use the play button to watch topics spread across the globe year by year.*
 
 The animation tracks six key topics across time and geography. Watch Pseudomonas aeruginosa (infection research) cluster heavily in European cities, while the modulator topics start from a few centers and gradually light up across both North America and Europe. Quality of Life research is the most geographically even from the start, suggesting it requires less specialized infrastructure and spreads more organically.
 
-<iframe src="{{ '/assets/plotly/tier7_diffusion_speed.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier7_diffusion_speed.html' | relative_url }}" frameborder='0' scrolling='no' height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 ---
 

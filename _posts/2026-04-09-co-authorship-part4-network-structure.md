@@ -53,7 +53,7 @@ That last number caught my eye. 819 distinct collaborators means this person has
 
 The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few "super-connectors" pull the average way up. This is the hallmark of a [power-law distribution](https://en.wikipedia.org/wiki/Power_law), and it's exactly what you'd expect in a real scientific collaboration network.
 
-<iframe src="{{ '/assets/plotly/degree_distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/degree_distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 ---
 
@@ -118,13 +118,13 @@ This is exactly the kind of insight that a single ranking metric would miss. The
 
 Before looking at communities, it helps to understand what the research is actually about. The MeSH topic evolution chart shows which research topics grew and which shrank between eras:
 
-<iframe src="{{ '/assets/plotly/eda_mesh_evolution.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_mesh_evolution.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 Green bars on the right are topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.
 
 The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:
 
-<iframe src="{{ '/assets/plotly/eda_mesh_heatmap.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_mesh_heatmap.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 ---
 
@@ -136,7 +136,7 @@ A quick explanation: the Leiden algorithm looks for groups of researchers who co
 
 Most of the 1,231 communities are small groups of 2-9 people. But **208 communities have 10 or more members**, and the largest ones tell a clear story about how CF research is organized:
 
-<iframe src="{{ '/assets/plotly/community_network.html' | relative_url }}" frameborder='0' scrolling='no' height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/community_network.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 *Hover for researcher names; colors represent communities.*
 
 | Community | Authors | Pubs | Theme | Anchor Institution |

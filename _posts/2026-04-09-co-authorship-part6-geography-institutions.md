@@ -24,11 +24,11 @@ This gives us a very different view. Instead of 39,206 nodes and 323,633 edges, 
 
 Here's a bar chart of the top 30, with bars stacked by era to show how each institution's output split between pre- and post-Trikafta:
 
-<iframe src="{{ '/assets/plotly/eda_top_institutions.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_top_institutions.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 And the same data ranked by total collaboration volume (weighted degree), colored by institution type:
 
-<iframe src="{{ '/assets/plotly/tier5_top_institutions.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier5_top_institutions.html' | relative_url }}" frameborder='0' scrolling='no' height="860px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 ### The Top 10 Institutional Hubs
 
@@ -57,7 +57,7 @@ CF research has a significant industry component, mostly driven by Vertex Pharma
 
 **Vertex Pharmaceuticals dominates** the industry side with 558 shared publications across its two main facilities (378 from the Boston campus, 180 from additional sites). No other company comes close.
 
-<iframe src="{{ '/assets/plotly/tier5_industry_connections.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier5_industry_connections.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 ### Top Academic Centers by Industry Collaboration
 
@@ -82,7 +82,7 @@ An interesting contrast: Napoli Federico II has 44 shared publications with indu
 
 Who collaborates with whom at the organizational level? The mixing patterns reveal the structure of the research ecosystem:
 
-<iframe src="{{ '/assets/plotly/tier5_type_mixing.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier5_type_mixing.html' | relative_url }}" frameborder='0' scrolling='no' height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 | Collaboration Type | Shared Publications |
 |-------------------|-------------------|
@@ -105,7 +105,7 @@ This is something I couldn't have done with just the Google Places data. By enri
 
 ### The Age Distribution
 
-<iframe src="{{ '/assets/plotly/ror_age_distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/ror_age_distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 | Age Cohort | Institutions | Publication Share | Median Connections |
 |-----------|-------------|------------------|--------------------|
@@ -120,7 +120,7 @@ But the newcomers are interesting too. Seattle Children's Research Institute (20
 
 ### Does Age Predict Influence?
 
-<iframe src="{{ '/assets/plotly/ror_age_vs_centrality.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/ror_age_vs_centrality.html' | relative_url }}" frameborder='0' scrolling='no' height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 *Hover over points for details.*
 
 I ran [Spearman rank correlations](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient) between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 (perfect inverse relationship) to +1 (perfect positive relationship), with 0 meaning no relationship:
@@ -138,7 +138,7 @@ But the scatter plot tells a more nuanced story. There's a cloud of legacy insti
 
 ### Did Trikafta Shift Power Toward Newer Institutions?
 
-<iframe src="{{ '/assets/plotly/ror_era_dynamics.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/ror_era_dynamics.html' | relative_url }}" frameborder='0' scrolling='no' height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 | Cohort | Era 1 Share | Era 2 Share | Shift |
 |--------|------------|------------|-------|
@@ -153,7 +153,7 @@ This doesn't mean the Trikafta revolution redistributed power away from old inst
 
 ### The Age Map
 
-<iframe src="{{ '/assets/plotly/ror_age_map.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/ror_age_map.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old powerhouses still dominate.
 
@@ -161,7 +161,7 @@ The geographic pattern is clear: legacy institutions (blue) cluster in the US No
 
 With the ROR enrichment, I can also redo the type mixing analysis from earlier using ROR's cleaner 18-type taxonomy instead of Google's 278 fragmented categories. The biggest difference: ROR allows multi-valued types (49% of institutions have 2+ types like "education;funder;healthcare"), which captures the reality that a university hospital is both educational and clinical:
 
-<iframe src="{{ '/assets/plotly/ror_type_mixing.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/ror_type_mixing.html' | relative_url }}" frameborder='0' scrolling='no' height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The funder-education axis dominates, which makes sense: most research institutions are both educational and funded. The healthcare-funder axis is the next strongest, reflecting hospital-based research funded by grants.
 
@@ -171,19 +171,19 @@ The funder-education axis dominates, which makes sense: most research institutio
 
 CF research spans 95 countries, but the distribution is far from even. The map below shows every city with 5 or more CF publications, with bubble size proportional to publication count.
 
-<iframe src="{{ '/assets/plotly/eda_global_map.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_global_map.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The concentration is striking. North America (especially the US East Coast and Toronto), Western Europe (London, Paris, Milan, Berlin), and pockets of Australia dominate. Large parts of the world, most of Africa, South Asia, Southeast Asia, Latin America, have minimal CF research presence. This reflects both the epidemiology of CF (it's most common in populations of European descent) and the distribution of research funding.
 
 Even more revealing is the animated version that shows how these hubs evolved over time. Use the play button or drag the year slider to watch cities grow:
 
-<iframe src="{{ '/assets/plotly/cf_hubs_animated.html' | relative_url }}" frameborder='0' scrolling='no' height="600px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/cf_hubs_animated.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation's Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston grows steadily (home of Vertex Pharmaceuticals). And the European hubs (Paris, London, Milan) maintain their positions throughout.
 
 ### Top Countries
 
-<iframe src="{{ '/assets/plotly/eda_top_countries.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_top_countries.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group that showed up in the centrality rankings.
 
@@ -191,7 +191,7 @@ The US accounts for roughly a third of all CF research output, followed by the U
 
 **46% of institutional collaborations cross national borders.** The strongest corridors:
 
-<iframe src="{{ '/assets/plotly/tier5_intl_corridors.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier5_intl_corridors.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within Europe, Germany-France (912) and France-Italy (647) are the strongest continental partnerships.
 

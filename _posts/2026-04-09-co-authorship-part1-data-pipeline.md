@@ -121,13 +121,13 @@ The final filtered set: **11,528 articles, 85,194 author-article pairs, spanning
 
 Here's what the publication volume looks like year by year:
 
-<iframe src="{{ '/assets/plotly/eda_publication_timeline.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_publication_timeline.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The blue bars (Era 1) are clearly smaller than the orange bars (Era 2). Publication volume increased significantly after Trikafta's approval in 2019. But the trend was already upward in the late Era 1 years, suggesting that the modulator revolution was building momentum even before Trikafta.
 
 And this chart shows how the research themes themselves shifted between eras:
 
-<iframe src="{{ '/assets/plotly/eda_topic_streams.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_topic_streams.html' | relative_url }}" frameborder='0' scrolling='no' height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 CFTR Modulator topics (blue) surge upward starting around 2019, while infection research (orange) holds relatively steady. Quality of Life research (green) shows a gradual increase across the whole period. This is the two-eras story told through data: the research community literally pivoted its focus.
 

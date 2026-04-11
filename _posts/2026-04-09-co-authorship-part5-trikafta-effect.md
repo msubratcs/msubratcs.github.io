@@ -48,7 +48,7 @@ Breaking it down:
 - **14,066 continued collaborations**: The durable partnerships. Researchers who published together before Trikafta and continued after. These are the long-term pairs, the mentor-mentee relationships, the lab groups that stuck together through the transition.
 - **223,284 new collaborations**: Pairs who first published together in 2019 or later. This is where the action is.
 
-<iframe src="{{ '/assets/plotly/eda_network_evolution.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/eda_network_evolution.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 The four panels above show the growth at a glance: active authors per year (top left), average team sizes growing from 6.5 to 7.8 (top right), new collaboration pairs forming each year (bottom left), and the cumulative network growth curve (bottom right). The dashed vertical line marks Trikafta's approval.
 
@@ -76,7 +76,7 @@ Then I asked: if I apply this Era 1 model to the new Era 2 edges, how many would
 
 **Only 37.5%.**
 
-<iframe src="{{ '/assets/plotly/tier7_counterfactual.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier7_counterfactual.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 Of the new Era 2 collaborations I could score (27,319 edges where both researchers had Era 1 embeddings):
 
@@ -93,7 +93,7 @@ A caveat: "Trikafta-created" doesn't mean Trikafta literally caused each collabo
 
 To see the transition more granularly, I built the network in 3-year sliding windows from 2015-2017 through 2023-2025. Each window captures a snapshot of who was collaborating with whom during that period:
 
-<iframe src="{{ '/assets/plotly/tier4_sliding_windows.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier4_sliding_windows.html' | relative_url }}" frameborder='0' scrolling='no' height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 | Window | Researchers | Edges | Density | Giant Component |
 |--------|------------|-------|---------|----------------|
@@ -163,7 +163,7 @@ What these rising stars have in common: they were on the edge of the field in 20
 
 ---
 
-<iframe src="{{ '/assets/plotly/tier4_trikafta_effect.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<iframe src="{{ '/assets/plotly/tier4_trikafta_effect.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 ---
 
