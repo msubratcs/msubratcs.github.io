@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>pydeck</title>
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <script src='https://cdn.jsdelivr.net/npm/@deck.gl/jupyter-widget@~9.0.*/dist/index.js'></script>
+    <style>
+    body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#deck-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#deck-container canvas {
+  z-index: 1;
+  background: none;
+}
+    </style>
+  </head>
+  <body>
+    <div id="deck-container">
+    </div>
+  </body>
+  <script>
+    const container = document.getElementById('deck-container');
+    const jsonInput = {
+  "initialViewState": {
+    "latitude": 35,
+    "longitude": 0,
+    "pitch": 30,
+    "zoom": 1.5
+  },
+  "layers": [
+    {
+      "@@type": "ScatterplotLayer",
+      "autoHighlight": true,
+      "data": [
+        {
+          "city": "Amsterdam",
+          "country": "Netherlands",
+          "lat": 52.37,
+          "lng": 4.9,
+          "publications": 18
+        },
+        {
+          "city": "Ankara",
+          "country": "Turkey",
+          "lat": 39.93,
+          "lng": 32.87,
+          "publications": 14
+        },
+        {
+          "city": "Ann Arbor",
+          "country": "USA",
+          "lat": 42.28,
+          "lng": -83.74,
+          "publications": 27
+        },
+        {
+          "city": "Antwerp",
+          "country": "Belgium",
+          "lat": 51.22,
+          "lng": 4.4,
+          "publications": 4
+        },
+        {
+          "city": "Athens",
+          "country": "Greece",
+          "lat": 37.98,
+          "lng": 23.73,
+          "publications": 8
+        },
+        {
+          "city": "Atlanta",
+          "country": "USA",
+          "lat": 33.75,
+          "lng": -84.39,
+          "publications": 27
+        },
+        {
+          "city": "Baltimore",
+          "country": "USA",
+          "lat": 39.29,
+          "lng": -76.61,
+          "publications": 96
+        },
+        {
+          "city": "Barcelona",
+          "country": "Spain",
+          "lat": 41.39,
+          "lng": 2.17,
+          "publications": 16
+        },
+        {
+          "city": "Beijing",
+          "country": "China",
+          "lat": 39.9,
+          "lng": 116.4,
+          "publications": 4
+        },
+        {
+          "city": "Berlin",
+          "country": "Germany",
+          "lat": 52.52,
+          "lng": 13.41,
+          "publications": 12
+        },
+        {
+          "city": "Bern",
+          "country": "Switzerland",
+          "lat": 46.95,
+          "lng": 7.45,
+          "publications": 26
+        },
+        {
+          "city": "Besancon",
+          "country": "France",
+          "lat": 47.24,
+          "lng": 6.02,
+          "publications": 1
+        },
+        {
+          "city": "Bethesda",
+          "country": "USA",
+          "lat": 38.98,
+          "lng": -77.09,
+          "publications": 28
+        },
+        {
+          "city": "Birmingham",
+          "country": "UK",
+          "lat": 52.49,
+          "lng": -1.9,
+          "publications": 73
+        },
+        {
+          "city": "Bologna",
+          "country": "Italy",
+          "lat": 44.49,
+          "lng": 11.34,
+          "publications": 2
+        },
+        {
+          "city": "Bordeaux",
+          "country": "France",
+          "lat": 44.84,
+          "lng": -0.58,
+          "publications": 5
+        },
+        {
+          "city": "Boston",
+          "country": "USA",
+          "lat": 42.36,
+          "lng": -71.06,
+          "publications": 54
+        },
+        {
+          "city": "Brest",
+          "country": "France",
+          "lat": 48.39,
+          "lng": -4.49,
+          "publications": 15
+        },
+        {
+          "city": "Brisbane",
+          "country": "Australia",
+          "lat": -27.47,
+          "lng": 153.03,
+          "publications": 37
+        },
+        {
+          "city": "Brussels",
+          "country": "Belgium",
+          "lat": 50.85,
+          "lng": 4.35,
+          "publications": 35
+        },
+        {
+          "city": "Budapest",
+          "country": "Hungary",
+          "lat": 47.5,
+          "lng": 19.04,
+          "publications": 13
+        },
+        {
+          "city": "Buenos Aires",
+          "country": "Argentina",
+          "lat": -34.6,
+          "lng": -58.38,
+          "publications": 8
+        },
+        {
+          "city": "Cairo",
+          "country": "Egypt",
+          "lat": 30.04,
+          "lng": 31.24,
+          "publications": 2
+        },
+        {
+          "city": "Calgary",
+          "country": "Canada",
+          "lat": 51.05,
+          "lng": -114.07,
+          "publications": 27
+        },
+        {
+          "city": "Cambridge",
+          "country": "UK",
+          "lat": 52.21,
+          "lng": 0.12,
+          "publications": 45
+        },
+        {
+          "city": "Cape Town",
+          "country": "South Africa",
+          "lat": -33.93,
+          "lng": 18.42,
+          "publications": 2
+        },
+        {
+          "city": "Chapel Hill",
+          "country": "USA",
+          "lat": 35.91,
+          "lng": -79.05,
+          "publications": 96
+        },
+        {
+          "city": "Charlottesville",
+          "country": "USA",
+          "lat": 38.03,
+          "lng": -78.48,
+          "publications": 14
+        },
+        {
+          "city": "Chicago",
+          "country": "USA",
+          "lat": 41.88,
+          "lng": -87.63,
+          "publications": 38
+        },
+        {
+          "city": "Cincinnati",
+          "country": "USA",
+          "lat": 39.1,
+          "lng": -84.51,
+          "publications": 53
+        },
+        {
+          "city": "Cleveland",
+          "country": "USA",
+          "lat": 41.5,
+          "lng": -81.69,
+          "publications": 56
+        },
+        {
+          "city": "Cologne",
+          "country": "Germany",
+          "lat": 50.94,
+          "lng": 6.96,
+          "publications": 3
+        },
+        {
+          "city": "Columbus",
+          "country": "USA",
+          "lat": 39.96,
+          "lng": -82.99,
+          "publications": 20
+        },
+        {
+          "city": "Copenhagen",
+          "country": "Denmark",
+          "lat": 55.68,
+          "lng": 12.57,
+          "publications": 45
+        },
+        {
+          "city": "Cork",
+          "country": "Ireland",
+          "lat": 51.9,
+          "lng": -8.47,
+          "publications": 9
+        },
+        {
+          "city": "Delhi",
+          "country": "India",
+          "lat": 28.61,
+          "lng": 77.21,
+          "publications": 7
+        },
+        {
+          "city": "Denver",
+          "country": "USA",
+          "lat": 39.74,
+          "lng": -104.99,
+          "publications": 34
+        },
+        {
+          "city": "Dublin",
+          "country": "Ireland",
+          "lat": 53.35,
+          "lng": -6.26,
+          "publications": 69
+        },
+        {
+          "city": "Edinburgh",
+          "country": "UK",
+          "lat": 55.95,
+          "lng": -3.19,
+          "publications": 36
+        },
+        {
+          "city": "Edmonton",
+          "country": "Canada",
+          "lat": 53.55,
+          "lng": -113.49,
+          "publications": 5
+        },
+        {
+          "city": "Essen",
+          "country": "Germany",
+          "lat": 51.46,
+          "lng": 7.01,
+          "publications": 21
+        },
+        {
+          "city": "Florence",
+          "country": "Italy",
+          "lat": 43.77,
+          "lng": 11.25,
+          "publications": 17
+        },
+        {
+          "city": "Freiburg",
+          "country": "Germany",
+          "lat": 47.99,
+          "lng": 7.85,
+          "publications": 1
+        },
+        {
+          "city": "Gainesville",
+          "country": "USA",
+          "lat": 29.65,
+          "lng": -82.32,
+          "publications": 14
+        },
+        {
+          "city": "Genoa",
+          "country": "Italy",
+          "lat": 44.41,
+          "lng": 8.93,
+          "publications": 5
+        },
+        {
+          "city": "Ghent",
+          "country": "Belgium",
+          "lat": 51.05,
+          "lng": 3.72,
+          "publications": 32
+        },
+        {
+          "city": "Gothenburg",
+          "country": "Sweden",
+          "lat": 57.71,
+          "lng": 11.97,
+          "publications": 10
+        },
+        {
+          "city": "Halifax",
+          "country": "Canada",
+          "lat": 44.65,
+          "lng": -63.57,
+          "publications": 6
+        },
+        {
+          "city": "Hamburg",
+          "country": "Germany",
+          "lat": 53.55,
+          "lng": 9.99,
+          "publications": 2
+        },
+        {
+          "city": "Hannover",
+          "country": "Germany",
+          "lat": 52.37,
+          "lng": 9.74,
+          "publications": 45
+        },
+        {
+          "city": "Heidelberg",
+          "country": "Germany",
+          "lat": 49.4,
+          "lng": 8.69,
+          "publications": 20
+        },
+        {
+          "city": "Houston",
+          "country": "USA",
+          "lat": 29.76,
+          "lng": -95.37,
+          "publications": 21
+        },
+        {
+          "city": "Indianapolis",
+          "country": "USA",
+          "lat": 39.77,
+          "lng": -86.16,
+          "publications": 17
+        },
+        {
+          "city": "Iowa City",
+          "country": "USA",
+          "lat": 41.66,
+          "lng": -91.53,
+          "publications": 30
+        },
+        {
+          "city": "Istanbul",
+          "country": "Turkey",
+          "lat": 41.01,
+          "lng": 28.98,
+          "publications": 5
+        },
+        {
+          "city": "Jerusalem",
+          "country": "Israel",
+          "lat": 31.77,
+          "lng": 35.23,
+          "publications": 33
+        },
+        {
+          "city": "Leeds",
+          "country": "UK",
+          "lat": 53.8,
+          "lng": -1.55,
+          "publications": 40
+        },
+        {
+          "city": "Leuven",
+          "country": "Belgium",
+          "lat": 50.88,
+          "lng": 4.7,
+          "publications": 44
+        },
+        {
+          "city": "Lille",
+          "country": "France",
+          "lat": 50.63,
+          "lng": 3.06,
+          "publications": 19
+        },
+        {
+          "city": "Lisbon",
+          "country": "Portugal",
+          "lat": 38.72,
+          "lng": -9.14,
+          "publications": 12
+        },
+        {
+          "city": "London",
+          "country": "UK",
+          "lat": 51.51,
+          "lng": -0.13,
+          "publications": 207
+        },
+        {
+          "city": "Los Angeles",
+          "country": "USA",
+          "lat": 34.05,
+          "lng": -118.24,
+          "publications": 18
+        },
+        {
+          "city": "Lyon",
+          "country": "France",
+          "lat": 45.76,
+          "lng": 4.84,
+          "publications": 21
+        },
+        {
+          "city": "Madison",
+          "country": "USA",
+          "lat": 43.07,
+          "lng": -89.4,
+          "publications": 46
+        },
+        {
+          "city": "Madrid",
+          "country": "Spain",
+          "lat": 40.42,
+          "lng": -3.7,
+          "publications": 24
+        },
+        {
+          "city": "Manchester",
+          "country": "UK",
+          "lat": 53.48,
+          "lng": -2.24,
+          "publications": 37
+        },
+        {
+          "city": "Marseille",
+          "country": "France",
+          "lat": 43.3,
+          "lng": 5.37,
+          "publications": 25
+        },
+        {
+          "city": "Melbourne",
+          "country": "Australia",
+          "lat": -37.81,
+          "lng": 144.96,
+          "publications": 38
+        },
+        {
+          "city": "Milan",
+          "country": "Italy",
+          "lat": 45.46,
+          "lng": 9.19,
+          "publications": 42
+        },
+        {
+          "city": "Minneapolis",
+          "country": "USA",
+          "lat": 44.98,
+          "lng": -93.27,
+          "publications": 31
+        },
+        {
+          "city": "Montpellier",
+          "country": "France",
+          "lat": 43.61,
+          "lng": 3.88,
+          "publications": 12
+        },
+        {
+          "city": "Montreal",
+          "country": "Canada",
+          "lat": 45.5,
+          "lng": -73.57,
+          "publications": 54
+        },
+        {
+          "city": "Munich",
+          "country": "Germany",
+          "lat": 48.14,
+          "lng": 11.58,
+          "publications": 31
+        },
+        {
+          "city": "Nantes",
+          "country": "France",
+          "lat": 47.22,
+          "lng": -1.55,
+          "publications": 11
+        },
+        {
+          "city": "Naples",
+          "country": "Italy",
+          "lat": 40.85,
+          "lng": 14.27,
+          "publications": 21
+        },
+        {
+          "city": "Nashville",
+          "country": "USA",
+          "lat": 36.16,
+          "lng": -86.78,
+          "publications": 20
+        },
+        {
+          "city": "New York",
+          "country": "USA",
+          "lat": 40.71,
+          "lng": -74.01,
+          "publications": 74
+        },
+        {
+          "city": "Nice",
+          "country": "France",
+          "lat": 43.7,
+          "lng": 7.27,
+          "publications": 6
+        },
+        {
+          "city": "Nottingham",
+          "country": "UK",
+          "lat": 52.95,
+          "lng": -1.15,
+          "publications": 26
+        },
+        {
+          "city": "Omaha",
+          "country": "USA",
+          "lat": 41.26,
+          "lng": -95.94,
+          "publications": 4
+        },
+        {
+          "city": "Ottawa",
+          "country": "Canada",
+          "lat": 45.42,
+          "lng": -75.7,
+          "publications": 16
+        },
+        {
+          "city": "Oxford",
+          "country": "UK",
+          "lat": 51.75,
+          "lng": -1.25,
+          "publications": 8
+        },
+        {
+          "city": "Paris",
+          "country": "France",
+          "lat": 48.86,
+          "lng": 2.35,
+          "publications": 141
+        },
+        {
+          "city": "Perth",
+          "country": "Australia",
+          "lat": -31.95,
+          "lng": 115.86,
+          "publications": 22
+        },
+        {
+          "city": "Philadelphia",
+          "country": "USA",
+          "lat": 39.95,
+          "lng": -75.17,
+          "publications": 67
+        },
+        {
+          "city": "Pittsburgh",
+          "country": "USA",
+          "lat": 40.44,
+          "lng": -79.99,
+          "publications": 27
+        },
+        {
+          "city": "Portland",
+          "country": "USA",
+          "lat": 45.52,
+          "lng": -122.68,
+          "publications": 9
+        },
+        {
+          "city": "Poznan",
+          "country": "Poland",
+          "lat": 52.41,
+          "lng": 16.93,
+          "publications": 16
+        },
+        {
+          "city": "Prague",
+          "country": "Czech Republic",
+          "lat": 50.08,
+          "lng": 14.44,
+          "publications": 13
+        },
+        {
+          "city": "Rio De Janeiro",
+          "country": "Brazil",
+          "lat": -22.91,
+          "lng": -43.17,
+          "publications": 11
+        },
+        {
+          "city": "Rochester",
+          "country": "USA",
+          "lat": 44.02,
+          "lng": -92.47,
+          "publications": 17
+        },
+        {
+          "city": "Rome",
+          "country": "Italy",
+          "lat": 41.9,
+          "lng": 12.5,
+          "publications": 49
+        },
+        {
+          "city": "Rotterdam",
+          "country": "Netherlands",
+          "lat": 51.92,
+          "lng": 4.48,
+          "publications": 31
+        },
+        {
+          "city": "Salt Lake City",
+          "country": "USA",
+          "lat": 40.76,
+          "lng": -111.89,
+          "publications": 16
+        },
+        {
+          "city": "San Francisco",
+          "country": "USA",
+          "lat": 37.77,
+          "lng": -122.42,
+          "publications": 27
+        },
+        {
+          "city": "Sao Paulo",
+          "country": "Brazil",
+          "lat": -23.55,
+          "lng": -46.63,
+          "publications": 33
+        },
+        {
+          "city": "Seattle",
+          "country": "USA",
+          "lat": 47.61,
+          "lng": -122.33,
+          "publications": 81
+        },
+        {
+          "city": "Seoul",
+          "country": "South Korea",
+          "lat": 37.57,
+          "lng": 126.98,
+          "publications": 8
+        },
+        {
+          "city": "Shanghai",
+          "country": "China",
+          "lat": 31.23,
+          "lng": 121.47,
+          "publications": 1
+        },
+        {
+          "city": "Singapore",
+          "country": "Singapore",
+          "lat": 1.35,
+          "lng": 103.82,
+          "publications": 2
+        },
+        {
+          "city": "Southampton",
+          "country": "UK",
+          "lat": 50.9,
+          "lng": -1.4,
+          "publications": 10
+        },
+        {
+          "city": "Stanford",
+          "country": "USA",
+          "lat": 37.43,
+          "lng": -122.17,
+          "publications": 41
+        },
+        {
+          "city": "Stockholm",
+          "country": "Sweden",
+          "lat": 59.33,
+          "lng": 18.07,
+          "publications": 13
+        },
+        {
+          "city": "Strasbourg",
+          "country": "France",
+          "lat": 48.57,
+          "lng": 7.75,
+          "publications": 8
+        },
+        {
+          "city": "Sydney",
+          "country": "Australia",
+          "lat": -33.87,
+          "lng": 151.21,
+          "publications": 106
+        },
+        {
+          "city": "Tel Aviv",
+          "country": "Israel",
+          "lat": 32.08,
+          "lng": 34.78,
+          "publications": 2
+        },
+        {
+          "city": "Tokyo",
+          "country": "Japan",
+          "lat": 35.68,
+          "lng": 139.69,
+          "publications": 3
+        },
+        {
+          "city": "Toronto",
+          "country": "Canada",
+          "lat": 43.65,
+          "lng": -79.38,
+          "publications": 91
+        },
+        {
+          "city": "Toulouse",
+          "country": "France",
+          "lat": 43.6,
+          "lng": 1.44,
+          "publications": 5
+        },
+        {
+          "city": "Tubingen",
+          "country": "Germany",
+          "lat": 48.52,
+          "lng": 9.06,
+          "publications": 17
+        },
+        {
+          "city": "Utrecht",
+          "country": "Netherlands",
+          "lat": 52.09,
+          "lng": 5.12,
+          "publications": 35
+        },
+        {
+          "city": "Vancouver",
+          "country": "Canada",
+          "lat": 49.28,
+          "lng": -123.12,
+          "publications": 27
+        },
+        {
+          "city": "Verona",
+          "country": "Italy",
+          "lat": 45.44,
+          "lng": 10.99,
+          "publications": 36
+        },
+        {
+          "city": "Vienna",
+          "country": "Austria",
+          "lat": 48.21,
+          "lng": 16.37,
+          "publications": 5
+        },
+        {
+          "city": "Warsaw",
+          "country": "Poland",
+          "lat": 52.23,
+          "lng": 21.01,
+          "publications": 9
+        },
+        {
+          "city": "Winnipeg",
+          "country": "Canada",
+          "lat": 49.9,
+          "lng": -97.14,
+          "publications": 3
+        },
+        {
+          "city": "Zurich",
+          "country": "Switzerland",
+          "lat": 47.38,
+          "lng": 8.54,
+          "publications": 9
+        }
+      ],
+      "getFillColor": [
+        52,
+        152,
+        219,
+        180
+      ],
+      "getPosition": "@@=[lng, lat]",
+      "getRadius": "@@=publications * 500",
+      "id": "c5acda62-13d3-42fd-a0db-867798d7d4d8",
+      "pickable": true
+    }
+  ],
+  "mapProvider": "carto",
+  "mapStyle": "mapbox://styles/mapbox/light-v10",
+  "views": [
+    {
+      "@@type": "MapView",
+      "controller": true
+    }
+  ]
+};
+    const tooltip = {'text': '{city}\n{country}\nPublications: {publications}'};
+    const customLibraries = null;
+    const configuration = null;
+
+    const deckInstance = createDeck({
+                  container,
+      jsonInput,
+      tooltip,
+      customLibraries,
+      configuration
+    });
+
+  </script>
+</html>
