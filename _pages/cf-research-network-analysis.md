@@ -24,15 +24,44 @@ I'd been sitting on these questions for a while, looking for the right problem t
 
 This is a multi-part deep dive into building a research intelligence platform from scratch, starting from 26 million [PubMed](https://pubmed.ncbi.nlm.nih.gov/) articles and ending with [graph neural networks](https://en.wikipedia.org/wiki/Graph_neural_network) running on the collaboration patterns of 39,000 researchers. Each part tackles a different data science challenge:
 
-| Part | Challenge |
-|------|-----------|
-| [**Part 1**]({% post_url 2026-04-09-cf-research-network-analysis-part1-data-pipeline %}) | Building the data pipeline: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community |
-| [**Part 2**]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}) | Resolving 57,000 messy affiliation strings to 5,800 canonical research organizations using LLMs and systematic evaluation |
-| [**Part 3**]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}) | Disambiguating 43,000 author names into 39,000 real people using temporal-aware [entity resolution](https://en.wikipedia.org/wiki/Record_linkage) (F1=0.9996) |
-| [**Part 4**]({% post_url 2026-04-09-cf-research-network-analysis-part4-network-structure %}) | Building the co-authorship network, finding research communities, and ranking the most influential researchers |
-| [**Part 5**]({% post_url 2026-04-09-cf-research-network-analysis-part5-trikafta-effect %}) | How a breakthrough drug approval rewired the entire collaboration network |
-| [**Part 6**]({% post_url 2026-04-09-cf-research-network-analysis-part6-geography-institutions %}) | The geography and institutional backbone of research, including which century these institutions were founded |
-| [**Part 7**]({% post_url 2026-04-09-cf-research-network-analysis-part7-graph-ml %}) | Graph ML innovations: research embeddings, innovation catalysts, and tracking how knowledge spreads across cities |
+<ol class="series-list">
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part1-data-pipeline %}">Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline</a></h3>
+<p>PubMed ETL, PostgreSQL, Prefect orchestration, and filtering 26 million articles down to 11,500 focused on Cystic Fibrosis.</p>
+</li>
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}">Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</a></h3>
+<p>LLM-based affiliation parsing, systematic evaluation of 6 models with MLflow, and geo-search deduplication. Total cost: $82.</p>
+</li>
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</a></h3>
+<p>ORCID anchoring, collision-aware matching, temporal career transitions, and achieving F1=0.9996 against ground truth.</p>
+</li>
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part4-network-structure %}">Part 4: The Small World of CF Research</a></h3>
+<p>Graph construction with position-weighted edges, five centrality measures combined via TOPSIS, Leiden community detection, and the bridge builders connecting 1,231 research communities.</p>
+</li>
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part5-trikafta-effect %}">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></h3>
+<p>94% edge turnover, Node2Vec counterfactual analysis showing 62.5% of new collaborations were Trikafta-created, sliding window dynamics, and rising stars.</p>
+</li>
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part6-geography-institutions %}">Part 6: The Institutional Backbone and Geography of CF Research</a></h3>
+<p>Institution networks, academic-industry collaboration (Vertex Pharmaceuticals), founding century analysis via ROR, 46% international corridors, and a global research hub map.</p>
+</li>
+
+<li>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part7-graph-ml %}">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a></h3>
+<p>metapath2vec embeddings on a heterogeneous graph, Research Twins who should be collaborating, innovation brokerage scoring, and tracking how topics spread across 1,688 cities.</p>
+</li>
+
+</ol>
 
 The techniques here are general. They apply to any biomedical research community, any disease, any time period. I chose Cystic Fibrosis as the case study for three reasons. First, its recent therapeutic history provides an extraordinary natural experiment: a before-and-after moment that lets us see how a single drug approval reshapes an entire field. Second, its research community is large enough to show complex network structure but small enough (about 11,500 articles, roughly 39,000 researchers) to keep computation and iteration manageable. Compare that with oncology or cardiovascular disease, where you'd be dealing with hundreds of thousands of papers and millions of author-article pairs. And third, CF has a passionate, well-organized research community that makes the human stories behind the network genuinely compelling.
 
