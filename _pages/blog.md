@@ -107,7 +107,7 @@ pagination:
     <a href="{{ '/blog/cf-research-network-analysis/' | relative_url }}" style="text-decoration: none; color: inherit;">
       <div class="card hoverable">
         <div class="card-body">
-          <h3 class="card-title text-lowercase">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</h3>
+          <h3 class="card-title">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</h3>
           <p class="card-text">A 7-part series analyzing Cystic Fibrosis co-authorship networks from PubMed data using graph ML, generative AI, NLP, and network analysis.</p>
           <p class="post-meta">
             {{ series_posts.size }} parts &nbsp; &middot; &nbsp;
