@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996">
+<meta name="description" content="ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -36,14 +36,14 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Subrat Mishra | Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">
-  <meta property="og:description" content="Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996">
+  <meta property="og:description" content="ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence">
-  <meta name="twitter:description" content="Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996">
+  <meta name="twitter:description" content="ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.">
   
   
 
@@ -97,7 +97,7 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/",
         "@type": "BlogPosting",
-        "description": "Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996",
+        "description": "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
         "headline": "Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
@@ -422,257 +422,369 @@
 
 <h2 id="the-author-identity-problem">The Author Identity Problem</h2>
 
-<p>In PubMed, authors are identified by name. Not by a unique ID, not by an account number. Just their name as it appears on the paper. This is the <a href="https://en.wikipedia.org/wiki/Record_linkage" rel="external nofollow noopener" target="_blank">entity resolution</a> problem: figuring out which records in a database refer to the same real-world entity. It creates two opposite problems:</p>
+<p>In PubMed, authors are identified by name. Not by a unique ID, not by an account number. Just their name as it appears on the paper. This is the <a href="https://en.wikipedia.org/wiki/Record_linkage" rel="external nofollow noopener" target="_blank">entity resolution</a> problem: figuring out which records in a database refer to the same real-world person. It cuts two opposite ways:</p>
 
 <ol>
   <li>
-<strong>Name collisions</strong>: “Wang, X” in the dataset matches 4 different researchers. “Zhang, L” matches 3. These are genuinely different people who happen to share a last name and initial.</li>
+<strong>Name collisions</strong>: “Wang, X” matches 4 different researchers. “Zhang, L” matches 3. Genuinely different people, same last name and initial.</li>
   <li>
-<strong>Name variants</strong>: “Gokcen” and “Gokcen” are the same person, one with Turkish special characters and one without. “Silva-Filho” and “Silva Filho” are the same person, one hyphenated and one not. “Greg” and “Gregory” and “Gregory S” are all the same person at different levels of name completeness.</li>
+<strong>Name variants</strong>: “Gökçen” and “Gokcen” are the same person with and without Turkish diacritics. “Silva-Filho” and “Silva Filho” are the same person with and without a hyphen. “Greg”, “Gregory”, and “Gregory S” are the same person at three levels of name completeness.</li>
 </ol>
 
-<p>The scale of it: <strong>42,949 unique (last name, first name, initials) combinations</strong> across 85,194 author-article appearances. Some unknown fraction of those are duplicates. Some are collisions. The goal is to figure out which is which and resolve them into about 39,000 real people.</p>
+<p>Part 1 left off with 85,194 author mentions attached to the 11,500 articles in the filtered CF corpus. Those mentions reduce to <strong>42,949 unique (last name, first name, initials) combinations</strong>. Some unknown fraction of those are duplicates. Some are collisions. The job of this post is to figure out which is which.</p>
+
+<h2 id="what-42949-name-combinations-actually-look-like">What 42,949 Name Combinations Actually Look Like</h2>
+
+<p>Here are four real shapes of the problem, taken directly from the data:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Gökçen"            ≈ "Gokcen"             # Turkish diacritics stripped in one record
+"Silva-Filho"       ≈ "Silva Filho"        # hyphen gone
+"Tana Aslan, Ayse"  ≈ "Aslan, Ayse Tana"   # first/last name order swap
+"Greg", "Gregory", "Gregory S"             # three completeness levels, one person
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Wang, X"   # 4 different real researchers
+"Zhang, L"  # 3 different real researchers
+"Kim, J"    # 3 different real researchers
+</code></pre></div></div>
+
+<p>The first block is the merge problem: if we do not unify these variants, a single researcher fractures into several graph nodes and their real collaborations vanish. The second block is the split problem: if we merge them naively, one graph node ends up representing four different people and their research groups get illegally stitched together. For a co-authorship network, <strong>false positives are worse than false negatives</strong>. A wrong merge creates fake connections between unrelated research groups. A missed merge means one person shows up as two nodes, which is not ideal but not destructive.</p>
 
 <hr>
 
-<h2 id="the-signals-ranked-by-reliability">The Signals, Ranked by Reliability</h2>
+<h2 id="why-simple-name-matching-plateaus">Why Simple Name Matching Plateaus</h2>
 
-<h3 id="1-orcid-ground-truth-13-coverage">1. ORCID: Ground Truth (13% coverage)</h3>
-
-<p><a href="https://en.wikipedia.org/wiki/ORCID" rel="external nofollow noopener" target="_blank">ORCID</a> is a persistent digital identifier for researchers, like a Social Security number for scientists. When two records share an ORCID, they’re definitively the same person. The dataset has 6,293 unique ORCIDs covering 14,593 author-article rows (13.1%). That’s enough to serve as ground truth for evaluating the algorithm, even though it only covers a fraction of the data.</p>
-
-<p>ORCIDs do double duty here: they anchor known identities, and they give us ground truth for measuring how well the disambiguation works on the other 87%.</p>
-
-<h3 id="2-organization-id-strong-signal-915-coverage">2. Organization ID: Strong Signal (91.5% coverage)</h3>
-
-<p>From Part 2, I have a canonical org_id for 91.5% of author rows. “Smith, John” at the same institution across multiple papers is very likely the same person. That said, there are 20 known exceptions where the same (name, org) combination maps to different ORCIDs, meaning genuinely different people at the same institution with the same name.</p>
-
-<h3 id="3-name-similarity-moderate-signal">3. Name Similarity: Moderate Signal</h3>
-
-<p>Name matching sounds simple. It really isn’t. Here’s what the matcher has to deal with:</p>
-
-<ul>
-  <li>
-<strong>Compound last names</strong>: “Silva-Filho” should match “Silva Filho” (hyphen variants). The algorithm normalizes hyphens, sorts name parts alphabetically, and computes overlap.</li>
-  <li>
-<strong>First/last name swaps</strong>: “Tana Aslan, Ayse” vs “Aslan, Ayse Tana”. This comes up a lot with Turkish and Brazilian naming conventions. The algorithm detects cross-part overlap between the first and last name fields.</li>
-  <li>
-<strong>Prefix matching with length guards</strong>: “Mirjam” should match “M” (it’s just an initial). But “Fang” should NOT match “Fangyu”. The shorter name has to be at least 60% of the longer one to qualify.</li>
-  <li>
-<strong>Unicode normalization</strong>: “Ozturk” becomes “Ozturk” via transliteration before any comparison.</li>
-</ul>
-
-<p>The name matcher produces a score from 0.0 to 1.0, combining a last-name component (compound handling, swap detection) with a first-name component (exact match, prefix match, initial match).</p>
-
-<h3 id="4-co-authorship-overlap-supporting-signal">4. Co-authorship Overlap: Supporting Signal</h3>
-
-<p>If two name variants frequently show up on papers with the same co-authors, they’re likely the same person. This is computed as <a href="https://en.wikipedia.org/wiki/Jaccard_index" rel="external nofollow noopener" target="_blank">Jaccard similarity</a> of co-author name sets across papers. Jaccard similarity is simply the size of the overlap divided by the size of the union: if two authors share 3 co-authors out of 10 total unique co-authors between them, the Jaccard similarity is 3/10 = 0.3.</p>
-
-<hr>
-
-<h2 id="the-collision-aware-strategy">The Collision-Aware Strategy</h2>
-
-<p>Not all names deserve the same treatment. “Felix Ratjen” is unique enough that name similarity alone can safely merge records. “Wang, X” is so common that merging on name alone would be catastrophic.</p>
-
-<p>I maintain a curated set of 40+ <strong>high-collision surnames</strong> (Zhang, Wang, Li, Chen, Kim, Patel, Smith, Brown, and so on) that need extra confirmation before merging:</p>
+<p>Before arriving at a concrete method, I walked through a ladder of progressively more sophisticated strategies and scored each one against an ORCID-based ground truth (any two records sharing an ORCID must end up in the same cluster). The ceiling turns out to be surprisingly easy to hit and stubborn to push past.</p>
 
 <table>
   <thead>
     <tr>
-      <th>Scenario</th>
-      <th>What’s required</th>
+      <th>Strategy</th>
+      <th style="text-align: center">F1</th>
+      <th>What it misses</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Rare name, high name score (&gt;=0.85)</td>
-      <td>Name alone is enough</td>
+      <td>Exact name only</td>
+      <td style="text-align: center">0.918</td>
+      <td>Cannot handle diacritics, hyphens, typos, or variant spellings</td>
     </tr>
     <tr>
-      <td>Rare name, moderate score (&gt;=0.5)</td>
-      <td>Name + org match OR co-author overlap</td>
+      <td>Fuzzy name only</td>
+      <td style="text-align: center">0.968</td>
+      <td>False positives on high-collision surnames (Wang X, Zhang L)</td>
     </tr>
     <tr>
-      <td>
-<strong>High-collision name</strong>, high score (&gt;=0.85)</td>
-      <td>Name + org match, OR name + co-author overlap</td>
+      <td>Name + affiliation text</td>
+      <td style="text-align: center">0.955</td>
+      <td>Affiliation text is noisy; researchers who move get split</td>
     </tr>
     <tr>
-      <td>
-<strong>High-collision name</strong>, very high score (&gt;=0.95)</td>
-      <td>Name + org match</td>
+      <td>Name + affiliation + co-authors</td>
+      <td style="text-align: center">0.958</td>
+      <td>Still splits anyone who changed institutions</td>
+    </tr>
+    <tr>
+      <td>Collision-aware name + <code class="language-plaintext highlighter-rouge">org_id</code> + co-authors</td>
+      <td style="text-align: center"><strong>0.967</strong></td>
+      <td>Best we can do without knowing anything about time</td>
     </tr>
   </tbody>
 </table>
 
-<p>This asymmetry is intentional. For co-authorship networks, <strong>false positives are worse than false negatives</strong>. A wrong merge creates fake connections between unrelated research groups. A missed merge just means one researcher shows up as two nodes. Not ideal, but not destructive either.</p>
+<p>Every one of those strategies is bottlenecked by the same blind spot: <strong>researchers change institutions</strong>. Until the algorithm understood publication dates, the ceiling was F1=0.967 and the errors underneath it were all the same kind of mistake. 150 real people, confirmed by matching ORCIDs, split across two or more clusters because the algorithm refused to merge records from different <code class="language-plaintext highlighter-rouge">org_id</code> values.</p>
+
+<p>That is the gap that temporal intelligence closes.</p>
 
 <hr>
 
-<h2 id="the-temporal-problem-researchers-move">The Temporal Problem: Researchers Move</h2>
+<h2 id="the-signals-i-actually-used">The Signals I Actually Used</h2>
 
-<p>Here’s where publication dates become critical. Consider this:</p>
+<p>Before the signals themselves, one quick bit of schema setup. <a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2</a> resolved every affiliation to a canonical Google Place ID. I carry that value through to each author row as a field called <code class="language-plaintext highlighter-rouge">org_id</code>. Two records that share an <code class="language-plaintext highlighter-rouge">org_id</code> are at the exact same physical institution, so institution comparisons in this post are always exact matches, never fuzzy string comparisons on affiliation text.</p>
 
-<ul>
-  <li>“Krick, Stefanie” published from UAB Medical Center in 2015 through 2017</li>
-  <li>“Krick, Stefanie” published from UAB Hospital starting in 2017 through 2025</li>
-</ul>
-
-<p>Without temporal awareness, the algorithm sees two different org_ids and might hesitate to merge (especially if the name were more common). But with temporal awareness, it sees a plausible career transition: the first affiliation ends right as the second one begins.</p>
-
-<h3 id="how-common-are-institution-changes">How Common Are Institution Changes?</h3>
-
-<p>Using ORCID ground truth (6,126 researchers who have both an ORCID and an org_id) to measure the actual prevalence:</p>
+<p>With that out of the way, four signals, ranked by how much we can trust them:</p>
 
 <table>
   <thead>
     <tr>
-      <th>Metric</th>
-      <th>Value</th>
+      <th>Signal</th>
+      <th style="text-align: center">Coverage</th>
+      <th>Role</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Researchers at exactly 1 org (2015–2025)</td>
-      <td>4,332 (70.7%)</td>
+      <td>ORCID</td>
+      <td style="text-align: center">13.1% of rows (6,293 unique IDs, 14,593 rows)</td>
+      <td>Anchor for known identities, and ground truth for the evaluation</td>
     </tr>
     <tr>
-      <td>Researchers at 2+ orgs</td>
-      <td>1,794 (29.3%)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">org_id</code> (institution)</td>
+      <td style="text-align: center">91.5% of rows</td>
+      <td>Exact match on the canonical Place ID, no fuzzy affiliation text needed</td>
     </tr>
     <tr>
-      <td>Researchers at 3+ orgs</td>
-      <td>505 (8.2%)</td>
+      <td>Name similarity</td>
+      <td style="text-align: center">100%</td>
+      <td>Moderate. Handles hyphens, diacritics, prefix matching, first/last swaps</td>
+    </tr>
+    <tr>
+      <td>Co-author Jaccard overlap</td>
+      <td style="text-align: center">Per pair</td>
+      <td>Supporting signal for confirming collision-prone matches</td>
     </tr>
   </tbody>
 </table>
 
-<p><strong>Nearly 1 in 3 researchers published from multiple institutions over those 10 years.</strong> This isn’t some rare edge case. It’s just how academic science works.</p>
+<p>A few notes on why name matching is harder than it looks. Compound last names like “Silva-Filho” get normalized (hyphens out, parts sorted) before comparison. First-name prefix matching has a length guard so that “Mirjam” matches “M” but “Fang” does not match “Fangyu” (the shorter name has to be at least 60% of the longer one to qualify). Unicode normalization via <code class="language-plaintext highlighter-rouge">unidecode()</code> collapses “Öztürk” to “Ozturk” before any string comparison runs. The final output is a single 0.0 to 1.0 compatibility score that combines a last-name component and a first-name component.</p>
 
-<h3 id="transition-patterns">Transition Patterns</h3>
+<hr>
 
-<p>Those 1,794 multi-org researchers fall into three patterns:</p>
+<h2 id="temporal-intelligence-researchers-move">Temporal Intelligence: Researchers Move</h2>
+
+<p>Consider Marvin Whiteley. He published from Georgia Tech from 2015 through 2017, then moved to Emory and has published from there ever since (2018 through 2025). Two different <code class="language-plaintext highlighter-rouge">org_id</code> values, in two different cities, across 18 papers total. Without temporal awareness, the algorithm sees two different institutions and refuses to merge, so Marvin Whiteley becomes two researchers in the network. With temporal awareness, the algorithm sees that the Georgia Tech run ends in 2017 and the Emory run begins in 2018, a clean cross, and concludes this is a career move rather than a name collision.</p>
+
+<p>How common is this? I used the ORCID subset as ground truth for measuring actual mobility over 2015 to 2025:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mobility pattern</th>
+      <th style="text-align: center">ORCID researchers</th>
+      <th style="text-align: center">Share</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Exactly 1 organization</td>
+      <td style="text-align: center">4,332</td>
+      <td style="text-align: center">70.7%</td>
+    </tr>
+    <tr>
+      <td>2+ organizations</td>
+      <td style="text-align: center">1,794</td>
+      <td style="text-align: center">29.3%</td>
+    </tr>
+    <tr>
+      <td>3+ organizations</td>
+      <td style="text-align: center">505</td>
+      <td style="text-align: center">8.2%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Nearly one in three researchers published from more than one institution.</strong> This is not some rare edge case, it is just how academic science works. Those 1,794 multi-org researchers break down into three transition types:</p>
 
 <table>
   <thead>
     <tr>
       <th>Pattern</th>
-      <th>Count</th>
-      <th>Pct</th>
+      <th style="text-align: center">Count</th>
+      <th style="text-align: center">Share</th>
       <th>What it looks like</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Overlapping</td>
-      <td>1,278</td>
-      <td>71.2%</td>
-      <td>Published from both orgs in the same year range, usually a transition period or dual affiliation</td>
+      <td style="text-align: center">1,278</td>
+      <td style="text-align: center">71.2%</td>
+      <td>Both orgs in the same year range, transition period or dual appointment</td>
     </tr>
     <tr>
       <td>Concurrent</td>
-      <td>348</td>
-      <td>19.4%</td>
-      <td>Sustained dual appointment (hospital + university, for instance)</td>
+      <td style="text-align: center">348</td>
+      <td style="text-align: center">19.4%</td>
+      <td>Sustained dual appointment (hospital + university, for example)</td>
     </tr>
     <tr>
       <td>Sequential</td>
-      <td>168</td>
-      <td>9.4%</td>
+      <td style="text-align: center">168</td>
+      <td style="text-align: center">9.4%</td>
       <td>A clean move: stopped publishing from org A, then started at org B</td>
     </tr>
   </tbody>
 </table>
 
-<p><strong>Real examples from the data:</strong></p>
+<p>Real examples pulled from the data:</p>
 
 <ul>
   <li>
-<strong>Sequential move</strong>: Aykut Eski went from Ege University (2020) to Istanbul University (2025). A clear career move with a 5-year gap.</li>
+<strong>Sequential move</strong>: Aykut Eski went from Ege University (2020) to Istanbul University (2025).</li>
   <li>
-<strong>Overlapping transition</strong>: Kevin J. Downes had Children’s Hospital of Philadelphia (2022–2023) overlapping with University of Pennsylvania (2022). Dual appointment during the transition.</li>
+<strong>Overlapping transition</strong>: Racha Khalaf had Johns Hopkins (2019) overlapping with University of Colorado (2019) before settling at University of South Florida (2025).</li>
   <li>
-<strong>Concurrent affiliation</strong>: Abbey Sawyer was at Curtin University, the Institute for Respiratory Health, <em>and</em> Sir Charles Gairdner Hospital all at the same time (2020–2021). Three simultaneous affiliations.</li>
+<strong>Concurrent appointment</strong>: Abbey Sawyer was at Curtin University, the Institute for Respiratory Health, <em>and</em> Sir Charles Gairdner Hospital simultaneously from 2020 to 2021.</li>
 </ul>
 
-<h3 id="year-gap-calibration">Year Gap Calibration</h3>
-
-<p>For sequential transitions, how many years typically pass between the last publication at org A and the first at org B?</p>
+<p>For sequential moves specifically, how much time typically passes between the last paper at org A and the first at org B?</p>
 
 <table>
   <thead>
     <tr>
       <th>Gap (years)</th>
-      <th>Percentage</th>
+      <th style="text-align: center">Share of sequential transitions</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1 year</td>
-      <td>24.4%</td>
+      <td style="text-align: center">24.4%</td>
     </tr>
     <tr>
       <td>2 years</td>
-      <td>30.1%</td>
+      <td style="text-align: center">30.1%</td>
     </tr>
     <tr>
       <td>3 years</td>
-      <td>18.8%</td>
+      <td style="text-align: center">18.8%</td>
     </tr>
     <tr>
       <td>4 years</td>
-      <td>12.5%</td>
+      <td style="text-align: center">12.5%</td>
     </tr>
     <tr>
       <td>5 years</td>
-      <td>8.5%</td>
+      <td style="text-align: center">8.5%</td>
     </tr>
     <tr>
       <td>6+ years</td>
-      <td>5.7%</td>
+      <td style="text-align: center">5.7%</td>
     </tr>
   </tbody>
 </table>
 
-<p><strong>94.3% of transitions happen within a 5-year gap.</strong> This directly calibrates the algorithm: two records with different orgs but publication years within 5 years of each other are temporally compatible. They <em>could</em> be the same person who moved.</p>
-
-<h3 id="whats-the-false-positive-risk">What’s the False Positive Risk?</h3>
-
-<p>The big question: if I allow cross-org merging with temporal compatibility, how often will it incorrectly merge two different people?</p>
-
-<p>Among ORCID-bearing names that appear at 2+ orgs:</p>
-<ul>
-  <li>
-<strong>1,778 (96.6%)</strong> are the same person. Safe to merge.</li>
-  <li>
-<strong>63 (3.4%)</strong> are genuinely different people. These would be false positives.</li>
-</ul>
-
-<p>And those 63 cases are almost entirely high-collision names (Kim, Wang, Zhang, Li). The collision-aware strategy already requires co-author confirmation for those, which catches them.</p>
+<p><strong>94.3% of sequential transitions happen within a five-year gap.</strong> That number is not a guess, it calibrates the algorithm directly: two records from different <code class="language-plaintext highlighter-rouge">org_id</code> values whose publication years are within five years of each other are <em>temporally compatible</em>, meaning they <em>could</em> be the same person who moved. Beyond five years, temporal compatibility is denied.</p>
 
 <hr>
 
-<h2 id="the-full-algorithm">The Full Algorithm</h2>
+<h2 id="the-collision-aware-decision-logic">The Collision-Aware Decision Logic</h2>
 
-<p>The disambiguation runs in four phases:</p>
+<p>With the signals defined, the core of the algorithm is a single decision function, <code class="language-plaintext highlighter-rouge">should_merge(a, b)</code>, that runs on every candidate pair. Here is the logic in pseudocode:</p>
 
-<p><strong>Phase 1: ORCID Anchoring.</strong> All records sharing an ORCID get pre-merged. This handles 6,293 known identities covering 10,097 records.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">should_merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c1"># Strongest signal: matching email beats everything
+</span>    <span class="k">if</span> <span class="nf">emails_overlap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span>
 
-<p><strong>Phase 2: Affiliation Imputation.</strong> 9,453 rows are missing an org_id. Two safe imputation strategies recover 2,526 of them:</p>
-<ul>
-  <li>ORCID-based: if the same ORCID appears elsewhere with an org, assign that org (647 rows)</li>
-  <li>Unique-name: if “Smith, John” only shows up at one org across the entire dataset, assign that org to the missing rows (1,879 rows)</li>
-</ul>
+    <span class="n">name_score</span>  <span class="o">=</span> <span class="nf">name_compatibility</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>             <span class="c1"># 0.0 to 1.0
+</span>    <span class="n">same_org</span>    <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">org_id</span> <span class="o">==</span> <span class="n">b</span><span class="p">.</span><span class="n">org_id</span><span class="p">)</span>
+    <span class="n">temporal_ok</span> <span class="o">=</span> <span class="nf">temporal_compatible</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">max_gap</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">coauth</span>      <span class="o">=</span> <span class="nf">coauthor_jaccard</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 
-<p><strong>Phase 3: Pairwise Comparison.</strong> Records get grouped (“blocked”) by normalized last name parts to avoid comparing every possible pair (85K x 85K would be 3.6 billion comparisons). Within each block, every pair gets scored on name similarity, org overlap, temporal compatibility, and co-author overlap. The decision logic applies the collision-aware thresholds.</p>
+    <span class="k">if</span> <span class="nf">is_high_collision_surname</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">last_name</span><span class="p">):</span>
+        <span class="c1"># Wang, Zhang, Li, Chen, Kim, Patel, Smith, Brown, ...
+</span>        <span class="c1"># Name alone is never enough. Require a non-name signal.
+</span>        <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.95</span> <span class="ow">and</span> <span class="n">same_org</span><span class="p">:</span>                           <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.85</span> <span class="ow">and</span> <span class="n">same_org</span><span class="p">:</span>                           <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.85</span> <span class="ow">and</span> <span class="n">temporal_ok</span> <span class="ow">and</span> <span class="n">coauth</span> <span class="o">&gt;=</span> <span class="mf">0.1</span><span class="p">:</span>      <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.85</span> <span class="ow">and</span> <span class="n">coauth</span> <span class="o">&gt;=</span> <span class="mf">0.1</span><span class="p">:</span>                      <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
 
-<p>All merge decisions feed into a <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure" rel="external nofollow noopener" target="_blank">union-find</a> data structure with path compression. Union-find is an elegant data structure that handles transitive merges automatically. Think of it like a family tree: if I determine that record A and record B are the same person, and separately that B and C are the same person, union-find automatically figures out that A, B, and C are all the same person without me having to check every possible pair. This is critical because with 85K records, checking all pairs (3.6 billion comparisons) would be computationally infeasible.</p>
+    <span class="c1"># Rare surnames: a strong name match can stand on its own
+</span>    <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.85</span><span class="p">:</span>                                            <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="p">(</span><span class="n">same_org</span> <span class="ow">or</span> <span class="n">coauth</span> <span class="o">&gt;=</span> <span class="mf">0.1</span><span class="p">):</span>             <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">name_score</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">temporal_ok</span> <span class="ow">and</span> <span class="n">coauth</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">:</span>          <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div></div>
 
-<p><strong>Phase 4: ORCID Propagation.</strong> After clustering, ORCIDs propagate within clusters. If any record in a cluster has an ORCID, every record in that cluster inherits it. This expanded ORCID coverage from 10,097 records to 31,087, a 3x increase.</p>
+<p>Three things to notice:</p>
+
+<ol>
+  <li>
+<strong>The asymmetry is deliberate.</strong> High-collision surnames (around 40 of them: Wang, Zhang, Li, Chen, Kim, Patel, Smith, Brown, and so on) never get to merge on name alone. They always require at least one corroborating signal. Rare names do not need that guard because the base rate of “two unrelated people with the same unusual name” is vanishingly small.</li>
+  <li>
+<strong>Temporal compatibility is additive, not standalone.</strong> It never triggers a merge by itself. It only opens up the door for a merge that already has a name signal and a co-author signal to go through.</li>
+  <li>
+<strong>Email is the one hard short-circuit.</strong> If two records share an email, they are the same person full stop, skip everything else.</li>
+</ol>
 
 <hr>
 
-<h2 id="results">Results</h2>
+<h2 id="the-pipeline">The Pipeline</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[85,194 author mentions&lt;br/&gt;from Part 1] --&gt;|drop 508 collective/group authors| B[84,709 disambiguatable rows]
+    B --&gt;|Phase 1: affiliation imputation&lt;br/&gt;ORCID and unique-name rules| C[2,526 missing org_ids recovered]
+    C --&gt;|Phase 2: ORCID anchoring&lt;br/&gt;pre-merge by shared ORCID| D[3,804 merges]
+    D --&gt;|Phase 3: collision-aware pairwise compare&lt;br/&gt;name, org, temporal, coauthor| E[41,699 pairwise merges]
+    E --&gt;|Phase 4: ORCID propagation&lt;br/&gt;within clusters| F[20,990 rows gain ORCID]
+    F --&gt;|Phase 5: union-find closure&lt;br/&gt;build unique authors| G[39,206 unique researchers]
+</code></pre>
+
+<p>Five phases end-to-end:</p>
+
+<ul>
+  <li>
+<strong>Phase 1: Affiliation imputation.</strong> 9,453 rows from Part 2 are missing an <code class="language-plaintext highlighter-rouge">org_id</code>. Two safe rules recover 2,526 of them: if the same ORCID appears elsewhere with an <code class="language-plaintext highlighter-rouge">org_id</code>, reuse it (647 rows); if a (last name, first name) pair maps to exactly one org across the whole dataset, assign that org (1,879 rows). The remaining 6,927 missing-org rows stay untouched because their imputation would be ambiguous.</li>
+  <li>
+<strong>Phase 2: ORCID anchoring.</strong> Every record sharing an ORCID gets pre-merged. 10,097 records have ORCIDs, producing 3,804 merges.</li>
+  <li>
+<strong>Phase 3: Collision-aware pairwise comparison.</strong> Records are blocked by normalized last-name parts to avoid comparing every possible pair (85K × 85K would be 3.6 billion comparisons). Inside each block, every pair gets scored on name, org, temporal, and co-author signals and run through <code class="language-plaintext highlighter-rouge">should_merge()</code>. 41,699 pairwise merges.</li>
+  <li>
+<strong>Phase 4: ORCID propagation.</strong> Within each cluster, if any record has an ORCID, every record in the cluster inherits it. 20,990 records gain ORCIDs this way, expanding ORCID coverage from 10,097 to 31,087.</li>
+  <li>
+<strong>Phase 5: Build the unique-author table.</strong> All merge decisions feed into a <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure" rel="external nofollow noopener" target="_blank">union-find</a> data structure with path compression, which handles transitive merges automatically (if A and B are merged and B and C are merged, A-B-C automatically end up in the same cluster). Final output: <strong>39,206</strong> unique researchers and a companion table that maps every original author mention to its canonical researcher ID.</li>
+</ul>
+
+<hr>
+
+<h2 id="validating-against-orcid-ground-truth">Validating Against ORCID Ground Truth</h2>
+
+<p>ORCID covers only 13.1% of the raw rows, but those 6,293 IDs are free ground truth. Every pair of records sharing an ORCID is a known correct merge. Every pair with different ORCIDs is a known incorrect merge. Running precision, recall, and F1 on the clustering costs nothing and requires zero hand-labeling.</p>
+
+<p><strong>Methodology.</strong> The scorer walks every pair inside the predicted clusters. Pairs where both records share an ORCID are true positives. Pairs where both records have different ORCIDs are false positives. ORCID pairs where the algorithm failed to put both records in the same cluster are false negatives. From there, precision, recall, and F1 follow directly.</p>
+
+<p><strong>The temporal enhancement, before and after:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th style="text-align: center">Without temporal</th>
+      <th style="text-align: center">With temporal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Precision</td>
+      <td style="text-align: center">0.988</td>
+      <td style="text-align: center"><strong>0.9992</strong></td>
+    </tr>
+    <tr>
+      <td>Recall</td>
+      <td style="text-align: center">0.947</td>
+      <td style="text-align: center"><strong>1.0000</strong></td>
+    </tr>
+    <tr>
+      <td>F1</td>
+      <td style="text-align: center">0.967</td>
+      <td style="text-align: center"><strong>0.9996</strong></td>
+    </tr>
+    <tr>
+      <td>False negative ORCIDs (split)</td>
+      <td style="text-align: center">150</td>
+      <td style="text-align: center"><strong>0</strong></td>
+    </tr>
+    <tr>
+      <td>False positive clusters</td>
+      <td style="text-align: center">49</td>
+      <td style="text-align: center">45</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The temporal enhancement did not just nudge F1 up. It eliminated every single false negative. Recall went from 0.947 to 1.000. Those 150 researchers whose career moves the earlier strategies refused to merge are all correctly unified now. Precision also improved slightly, because allowing cross-org merges with temporal compatibility turned out to unblock a handful of name-collision fixes too.</p>
+
+<p><strong>Is cross-org merging actually safe?</strong> I measured this directly. Among ORCID-bearing names that appear at 2+ orgs, 1,778 cases (96.6%) are the same person and 63 cases (3.4%) are genuinely different people. Those 63 are almost entirely high-collision surnames (Kim, Wang, Zhang, Li), which the collision-aware branch of <code class="language-plaintext highlighter-rouge">should_merge()</code> already catches because those surnames always require a co-author or org signal on top of the name match.</p>
+
+<p><strong>The 45 remaining false positives are not algorithm errors.</strong> They are ORCID data quality issues: real people who somehow ended up with two different ORCID IDs. Carsten Schwarz has two ORCIDs that both clearly belong to him. John P. Clancy has two. Rasmus Lykke Marvig has a format-variant duplicate. The algorithm is correctly merging what it sees; the ground truth is what is likely wrong.</p>
+
+<hr>
+
+<h2 id="results-and-mobility-patterns">Results and Mobility Patterns</h2>
 
 <table>
   <thead>
@@ -688,177 +800,122 @@
     </tr>
     <tr>
       <td>Output: unique author IDs</td>
-      <td>39,206</td>
+      <td><strong>39,206</strong></td>
     </tr>
     <tr>
       <td>Reduction</td>
       <td>53.7%</td>
     </tr>
     <tr>
-      <td>Singletons (1 appearance only)</td>
-      <td>27,881</td>
+      <td>Singletons (one appearance only)</td>
+      <td>27,873</td>
+    </tr>
+    <tr>
+      <td>Authors with ORCID (after propagation)</td>
+      <td>6,247</td>
     </tr>
     <tr>
       <td>Largest cluster</td>
-      <td>166 articles (Felix Ratjen, the most prolific CF researcher)</td>
-    </tr>
-    <tr>
-      <td>ORCID propagation</td>
-      <td>+20,990 records gained an ORCID</td>
+      <td>166 articles (Felix Ratjen)</td>
     </tr>
   </tbody>
 </table>
 
-<h3 id="validation-against-orcid-ground-truth">Validation Against ORCID Ground Truth</h3>
-
-<p>The 6,293 ORCIDs give us a solid evaluation: for every pair of records sharing an ORCID, did the algorithm put them in the same cluster?</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>Without temporal awareness</th>
-      <th>With temporal enhancement</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Precision</td>
-      <td>0.988</td>
-      <td><strong>0.9992</strong></td>
-    </tr>
-    <tr>
-      <td>Recall</td>
-      <td>0.947</td>
-      <td><strong>1.0000</strong></td>
-    </tr>
-    <tr>
-      <td>F1</td>
-      <td>0.967</td>
-      <td><strong>0.9996</strong></td>
-    </tr>
-    <tr>
-      <td>False negative ORCIDs (split)</td>
-      <td>150</td>
-      <td><strong>0</strong></td>
-    </tr>
-    <tr>
-      <td>False positive clusters</td>
-      <td>49</td>
-      <td>45</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The temporal enhancement eliminated all 150 false negatives. Every single ORCID-confirmed person was correctly unified. It also knocked a few false positives off.</p>
-
-<p>The 45 remaining false positive clusters aren’t actually algorithm errors. They’re ORCID data quality issues: researchers who somehow ended up with multiple ORCID IDs. Schwarz, Carsten, for example, has two different ORCIDs that both belong to the same person.</p>
-
-<h3 id="mobility-in-the-final-dataset">Mobility in the Final Dataset</h3>
+<p>The mobility breakdown in the final dataset:</p>
 
 <table>
   <thead>
     <tr>
       <th>Pattern</th>
-      <th>Authors</th>
-      <th>Pct</th>
+      <th style="text-align: center">Authors</th>
+      <th style="text-align: center">Share</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Single organization</td>
-      <td>29,385</td>
-      <td>75.0%</td>
+      <td style="text-align: center">29,385</td>
+      <td style="text-align: center">75.0%</td>
     </tr>
     <tr>
       <td>Concurrent affiliations</td>
-      <td>8,015</td>
-      <td>20.4%</td>
+      <td style="text-align: center">8,015</td>
+      <td style="text-align: center">20.4%</td>
     </tr>
     <tr>
       <td>Sequential career move</td>
-      <td>1,806</td>
-      <td>4.6%</td>
+      <td style="text-align: center">1,806</td>
+      <td style="text-align: center">4.6%</td>
     </tr>
     <tr>
       <td><strong>Total at 2+ orgs</strong></td>
-      <td><strong>9,821</strong></td>
-      <td><strong>25.0%</strong></td>
+      <td style="text-align: center"><strong>9,821</strong></td>
+      <td style="text-align: center"><strong>25.0%</strong></td>
     </tr>
   </tbody>
 </table>
 
-<p>Each author’s record includes a full affiliation timeline: every org they published from, along with the year range. This makes temporal analysis of career trajectories possible across the entire research community.</p>
+<p>Every author’s record includes a full affiliation timeline (every <code class="language-plaintext highlighter-rouge">org_id</code> they published from, along with the year range), which makes longitudinal analysis of career trajectories possible across the entire research community.</p>
 
 <hr>
 
-<h2 id="the-most-prolific-researchers">The Most Prolific Researchers</h2>
+<h2 id="the-most-prolific-cf-researchers">The Most Prolific CF Researchers</h2>
 
 <table>
   <thead>
     <tr>
       <th>Author</th>
-      <th>Articles</th>
-      <th>Orgs</th>
-      <th>Years Active</th>
+      <th style="text-align: center">Articles</th>
+      <th style="text-align: center">Orgs</th>
+      <th style="text-align: center">Years Active</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Felix A. Ratjen</td>
-      <td>166</td>
-      <td>6</td>
-      <td>2015–2025</td>
+      <td style="text-align: center">166</td>
+      <td style="text-align: center">6</td>
+      <td style="text-align: center">2015-2025</td>
     </tr>
     <tr>
       <td>Christopher H. Goss</td>
-      <td>136</td>
-      <td>13</td>
-      <td>2015–2025</td>
+      <td style="text-align: center">136</td>
+      <td style="text-align: center">13</td>
+      <td style="text-align: center">2015-2025</td>
     </tr>
     <tr>
       <td>Marcus A. Mall</td>
-      <td>127</td>
-      <td>42</td>
-      <td>2015–2025</td>
+      <td style="text-align: center">127</td>
+      <td style="text-align: center">42</td>
+      <td style="text-align: center">2015-2025</td>
     </tr>
     <tr>
       <td>Isabelle Sermet-Gaudelus</td>
-      <td>123</td>
-      <td>35</td>
-      <td>2015–2025</td>
+      <td style="text-align: center">123</td>
+      <td style="text-align: center">35</td>
+      <td style="text-align: center">2015-2025</td>
     </tr>
     <tr>
       <td>Jane C. Davies</td>
-      <td>122</td>
-      <td>26</td>
-      <td>2015–2025</td>
+      <td style="text-align: center">122</td>
+      <td style="text-align: center">26</td>
+      <td style="text-align: center">2015-2025</td>
     </tr>
   </tbody>
 </table>
 
-<p>The high org counts for top researchers reflect multi-institutional clinical trials. A single trial paper can list 30+ institutional affiliations. Marcus Mall didn’t actually work at 42 different places.</p>
+<p>The high org counts for the top researchers reflect multi-institutional clinical trials. A single trial paper can list 30+ institutional affiliations on a single author. Marcus Mall did not actually work at 42 different places.</p>
 
 <hr>
 
 <h2 id="the-clean-dataset">The Clean Dataset</h2>
 
-<p>Before jumping into the schema, here’s a bird’s-eye view of what the disambiguated dataset looks like:</p>
-
-<iframe src="/assets/plotly/eda_author_productivity.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
-
-<p>The left panel shows the classic power-law distribution of scientific productivity: the vast majority of researchers (27,881) published just one paper in the CF field, while a small number published dozens or even over 100. The right panel shows the era breakdown: 10,709 researchers only published in Era 1 (and then left the field or retired), 23,325 are newcomers who only appear in Era 2, and 5,172 span both eras. Those 5,172 continuity researchers will turn out to be the structural backbone of the network in Part 4.</p>
-
-<iframe src="/assets/plotly/eda_era_comparison.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
-
-<p>The era comparison dashboard shows the scale of the shift: Era 2 has nearly twice the publications, 80% more unique authors, and almost double the number of unique MeSH topics. The donut chart (top left) shows how author populations overlap between eras, and the bar charts compare country-level and institution-type distributions.</p>
-
-<p>The final output is a normalized, relational dataset ready for network analysis:</p>
+<p>The final output is a normalized, relational dataset ready for network analysis.</p>
 
 <p><strong>Entity tables:</strong></p>
 <ul>
-  <li>11,500 publications with title, abstract, journal, year, MeSH terms</li>
-  <li>39,206 disambiguated authors with canonical names, ORCIDs, and mobility patterns</li>
+  <li>11,500 publications with title, abstract, journal, year, and MeSH terms</li>
+  <li>39,206 disambiguated authors with canonical names, ORCIDs, and affiliation timelines</li>
   <li>5,799 research organizations with coordinates and categories</li>
 </ul>
 
@@ -871,6 +928,27 @@
 </ul>
 
 <p>Every foreign key validated. Zero orphan records. Ready for graph construction.</p>
+
+<hr>
+
+<h2 id="lessons-learned">Lessons Learned</h2>
+
+<p>A few things that were not obvious going in:</p>
+
+<ol>
+  <li>
+<strong>Temporal awareness is the one trick that unlocked recall.</strong> Every strategy I tried topped out around F1=0.967 because it kept refusing to merge researchers who had moved institutions. A five-year gap rule calibrated from the actual ORCID mobility data pushed recall from 0.947 all the way to 1.000 and gave back those 150 lost identities.</li>
+  <li>
+<strong>High-collision surnames need a different rule, not a stricter threshold.</strong> Wang, Zhang, Li, Kim: demanding a higher name similarity score does nothing, because the names are already identical. The only thing that helps is requiring a non-name signal (same org, or co-author overlap) alongside the name match.</li>
+  <li>
+<strong>Some of the eval “errors” are not algorithm errors.</strong> The 45 remaining false positive clusters turned out to be cases where one real person somehow has two different ORCID IDs. Knowing the difference between “my algorithm is wrong” and “my ground truth is wrong” mattered for knowing when to stop iterating and ship.</li>
+</ol>
+
+<hr>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>With 39,206 disambiguated researchers and their full affiliation timelines in hand, the raw material for the CF co-authorship network is finally ready. Part 4 builds the network, measures its structure, and finds the small set of bridge-building researchers who connect the entire community.</p>
 
 <hr>
 
@@ -927,6 +1005,48 @@
 
 
     
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.7.0/dist/mermaid.min.js" integrity="sha256-TtLOdUA8mstPoO6sGvHIGx2ceXrrX4KgIItO06XOn8A=" crossorigin="anonymous"></script>
+  
+  <script>
+    let mermaidTheme = determineComputedTheme();
+
+    /* Create mermaid diagram as another node and hide the code block, appending the mermaid node after it
+       this is done to enable retrieving the code again when changing theme between light/dark */
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'complete') {
+        document.querySelectorAll('pre>code.language-mermaid').forEach((elem) => {
+          const svgCode = elem.textContent;
+          const backup = elem.parentElement;
+          backup.classList.add('unloaded');
+          /* create mermaid node */
+          let mermaid = document.createElement('pre');
+          mermaid.classList.add('mermaid');
+          const text = document.createTextNode(svgCode);
+          mermaid.appendChild(text);
+          backup.after(mermaid);
+        });
+
+        mermaid.initialize({ theme: mermaidTheme });
+
+        /* Zoomable mermaid diagrams */
+        if (typeof d3 !== 'undefined') {
+          window.addEventListener('load', function () {
+            var svgs = d3.selectAll('.mermaid svg');
+            svgs.each(function () {
+              var svg = d3.select(this);
+              svg.html('<g>' + svg.html() + '</g>');
+              var inner = svg.select('g');
+              var zoom = d3.zoom().on('zoom', function (event) {
+                inner.attr('transform', event.transform);
+              });
+              svg.call(zoom);
+            });
+          });
+        }
+      }
+    });
+  </script>
+
 
     
 
@@ -1197,7 +1317,7 @@
           
             title: "Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal...",
           
-          description: "Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996",
+          description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
           section: "Posts",
           handler: () => {
             
