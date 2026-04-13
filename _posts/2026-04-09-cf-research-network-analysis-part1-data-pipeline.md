@@ -149,5 +149,5 @@ Both problems are forms of entity resolution. [Part 2]({% post_url 2026-04-09-cf
 
 ---
 
-*Next: [Part 2: From Messy Affiliations to a Clean Institution Graph with LLMs]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %})*
+*Next: [Part 2: From Messy Affiliations to a Master List of Institutions with LLMs]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %})*
 

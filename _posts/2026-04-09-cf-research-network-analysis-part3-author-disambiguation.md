@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence"
+title: "Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence"
 date: 2026-04-09 20:20:00
 description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth."
 tags: [co-authorship, entity-resolution, disambiguation, orcid]

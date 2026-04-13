@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Part 2: From Messy Affiliations to a Clean Institution Graph with LLMs"
+title: "Part 2: From Messy Affiliations to a Master List of Institutions with LLMs"
 date: 2026-04-09 20:10:00
 description: "LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication."
 tags: [llm, prompt-caching, llm-evals, pydantic, entity-resolution, mlflow]
@@ -372,7 +372,9 @@ Total cost of the whole institution disambiguation pipeline:
 | Geocoding (8,815 orgs) | Google Places API | ~$48 |
 | **Total** | | **~$82** |
 
-$82 to turn a pile of messy free text into a clean, geocoded institution graph that the rest of this series runs on.
+$82 to turn a pile of messy free text into a clean, geocoded master list of institutions that the rest of this series runs on.
+
+Money well spent, and with a second life ahead of it. Every affiliation that went through the LLM is now a training example: the raw text on the input side, the clean structured record on the output side. Roughly 50,000 of them, spanning academic, hospital, industry, government, and multilingual affiliations. That is exactly the kind of dataset you would want to fine-tune a small language model on, one that could parse future affiliations locally at zero per-token cost. Turning this dataset into a locally runnable SLM for affiliation parsing is the follow-up I am planning next. Stay tuned over the coming days, we will be building it soon!
 
 ---
 
@@ -395,4 +397,4 @@ Part 3 walks through a temporal-aware disambiguation algorithm that uses publica
 
 ---
 
-*Next: [Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %})*
+*Next: [Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %})*
