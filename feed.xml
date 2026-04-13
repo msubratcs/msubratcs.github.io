@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-13T03:27:14+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-13T05:07:43+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
 </subtitle><entry><title type="html">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml/" rel="alternate" type="text/html" title="Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion" /><published>2026-04-09T21:00:00+00:00</published><updated>2026-04-09T21:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml/"><![CDATA[<blockquote>
   <p><em>Part 7 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
@@ -1624,7 +1624,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="graph-theory" /><category term="community-detection" /><category term="centrality" /><summary type="html"><![CDATA[Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders]]></summary></entry><entry><title type="html">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/" rel="alternate" type="text/html" title="Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence" /><published>2026-04-09T20:20:00+00:00</published><updated>2026-04-09T20:20:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/"><![CDATA[<blockquote>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="graph-theory" /><category term="community-detection" /><category term="centrality" /><summary type="html"><![CDATA[Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders]]></summary></entry><entry><title type="html">Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/" rel="alternate" type="text/html" title="Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence" /><published>2026-04-09T20:20:00+00:00</published><updated>2026-04-09T20:20:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/"><![CDATA[<blockquote>
   <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
@@ -2071,7 +2071,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="entity-resolution" /><category term="disambiguation" /><category term="orcid" /><summary type="html"><![CDATA[Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996]]></summary></entry><entry><title type="html">Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/" rel="alternate" type="text/html" title="Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations" /><published>2026-04-09T20:10:00+00:00</published><updated>2026-04-09T20:10:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/"><![CDATA[<blockquote>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="entity-resolution" /><category term="disambiguation" /><category term="orcid" /><summary type="html"><![CDATA[Part 3: ORCID anchoring, collision-aware matching, temporal transitions, and F1=0.9996]]></summary></entry><entry><title type="html">Part 2: From Messy Affiliations to a Clean Institution Graph with LLMs</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/" rel="alternate" type="text/html" title="Part 2: From Messy Affiliations to a Clean Institution Graph with LLMs" /><published>2026-04-09T20:10:00+00:00</published><updated>2026-04-09T20:10:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/"><![CDATA[<blockquote>
   <p><em>Part 2 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
@@ -2079,19 +2079,16 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h2 id="the-problem">The Problem</h2>
 
-<p>Every author on a PubMed article has an affiliation string. In theory, this tells you where they work. In practice, it tells you whatever the journal’s submission system happened to collect that day.</p>
+<p>A co-authorship network needs each institution to be a single node. Not 12 variants of the same hospital pretending to be 12 different places. If the graph thinks “The Hospital for Sick Children” and “SickKids” are two organizations, the whole collaboration analysis falls apart: every author with a dual affiliation fractures, every research cluster gets split in half, and the story about who works with whom becomes a story about spelling.</p>
 
-<p>Here’s what 57,675 distinct affiliation strings look like in the wild:</p>
+<p>Here is what the same hospital actually looks like in PubMed affiliations:</p>
 
-<ul>
-  <li><em>“Division of Pulmonary Medicine, Department of Pediatrics, Hospital for Sick Children, Toronto, ON, Canada”</em></li>
-  <li><em>“SickKids Research Institute, Peter Gilgan Centre for Research and Learning, Toronto, Canada”</em></li>
-  <li><em>“The Hospital for Sick Children, University of Toronto, Toronto, ON, Canada M5G 1X8; felix.ratjen@sickkids.ca”</em></li>
-</ul>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Division of Pulmonary Medicine, Department of Pediatrics, Hospital for Sick Children, Toronto, ON, Canada"
+"SickKids Research Institute, Peter Gilgan Centre for Research and Learning, Toronto, Canada"
+"The Hospital for Sick Children, University of Toronto, Toronto, ON, Canada M5G 1X8; felix.ratjen@sickkids.ca"
+</code></pre></div></div>
 
-<p>These are all the same hospital. But to a computer, they’re three completely different strings.</p>
-
-<p>Or consider the University of Alabama at Birmingham, which shows up as:</p>
+<p>And the University of Alabama at Birmingham, four different ways:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"University of Alabama at Birmingham"
 "University of Alabama at Birmingham (UAB)"
@@ -2099,110 +2096,127 @@ Author           --affiliated--&gt;    Institution (5,799)
 "UAB School of Medicine"
 </code></pre></div></div>
 
-<p>For a co-authorship network, each institution needs to be a single node, not 4 variants creating 4 disconnected clusters.</p>
-
-<p>The challenge breaks down into three pieces:</p>
-
-<ol>
-  <li><strong>Parsing</strong>: Pull out the institution name, city, and country from free text that’s a mess of department hierarchies, street addresses, postal codes, and email addresses.</li>
-  <li><strong>Deduplication</strong>: Merge variants of the same institution. Language differences (“Universite de Montreal” vs “University of Montreal”), abbreviations (“UCSF” vs “University of California San Francisco”), granularity mismatches (“Johns Hopkins University” vs “Johns Hopkins University School of Medicine”).</li>
-  <li><strong>Enrichment</strong>: Give each institution a canonical ID, geographic coordinates, and a category (university, hospital, pharma company, government lab).</li>
-</ol>
+<p>Part 1 left off with 97,167 raw affiliation strings attached to authors. This post is about what it takes to turn that pile of free text into <strong>5,799 real research organizations</strong> with canonical names, geographic coordinates, and stable IDs. The short version: a structured-output LLM pipeline, a proper MLflow-tracked evaluation, and a geo-search API doing the final dedup.</p>
 
 <hr />
 
-<h2 id="why-algorithmic-approaches-plateau">Why Algorithmic Approaches Plateau</h2>
+<h2 id="a-baseline-before-reaching-for-llms">A Baseline Before Reaching for LLMs</h2>
 
-<p>Before reaching for LLMs, it made sense to try pure algorithmic approaches first. Five strategies, all evaluated against ORCID-linked ground truth. The logic: if two author records share an ORCID, their affiliations should resolve to the same institution.</p>
+<p>In the pre-LLM era, this would have been a non-trivial NLP project: tokenizers, hand-crafted similarity features, maybe a CRF for structured parsing, weeks of iteration on rules and thresholds. Today, an LLM with a structured output schema is the obvious choice, and the rest of this post is about doing that well. But “obvious” is not the same as “measured”, and I still wanted to know what a well-tuned traditional approach would actually hit on this data so I had a real baseline to compare against.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Strategy</th>
-      <th>Consistency</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Token-based Jaccard similarity</td>
-      <td>74.6%</td>
-    </tr>
-    <tr>
-      <td>Structured parsing into key match</td>
-      <td>70.8%</td>
-    </tr>
-    <tr>
-      <td>Combined key + city + country</td>
-      <td>75.7%</td>
-    </tr>
-    <tr>
-      <td>Priority-based institution extraction</td>
-      <td>64.4%</td>
-    </tr>
-    <tr>
-      <td>City + institution composite</td>
-      <td>68.6%</td>
-    </tr>
-  </tbody>
-</table>
+<p>For a gold dataset, I used the ORCID subset. The idea: if two author records share an ORCID, their affiliations should resolve to the same institution. That gives a real ground-truth signal for institution consistency without any manual labeling. I then ran five traditional entity-resolution strategies against it: token-based Jaccard, structured parsing into a key and matching on it, combined key + city + country matching, priority-based institution extraction, and a city + institution composite.</p>
 
-<p>The theoretical ceiling is around 87%, because roughly 13% of <a href="https://en.wikipedia.org/wiki/ORCID">ORCID</a> pairs represent genuine institution changes where the researcher actually moved between 2015 and 2025. So the best algorithmic approach captures about 87% of what’s theoretically possible. Not bad, but not good enough for what I’m trying to build. At 76% consistency, roughly 1 in 4 institution assignments would be wrong, and those errors would create fake institutional connections in the network downstream.</p>
+<p>The best strategy hit <strong>57.7% consistency</strong>. Or put less charitably, roughly one in two institution assignments would be wrong, and every error creates a fake node in the network.</p>
 
-<p>The fundamental problem is that affiliations are natural language written for humans, not machines. “School of Medicine” appears 555 times across dozens of different universities. No amount of string similarity can tell you <em>which</em> School of Medicine without understanding the surrounding context.</p>
+<p>The fundamental problem is that affiliations are natural language, written by humans, for humans, not machines. “School of Medicine” appears 598 times across dozens of different universities. No amount of string similarity can tell you <em>which</em> School of Medicine without understanding the surrounding text. That is exactly what LLMs excel at, and that is the baseline the rest of this post is measured against.</p>
 
 <hr />
 
-<h2 id="the-llm-first-strategy">The LLM-First Strategy</h2>
+<h2 id="the-llm-pipeline">The LLM Pipeline</h2>
 
-<p>Instead of trying to pattern-match raw text, why not use a <a href="https://en.wikipedia.org/wiki/Large_language_model">large language model</a> (LLM) to do what humans do naturally? Read the affiliation string and pull out the structured information. LLMs are trained on massive amounts of text and have seen enough university names, hospital hierarchies, and address formats to understand what “CHU de Toulouse - Hopital des Enfants” means even though it’s in French and uses abbreviations.</p>
+<p>Instead of pattern-matching raw text, use an LLM to do what humans do naturally: read the affiliation and pull out the structured parts. Modern Large Language Models have seen enough university names, hospital hierarchies, and address formats that “CHU de Toulouse - Hopital des Enfants” is not a mystery to them even though it is in French and uses abbreviations.</p>
 
-<p>Here’s the full pipeline from start to finish:</p>
+<p>Here is the full flow, picking up right where Part 1 left off:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>85,194 author rows
-  → Explode affiliation arrays, split on semicolons
-108,264 affiliation segments
-  → Strip, clean, deduplicate
-50,981 distinct affiliations
-  → LLM structured extraction
-50,981 parsed records (entity_type, org_chain, city, country, etc.)
-  → Normalize org names (lowercase, remove accents/quotes)
-8,815 unique clean org names
-  → Geocode via search API (5 iterative runs)
-8,805 geocoded orgs (99.9%)
-  → Deduplicate by canonical Place ID
-5,799 unique research organizations
-</code></pre></div></div>
+<pre><code class="language-mermaid">flowchart TD
+    A[97,167 affiliation strings] --&gt;|split on semicolons| B[108,264 affiliation segments]
+    B --&gt;|strip, clean, deduplicate| C[50,981 distinct affiliations]
+    C --&gt;|LLM structured extraction&lt;br/&gt;gpt-5.4-mini via OpenAI Batch API| D[50,981 parsed records&lt;br/&gt;entity_type, org_chain, city, country]
+    D --&gt;|normalize names&lt;br/&gt;lowercase, strip accents, collapse whitespace| E[8,815 unique clean org names]
+    E --&gt;|geocode via Google Maps| F[8,805 geocoded orgs - 99.9%]
+    F --&gt;|dedupe by canonical Place ID| G[5,799 unique research organizations]
+</code></pre>
 
-<p>That’s a 93% reduction from raw affiliations to unique orgs.</p>
+<p>That is a 94% reduction from raw affiliation strings to unique orgs. Every step in the middle matters, and the hardest one by far is the LLM extraction.</p>
 
-<h3 id="structured-output-design">Structured Output Design</h3>
+<h3 id="structured-output-not-freeform-text">Structured Output, Not Freeform Text</h3>
 
-<p>The LLM extracts each affiliation into a structured schema with 12 fields:</p>
+<p>The LLM is not asked to “summarize” or “describe” the affiliation. It is asked to return a Pydantic-validated JSON object with a fixed schema:</p>
 
 <ul>
-  <li><strong>org_chain</strong>: The full organizational hierarchy from innermost to outermost, like <code class="language-plaintext highlighter-rouge">["Division of Pulmonary Medicine", "Department of Pediatrics", "Hospital for Sick Children"]</code></li>
-  <li><strong>entity_type</strong>: Classification into one of 12 types (department, institute, hospital, university, company, government, etc.)</li>
-  <li><strong>top_parent_org</strong>: The highest-level organization. This becomes the dedup key.</li>
-  <li><strong>city, state_or_region, country, postal_code</strong>: Geographic anchors</li>
-  <li><strong>institution_name_english</strong>: A translation for non-English names</li>
-  <li><strong>email, phone, street_address</strong>: Contact info that sometimes shows up in affiliations</li>
-  <li><strong>unclassified_text</strong>: A catch-all for postal codes, street fragments, and noise the model can’t confidently assign</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">org_chain</code></strong>: an ordered list of organizational units from innermost to outermost, e.g. <code class="language-plaintext highlighter-rouge">[Division → Department → Hospital → University]</code>. Each entry is typed (<code class="language-plaintext highlighter-rouge">department</code>, <code class="language-plaintext highlighter-rouge">division</code>, <code class="language-plaintext highlighter-rouge">school</code>, <code class="language-plaintext highlighter-rouge">hospital</code>, <code class="language-plaintext highlighter-rouge">university</code>, <code class="language-plaintext highlighter-rouge">company</code>, <code class="language-plaintext highlighter-rouge">government</code>, <code class="language-plaintext highlighter-rouge">other</code>, …).</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">top_parent_org</code></strong>: the single parent institution that becomes the dedup key downstream.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">entity_type</code></strong>: one of <code class="language-plaintext highlighter-rouge">academic | industry | hospital | government | nonprofit | unknown</code>.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">city</code>, <code class="language-plaintext highlighter-rouge">state_province</code>, <code class="language-plaintext highlighter-rouge">country</code>, <code class="language-plaintext highlighter-rouge">postal_code</code></strong>: geographic anchors.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">email</code>, <code class="language-plaintext highlighter-rouge">phone</code>, <code class="language-plaintext highlighter-rouge">street_address</code></strong>: contact fields that get split out cleanly so they never pollute the org name.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">unclassified_text</code></strong>: a catch-all for fragments that do not fit anywhere else (“Now at”, “Electronic address:”, footnote markers, etc.).</li>
 </ul>
 
-<p>The prompt uses Jinja2 templating with 4 carefully chosen few-shot examples covering the key extraction challenges: a deep academic hierarchy, a hospital-within-university, a government agency with a relationship qualifier, and a degenerate single-department input. There’s also an explicit rule: “Never assume or infer information not explicitly present in the text.”</p>
+<p>Structured output is enforced differently by each provider. OpenAI validates the JSON schema at decoding time and returns typed objects. Anthropic uses forced tool calls where the tool’s input schema is the Pydantic JSON schema. Gemini uses its own response-schema feature. Each path has quirks, but all three guarantee a valid object on every call, which means downstream code never has to defensively parse half-broken JSON.</p>
 
-<p>Structured output guarantees are handled differently by each provider. OpenAI enforces the JSON schema at decoding time and returns typed Pydantic instances. Anthropic uses forced tool calls where the tool’s input schema is the Pydantic JSON schema. Each approach has its quirks, but they all guarantee valid structured output on every call.</p>
+<h3 id="the-prompt">The Prompt</h3>
 
-<h3 id="what-it-actually-looks-like-input-vs-output">What It Actually Looks Like: Input vs Output</h3>
+<p>The prompt is a Jinja2 template that combines a role statement, the target JSON schema, a rule list, entity-type guidance, and four few-shot examples. Here are the key pieces.</p>
 
-<p>To make this concrete, here’s what the LLM actually does with a real affiliation from the dataset.</p>
+<p><strong>System message:</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You are an expert biomedical affiliation parser.
+
+Your task is to convert a PubMed affiliation into a structured JSON object.
+The input will contain exactly one affiliation, which may be academic,
+hospital/medical center, industry/pharma/biotech, government/public research,
+nonprofit, ambiguous, malformed, or not a real affiliation.
+
+You must output only valid JSON that matches the target schema exactly.
+</code></pre></div></div>
+
+<p><strong>Target schema:</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"raw_affiliation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"academic | industry | hospital | government | nonprofit | unknown"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"department | division | center | institute | laboratory | school | clinic | hospital | university | company | government | other"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state_province"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"postal_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"street_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string or null"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"unclassified_text"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="s2">"..."</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Extraction rules:</strong></p>
+
+<ol>
+  <li>Preserve the input exactly in <code class="language-plaintext highlighter-rouge">raw_affiliation</code>.</li>
+  <li>Keep <code class="language-plaintext highlighter-rouge">org_chain</code> in the same order as the source text.</li>
+  <li>Do not infer missing fields that are not present in the text.</li>
+  <li>Extract street addresses, postal/ZIP codes, email addresses, and phone numbers into their dedicated fields when present. Combine multiple street fragments into a single <code class="language-plaintext highlighter-rouge">street_address</code> value.</li>
+  <li>Put unresolved text, qualifiers, footnote markers, and anything not fitting the above fields into <code class="language-plaintext highlighter-rouge">unclassified_text</code>.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">top_parent_org = null</code> when no single parent organization can be chosen confidently.</li>
+  <li>Never assume or infer information not explicitly present in the text. If uncertain, leave the field null rather than guess.</li>
+  <li>Return JSON only.</li>
+</ol>
+
+<p>The template also includes entity-type guidance (what separates <em>academic</em> from <em>hospital</em> from <em>government</em>), org-type guidance (the 12 allowed values for <code class="language-plaintext highlighter-rouge">org_chain[].type</code>), and four few-shot examples chosen to cover the main extraction challenges:</p>
+
+<ol>
+  <li>A clean academic hierarchy (UAB: Department → Division → School → University)</li>
+  <li>A hospital nested inside a university system (Seattle Children’s inside University of Washington)</li>
+  <li>A government agency with a relationship qualifier (“Now at NIH” handled correctly, with “Now at” routed to <code class="language-plaintext highlighter-rouge">unclassified_text</code>)</li>
+  <li>A degenerate input (“Department of Pediatrics.”) where the model returns a partial org_chain and <code class="language-plaintext highlighter-rouge">null</code> for every other field</li>
+</ol>
+
+<p>Rule 7 is the one that does the most work in practice: <em>“Never assume or infer information not explicitly present in the text. If uncertain, leave the field null rather than guess.”</em> That single line kills a surprising number of failure modes where the model would otherwise confidently invent a city or country for an ambiguous string.</p>
+
+<h3 id="one-real-example-end-to-end">One Real Example, End to End</h3>
+
+<p>Here is a concrete affiliation from the dataset and what the LLM does with it.</p>
 
 <p><strong>Input:</strong></p>
 <blockquote>
-  <p>“Division of Pulmonary Medicine, Department of Pediatrics, Nationwide Children’s Hospital, ED 444 700 Children’s Drive, Columbus, OH, 43205, USA, shahid.sheikh@nationwidechildrens.org.”</p>
+  <p><em>“Division of Pulmonary Medicine, Department of Pediatrics, Nationwide Children’s Hospital, ED 444 700 Children’s Drive, Columbus, OH, 43205, USA, shahid.sheikh@nationwidechildrens.org.”</em></p>
 </blockquote>
 
-<p>There’s a lot packed into that string: a 3-level organizational hierarchy, a street address, a zip code, a state abbreviation, and an email address. The LLM disentangles all of it:</p>
+<p>One string with a three-level hierarchy, a street address, a zip code, a state, a country, and a contact email all mashed together.</p>
 
 <p><strong>Output:</strong></p>
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
@@ -2222,130 +2236,104 @@ Author           --affiliated--&gt;    Institution (5,799)
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The org_chain captures the full hierarchy from innermost (division) to outermost (hospital). The top_parent_org identifies “Nationwide Children’s Hospital” as the parent institution, which becomes the dedup key. And all the noise (street address, zip code, email) gets cleanly separated into its own fields.</p>
+<p>The three-level hierarchy comes out in order. <code class="language-plaintext highlighter-rouge">top_parent_org</code> points at the hospital, which is what the dedup layer needs. Street address, zip code, and email are split cleanly into their own fields so none of them ever end up polluting the institution name.</p>
 
-<p>Here are a few more examples showing the range of what we’re dealing with:</p>
+<p>Two more examples for range. A French academic affiliation with a four-level hierarchy:</p>
 
-<p><strong>Pharma company (straightforward):</strong></p>
 <blockquote>
-  <p>“Vertex Pharmaceuticals Incorporated, Boston, MA, United States.”</p>
+  <p><em>“L’UNAM Universite, Universite d’Angers, Groupe d’Etude des Interactions Hote-Pathogene, EA 3142, Angers, France”</em></p>
 </blockquote>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"industry"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"company"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vertex Pharmaceuticals Incorporated"</span><span class="p">}],</span><span class="w">
-  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vertex Pharmaceuticals Incorporated"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boston"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"state_province"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MA"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"United States"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<p>→ <code class="language-plaintext highlighter-rouge">top_parent_org: "Universite d'Angers"</code>, <code class="language-plaintext highlighter-rouge">city: "Angers"</code>, <code class="language-plaintext highlighter-rouge">country: "France"</code>. Notice the model correctly picks “Universite d’Angers” as the parent even though “L’UNAM Universite” appears first in the text. L’UNAM is a multi-university consortium, not the parent. Getting this right requires knowing how the French academic system works.</p>
 
-<p><strong>French academic with 4-level hierarchy:</strong></p>
+<p>A Spanish hospital with an embedded email:</p>
+
 <blockquote>
-  <p>“L’UNAM Universite, Universite d’Angers, Groupe d’Etude des Interactions Hote-Pathogene, EA 3142, Angers, France”</p>
+  <p><em>“Pediatric Pulmonology Unit, ‘Virgen de la Arrixaca’ Children’s University Hospital, University of Murcia, Murcia, Spain. Electronic address: msolis@um.es.”</em></p>
 </blockquote>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"academic"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"university"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L'UNAM Universite"</span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"university"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Universite d'Angers"</span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Groupe d'Etude des Interactions Hote-Pathogene"</span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EA 3142"</span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Universite d'Angers"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Angers"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"France"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Notice that the model correctly identifies “Universite d’Angers” as the top parent, even though “L’UNAM Universite” appears first in the text. L’UNAM is actually a multi-university consortium, not the parent org. Getting this right requires understanding the French academic system.</p>
-
-<p><strong>Spanish hospital with embedded email:</strong></p>
-<blockquote>
-  <p>“Pediatric Pulmonology Unit, ‘Virgen de la Arrixaca’ Children’s University Hospital, University of Murcia, Murcia, Spain. Electronic address: msolis@um.es.”</p>
-</blockquote>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"entity_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hospital"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"org_chain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pediatric Pulmonology Unit"</span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hospital"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgen de la Arrixaca Children's University Hospital"</span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"university"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"University of Murcia"</span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"top_parent_org"</span><span class="p">:</span><span class="w"> </span><span class="s2">"University of Murcia"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Murcia"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Spain"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"msolis@um.es"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"unclassified_text"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Electronic address:"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The “Electronic address:” prefix gets put into unclassified_text (it’s not part of the org or the email itself), and the model correctly routes the email to its own field. The top_parent_org is “University of Murcia” because the hospital is a university hospital within that system.</p>
+<p>→ <code class="language-plaintext highlighter-rouge">top_parent_org: "University of Murcia"</code>, <code class="language-plaintext highlighter-rouge">email: "msolis@um.es"</code>, <code class="language-plaintext highlighter-rouge">unclassified_text: ["Electronic address:"]</code>. The university-hospital relationship gets resolved to the parent university, the email is routed to its own field, and the “Electronic address:” prefix (which is not part of either the org or the email) ends up in the catch-all.</p>
 
 <hr />
 
-<h2 id="i-needed-a-proper-eval">I Needed a Proper Eval</h2>
+<h2 id="beyond-vibe-checks-keeping-the-llm-honest-with-evals">Beyond Vibe Checks: Keeping the LLM Honest With Evals</h2>
 
-<p>You can’t just pick an LLM and hope for the best. Different models handle edge cases differently, and I needed to know exactly where each one breaks down before committing to processing 50,000+ affiliations.</p>
+<p>With the prompt and schema in place, there was still a decision to make that could not be answered by reading documentation: <strong>which model</strong>.</p>
 
-<h3 id="building-the-gold-dataset">Building the Gold Dataset</h3>
+<p>Cost per call across the candidates ranged from about $0.0005 to $0.006, a 12x spread. Across roughly 50,000 affiliations, that is the difference between $25 and $300. Accuracy differences were unknown. Picking the cheapest and hoping would risk thousands of structurally wrong parses. Picking the most expensive and hoping would leave a lot of money on the table for possibly zero accuracy gain. Neither is an acceptable decision when the dollar spend is a real concern.</p>
 
-<p>I hand-labeled 50 affiliations sampled across 9 difficulty buckets:</p>
+<p>So I built an eval loop.</p>
+
+<h3 id="why-deterministic-scorers-not-llm-as-judge">Why Deterministic Scorers, Not LLM-as-Judge</h3>
+
+<p>Some evaluation frameworks use one LLM to judge the output of another. That is the right tool when “quality” is subjective (think creative writing or open-ended summaries). It is the wrong tool here, because I have a set of carefully curated ground-truth affiliations where the correct <code class="language-plaintext highlighter-rouge">top_parent_org</code>, <code class="language-plaintext highlighter-rouge">city</code>, and <code class="language-plaintext highlighter-rouge">org_chain</code> are not matters of opinion. For that case, deterministic <a href="https://en.wikipedia.org/wiki/F-score">precision/recall/F1</a> is strictly more informative:</p>
+
+<ul>
+  <li><strong>Reproducible</strong>: same score every run on the same data, no sampling variance.</li>
+  <li><strong>Cheaper</strong>: no judge API calls, no extra tokens.</li>
+  <li><strong>Interpretable</strong>: a per-field breakdown tells you exactly which part of the output is failing, not just a single quality number.</li>
+</ul>
+
+<h3 id="the-gold-dataset">The Gold Dataset</h3>
+
+<p>Building ground truth by typing 50 labels from scratch would have been both tedious and slow, so I used a frontier LLM as a fast labeler. I sampled 50 affiliation strings across a set of difficulty buckets, then sent each one through <strong>GPT 5.4</strong> with two jobs: generate a first-pass structured output (<code class="language-plaintext highlighter-rouge">top_parent_org</code>, <code class="language-plaintext highlighter-rouge">org_chain</code>, <code class="language-plaintext highlighter-rouge">entity_type</code>, city, country, etc.), <em>and</em> assign a first-pass difficulty bucket. Then I went through every single row, checking every field of the structured output and every bucket assignment, correcting mistakes, resolving ambiguities, and locking down the final labels.</p>
+
+<p>There is an obvious recursive wrinkle to call out: one LLM helped build the ground truth that every other LLM in this evaluation, including another model from the same family, was scored against. That is fine as long as the human review is rigorous, which is why I reviewed every field of every row instead of skimming. The review is load-bearing, not a rubber stamp.</p>
+
+<p>Stratification matters because aggregate F1 can hide catastrophic failure on the hard cases: a model can score 94% overall and still be completely broken on, say, multilingual inputs.</p>
 
 <table>
   <thead>
     <tr>
       <th>Bucket</th>
-      <th>Count</th>
+      <th style="text-align: center">Count</th>
       <th>What makes it hard</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Easy standard</td>
-      <td>8</td>
+      <td style="text-align: center">8</td>
       <td>Straightforward English academic affiliations</td>
     </tr>
     <tr>
       <td>Deep hierarchy</td>
-      <td>7</td>
+      <td style="text-align: center">7</td>
       <td>4+ organizational levels nested inside each other</td>
     </tr>
     <tr>
       <td>Multilingual</td>
-      <td>6</td>
+      <td style="text-align: center">6</td>
       <td>French, German, Turkish, Chinese institution names</td>
     </tr>
     <tr>
       <td>Industry</td>
-      <td>5</td>
+      <td style="text-align: center">5</td>
       <td>Pharma companies, biotech, CROs</td>
     </tr>
     <tr>
       <td>Government/nonprofit</td>
-      <td>5</td>
+      <td style="text-align: center">5</td>
       <td>NIH, NHS Trusts, INSERM, national health agencies</td>
     </tr>
     <tr>
       <td>Address noise</td>
-      <td>5</td>
+      <td style="text-align: center">5</td>
       <td>Street addresses, zip codes mixed into the text</td>
     </tr>
     <tr>
       <td>Ambiguous/bad</td>
-      <td>4</td>
+      <td style="text-align: center">4</td>
       <td>Truncated strings, typos, genuinely malformed input</td>
     </tr>
     <tr>
       <td>Has email</td>
-      <td>5</td>
+      <td style="text-align: center">5</td>
       <td>Email addresses embedded in the affiliation</td>
     </tr>
     <tr>
       <td>Multi-institution</td>
-      <td>5</td>
+      <td style="text-align: center">5</td>
       <td>Two or more institutions in a single string</td>
     </tr>
   </tbody>
@@ -2353,26 +2341,53 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="the-mlflow-setup">The MLflow Setup</h3>
 
-<p>Before running any evaluations, I needed proper infrastructure to track everything. This is where MLflow comes in, and honestly, the GenAI features in recent releases have been a game-changer for this kind of work.</p>
+<p>Quick shout-out before getting into the mechanics: <a href="https://www.linkedin.com/in/corey-zumar">Corey Zumar</a> and the rest of the fantastic folks at <a href="https://mlflow.org/">MLflow</a> have been absolutely killing it with the GenAI features they have been shipping. Prompt registry, dataset lineage, auto-tracing across providers, <code class="language-plaintext highlighter-rouge">mlflow.genai.evaluate</code>, GEPA-based prompt optimization: these are genuinely new capabilities that did not exist in a usable form a year ago, and this project leans on all of them. Four features worth calling out:</p>
 
-<p>Here’s what the setup looks like:</p>
+<p><strong>Prompt Registry.</strong> The Jinja2 prompt template is registered as a versioned artifact in MLflow with <code class="language-plaintext highlighter-rouge">mlflow.genai.register_prompt("affiliation-parser", ...)</code>. Re-running the eval only creates a new prompt version if the template text actually changed. Every model run is then tagged with <code class="language-plaintext highlighter-rouge">prompt_uri</code>, so any metric I look at months later can be traced back to the exact prompt that produced it. No “wait, which prompt was that again” confusion.</p>
 
-<ul>
-  <li><strong>Prompt Registry</strong>: The extraction prompt is versioned in MLflow’s Prompt Registry. Re-running the eval only creates a new prompt version if the template actually changed. This means I can iterate on the prompt and always know exactly which version produced which results.</li>
-  <li><strong>Dataset Lineage</strong>: The 50-example gold dataset is registered as an MLflow dataset with a content digest. Every evaluation run links back to the exact data it was scored against. If someone later asks “what data did you evaluate on?”, there’s no ambiguity.</li>
-  <li><strong>Auto-tracing</strong>: MLflow autolog captures token counts, latency, and cost per API call. Every single LLM call during evaluation is traced, so I can drill into individual examples to see exactly what the model returned and why it scored the way it did.</li>
-  <li><strong>Experiment Tracking</strong>: All 6 model evaluations live under a single MLflow experiment. Comparing runs side-by-side in the MLflow UI makes it trivially easy to spot which model wins on which metric.</li>
-</ul>
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/mlflow_prompt_registry.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" data-zoomable="" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+  </picture>
+
+  
+    <figcaption class="caption">The MLflow Prompt Registry view. Every prompt version lives here alongside its metadata and the runs that used it.</figcaption>
+  
+</figure>
+
+<p><strong>Dataset Lineage.</strong> The 50-example gold set is wrapped as an MLflow dataset (<code class="language-plaintext highlighter-rouge">mlflow.data.from_pandas(...)</code>) and logged to every run with <code class="language-plaintext highlighter-rouge">mlflow.log_input(mlflow_dataset, context="evaluation")</code>. MLflow computes a content digest for the dataset, so if someone later asks “what did you actually evaluate on?” the answer is in the run metadata, not my memory.</p>
+
+<p><strong>Multi-provider autolog.</strong> One line per provider (<code class="language-plaintext highlighter-rouge">mlflow.openai.autolog()</code>, <code class="language-plaintext highlighter-rouge">mlflow.anthropic.autolog()</code>, <code class="language-plaintext highlighter-rouge">mlflow.gemini.autolog()</code>) and every single LLM call during the eval is captured as a trace with token counts, latency, and cost. This is the feature that makes side-by-side multi-provider evaluation cheap to set up: I did not have to write any logging glue for any of the three SDKs.</p>
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+    <img src="/assets/img/mlflow_tracing_eval.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" data-zoomable="" loading="lazy" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+  </picture>
+
+  
+    <figcaption class="caption">An MLflow trace for a single affiliation parse, captured automatically by the provider autolog. Every call during the eval looks like this, which is what makes cost and latency comparisons honest across providers.</figcaption>
+  
+</figure>
+
+<p><strong>Scored evaluation.</strong> The 11 deterministic scorers are wired as <code class="language-plaintext highlighter-rouge">@scorer</code>-decorated functions and passed to <code class="language-plaintext highlighter-rouge">mlflow.genai.evaluate(data=..., predict_fn=..., scorers=ALL_SCORERS)</code>. The scorers cover structural validity (<code class="language-plaintext highlighter-rouge">json_parseable</code>, <code class="language-plaintext highlighter-rouge">pydantic_valid</code>), geographic accuracy (<code class="language-plaintext highlighter-rouge">city_match</code>, <code class="language-plaintext highlighter-rouge">country_match</code>, <code class="language-plaintext highlighter-rouge">state_province_match</code>, <code class="language-plaintext highlighter-rouge">postal_code_match</code>, <code class="language-plaintext highlighter-rouge">street_address_match</code>), and semantic accuracy (<code class="language-plaintext highlighter-rouge">entity_type_match</code>, <code class="language-plaintext highlighter-rouge">top_parent_org_match</code>, <code class="language-plaintext highlighter-rouge">org_chain_exact_match</code>, <code class="language-plaintext highlighter-rouge">org_chain_names_f1</code>). MLflow handles the fan-out, collects per-example scores, and aggregates into the run metrics automatically.</p>
+
+<p>On top of that, the notebook also prototypes <a href="https://github.com/google-deepmind/gepa">GEPA (Genetic-Pareto)</a> automatic prompt optimization via <code class="language-plaintext highlighter-rouge">mlflow.genai.optimize_prompts</code>. Given a scorer signal and the current prompt, GEPA iterates through evaluate → reflect → mutate → select cycles to search for prompt mutations that improve the scores. I did not run it in production for this project, but having the infrastructure already wired means it is a one-afternoon experiment if I ever want to push accuracy further on a specific bucket.</p>
 
 <h3 id="six-models-head-to-head">Six Models, Head to Head</h3>
 
-<p>I evaluated 6 models from three providers (OpenAI, Anthropic, Google) using 11 deterministic scorers. No LLM-as-judge here. Some evaluation frameworks use one LLM to judge the output of another, but that introduces stochastic variance: you might get a different score if you run it again. For structured extraction where I have known ground truth (my 50 hand-labeled examples), deterministic <a href="https://en.wikipedia.org/wiki/F-score">precision/recall/F1</a> metrics are more informative and perfectly reproducible.</p>
-
-<p>The scorers form a hierarchy from structural validity (did the model return valid JSON? did it pass Pydantic validation?) through geographic accuracy (city, country, state) to semantic accuracy (org_chain F1, entity_type, top_parent_org).</p>
-
-<p><a href="https://mlflow.org/">MLflow</a> tracked every run: model version, prompt version, per-field metrics, cost, latency, token counts, and cache hit rates. MLflow is an open-source platform for managing the ML lifecycle. It’s especially powerful here because it provides prompt versioning (so I know exactly which prompt produced which results), dataset lineage (linking every run to the exact test data), and auto-tracing that captures every API call. Every evaluation links back to the exact gold dataset version it was scored against.</p>
-
-<p><strong>The results:</strong></p>
+<p>I evaluated six models from three providers:</p>
 
 <table>
   <thead>
@@ -2451,22 +2466,18 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<h3 id="what-i-learned">What I Learned</h3>
+<p>A few things jumped out of the per-bucket breakdown:</p>
 
-<p>The aggregate numbers only tell part of the story. The per-bucket breakdown is where things get interesting.</p>
-
-<p>City and country extraction was near-perfect across all models. That’s the easy part. The real differentiator was <strong>org_chain</strong> and <strong>entity_type</strong>. Parsing “CHU de Toulouse - Hopital Purpan” into the correct parent institution, or knowing that an NHS Trust is a hospital and not a government agency, takes genuine language understanding.</p>
-
-<p>Some surprises in the per-bucket results:</p>
 <ul>
-  <li>On the <strong>government/nonprofit</strong> bucket, most models struggled with entity_type classification. Is “INSERM” a government agency or a research institute? Is an NHS Trust a hospital or a government body? These categories are genuinely ambiguous.</li>
-  <li>On <strong>multilingual</strong> affiliations, gpt-5.4-mini and Claude Sonnet were the strongest. Gemini Flash had more trouble with accent handling and non-Latin scripts.</li>
-  <li>The <strong>ambiguous/bad</strong> bucket was interesting because the best response to garbage input is to honestly say “I don’t know” rather than hallucinate structure that isn’t there.</li>
+  <li><strong>City and country extraction was near-perfect across all models.</strong> Those are the easy fields. The real differentiator was <code class="language-plaintext highlighter-rouge">org_chain</code> and <code class="language-plaintext highlighter-rouge">entity_type</code>, which require actual language understanding to get right.</li>
+  <li><strong>Government and nonprofit classification was the weakest bucket.</strong> Is INSERM a government agency or a research institute? Is an NHS Trust a hospital or a government body? These are categories where reasonable humans also disagree, so scoring the models against my labels is partly scoring how well they match <em>my</em> judgment.</li>
+  <li><strong>Multilingual affiliations separated the pack.</strong> gpt-5.4-mini and Claude Sonnet handled French and German cleanly. Gemini Flash struggled with accent handling and non-Latin scripts.</li>
+  <li><strong>On ambiguous/bad input, the best behavior is to say “I don’t know” and return null fields.</strong> Any model that confidently invented a city or country for a truncated string got penalized by the scorers. The explicit anti-hallucination rule in the prompt paid off here.</li>
 </ul>
 
-<p>Prompt caching behavior varied wildly across providers. OpenAI does automatic prefix caching (55% hit rate in production). Anthropic Sonnet requires explicit <code class="language-plaintext highlighter-rouge">cache_control</code> annotations but works well. Anthropic Haiku silently fails at caching because my prompt (~3,200 tokens) falls below its 4,096-token minimum. Gemini does implicit caching that shows up in pricing but isn’t reported in metadata.</p>
+<p>Prompt caching behavior varied wildly across providers. OpenAI does automatic prefix caching (55% hit rate in production). Anthropic Sonnet requires explicit <code class="language-plaintext highlighter-rouge">cache_control</code> annotations but works well once set up. Anthropic Haiku silently fails at caching because my prompt (~3,200 tokens) falls below its 4,096-token minimum. Gemini does implicit caching that shows up in pricing but not in metadata.</p>
 
-<p>One gotcha I ran into: MLflow uses LiteLLM under the hood for cost tracking, and LiteLLM’s cost calculation is buggy for cached Anthropic calls. When Anthropic returns <code class="language-plaintext highlighter-rouge">cache_read_input_tokens</code>, LiteLLM computes a <em>negative</em> input cost because it doesn’t properly account for the discounted cache pricing. The costs reported in MLflow traces for Anthropic models were just wrong. I ended up computing costs myself from the raw token breakdowns using published per-token pricing from each vendor’s pricing page. Worth knowing if you’re doing similar evaluations.</p>
+<p>One gotcha worth flagging: MLflow uses LiteLLM under the hood for cost tracking, and LiteLLM’s cost calculation is buggy for cached Anthropic calls. When Anthropic returns <code class="language-plaintext highlighter-rouge">cache_read_input_tokens</code>, LiteLLM computes a <em>negative</em> input cost possibly because it does not properly account for the discounted cache pricing. The Anthropic costs reported by MLflow traces were just wrong. I ended up computing costs by hand from the raw token breakdowns using each vendor’s published pricing. Worth knowing if you are doing similar multi-provider evaluations with caching enabled.</p>
 
 <h3 id="the-winner">The Winner</h3>
 
@@ -2515,13 +2526,13 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>The 2% gap on top_parent_org means roughly 1 in 50 affiliations might get a slightly wrong parent org name. At 50K affiliations that’s maybe 1,000 cases. But since I’m deduplicating downstream by geocoding, many of these “wrong” names still resolve to the correct physical location. The cost savings of $0.005 per call x 50K = $250 more than justified the tiny accuracy tradeoff.</p>
+<p>The 2% gap on <code class="language-plaintext highlighter-rouge">top_parent_org</code> means about 1 in 50 affiliations might get a slightly wrong parent name. At 50,981 affiliations that is roughly 1,000 cases, but many of those still resolve to the right physical location downstream because the geo-search dedup step is tolerant to small name variations. The cost savings of ~$250 more than justified the tiny accuracy tradeoff.</p>
 
 <hr />
 
 <h2 id="batch-processing-at-scale">Batch Processing at Scale</h2>
 
-<p>With the model chosen, I needed to process all 50,981 distinct affiliations. At real-time API rates that would be expensive. The OpenAI Batch API offers 50% discounts for non-time-sensitive workloads.</p>
+<p>With the model chosen, 50,981 API calls needed to happen. Real-time API pricing is the wrong lever here. Two layered discounts brought the bill down: the <strong>OpenAI Batch API</strong> (flat 50% off input and output tokens in exchange for a 24-hour completion window) and <strong>automatic prompt caching</strong> on top of that.</p>
 
 <table>
   <thead>
@@ -2562,26 +2573,59 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>$33 to parse 51,000 affiliations. That felt like a good deal.</p>
+<h3 id="the-savings-are-non-trivial">The Savings Are Non-Trivial</h3>
+
+<p>It is worth pausing on those two discounts because together they led to substantial cost optimization.</p>
+
+<p><strong>Batch API, flat 50% off.</strong> The Batch API cuts both input and output pricing in half in exchange for a 24hr turnaround window. For a large batch, this was a no brainer.</p>
+
+<p><strong>Prompt caching, automatic.</strong> The 3,200-token system prompt (schema, rules, entity-type guidance, four few-shot examples) is byte-for-byte identical across every single call. That is exactly the pattern OpenAI’s automatic prefix caching is designed for: cached input tokens bill at half the normal rate, and the eval runs saw a <strong>55% cache hit rate</strong> in production. On a workload that is mostly prompt and barely any output, that is not a rounding error. It shaved another meaningful chunk off the input cost on top of the batch discount.</p>
+
+<p>Stacking the two, led to roughly 60% savings:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th style="text-align: center">Estimated cost</th>
+      <th style="text-align: center">vs actual</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Real-time API, no cache</td>
+      <td style="text-align: center">~$85</td>
+      <td style="text-align: center">2.6x</td>
+    </tr>
+    <tr>
+      <td>Real-time API, with cache</td>
+      <td style="text-align: center">~$66</td>
+      <td style="text-align: center">2.0x</td>
+    </tr>
+    <tr>
+      <td>Batch API, no cache</td>
+      <td style="text-align: center">~$42</td>
+      <td style="text-align: center">1.3x</td>
+    </tr>
+    <tr>
+      <td><strong>Batch API + prompt caching (actual)</strong></td>
+      <td style="text-align: center"><strong>$33</strong></td>
+      <td style="text-align: center"><strong>1.0x</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 <hr />
 
-<h2 id="from-parsed-affiliations-to-geocoded-organizations">From Parsed Affiliations to Geocoded Organizations</h2>
+<h2 id="from-parsed-affiliations-to-unique-institutions">From Parsed Affiliations to Unique Institutions</h2>
 
-<p>LLM parsing produced 50,981 parsed records. After normalizing the org names (lowercasing, removing accents and quotation marks, collapsing whitespace), I ended up with <strong>8,815 unique organization names</strong>. Already a huge reduction.</p>
+<p>The LLM returns a <code class="language-plaintext highlighter-rouge">top_parent_org</code> string. Normalizing them (lowercase, remove accents and quotation marks, collapse whitespace) produced <strong>8,815 unique clean org names</strong>, a 6x compression on the input.</p>
 
-<p>But variants still existed:</p>
-<ul>
-  <li>“Academic Medical Center” vs “Academic Medical Centre”</li>
-  <li>“Universidade de Sao Paulo” (correctly translated, still a duplicate)</li>
-  <li>Department-level names that slipped through, like “Department of Immunology” (which university though?)</li>
-</ul>
+<p>But variants still existed. “Academic Medical Center” vs “Academic Medical Centre”. “Universidade de Sao Paulo” (correctly translated by the model, but still a duplicate of “University of Sao Paulo”). Department-level names that slipped through because the affiliation did not include a parent (“Department of Immunology”, which university?).</p>
 
-<h3 id="the-geo-search-approach">The Geo-Search Approach</h3>
+<h3 id="geo-search-as-the-final-dedup-key">Geo-Search as the Final Dedup Key</h3>
 
-<p>For each unique org name + city combination, I queried a geo-search API that returns a canonical place ID (a globally unique identifier for a physical location), official name, geographic coordinates, category, and address.</p>
-
-<p>Here’s the key insight: <strong>two different strings that resolve to the same physical location are the same institution.</strong> “The Hospital for Sick Children” and “SickKids” both resolve to the same place ID at 555 University Avenue, Toronto. Here’s another great example:</p>
+<p>For each unique org name + city combination, I queried the Google Places API and got back a canonical <strong>Place ID</strong>, official name, coordinates, category, and address. The key insight: <strong>two different strings that resolve to the same physical location are the same institution</strong>. Here is a real example from the dataset where five name variants all collapse to one Place ID:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"post graduate institute of medical education and research"
 "post graduate institute of medical education and research (pgimer)"
@@ -2592,21 +2636,56 @@ Author           --affiliated--&gt;    Institution (5,799)
   → Same Place ID: ChIJ-xpmZ3_yDzkRg5rh7uCJQ60
 </code></pre></div></div>
 
-<p>Five name variants, one physical institution.</p>
+<p>Five LLM-level variants, one physical institution, one graph node.</p>
 
-<p>For orgs with a city and country (8,085 of 8,815), the query was straightforward: <code class="language-plaintext highlighter-rouge">"org_name, city, country"</code>. For the 730 orgs missing geographic context, I used the full raw affiliation string as the search query, which often contained enough context for the API to figure it out. Between API runs, fuzzy matching (SequenceMatcher &gt;= 0.8 threshold) filled in additional orgs by matching unresolved names to already-geocoded ones.</p>
+<p>For the 8,085 orgs that had both a city and a country, the query was straightforward (<code class="language-plaintext highlighter-rouge">"org_name, city, country"</code>). For the 730 that were missing geographic context, I fell back to the full raw affiliation string as the search query, which usually contained enough extra text for Google to figure it out.</p>
 
-<p><strong>Final geocoding result</strong>: 8,805 out of 8,815 orgs matched (99.9%). The remaining 10 are genuinely not physical places (patient advocacy groups, journal editorial offices, research network names).</p>
+<p>Final geocoding result: <strong>8,805 out of 8,815 orgs matched (99.9%)</strong>. The remaining 10 are genuinely not physical places: patient advocacy groups, journal editorial offices, research network names.</p>
 
 <h3 id="dedup-by-place-id">Dedup by Place ID</h3>
 
-<p>The last step: multiple name variants that resolved to the same place ID get collapsed into a single org record.</p>
-
-<p><strong>8,815 org name variants -&gt; 5,799 unique Place IDs.</strong> A 34% dedup reduction on top of everything else.</p>
+<p>The last step collapses multiple clean name variants that resolved to the same Place ID into one organization record. <strong>8,815 name variants → 5,799 unique Place IDs</strong>, another 34% reduction on top of everything else.</p>
 
 <hr />
 
-<h2 id="the-full-cost-picture">The Full Cost Picture</h2>
+<h2 id="coverage-and-costs">Coverage and Costs</h2>
+
+<p>After the full pipeline, here is how much of the original dataset gets a clean institution assignment:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Author-article pairs (total)</td>
+      <td>85,194</td>
+    </tr>
+    <tr>
+      <td>Pairs resolved to at least one org</td>
+      <td>78,923 (92.6%)</td>
+    </tr>
+    <tr>
+      <td>Pairs unresolved</td>
+      <td>6,271 (7.4%)</td>
+    </tr>
+    <tr>
+      <td>Unique research orgs</td>
+      <td>5,799</td>
+    </tr>
+    <tr>
+      <td>Countries represented</td>
+      <td>95</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The 7.4% unresolved breaks down into two groups: 3,521 pairs where the author record had no affiliation text at all (missing from the source data), and 2,750 pairs where the affiliation did not contain enough information to resolve. The second group is dominated by truly generic strings like “School of Medicine” with no city or country attached, plus 471 consortium group-author names like “ECFS Diagnostic Network Working Group” that are not institutions in the first place.</p>
+
+<p>Total cost of the whole institution disambiguation pipeline:</p>
 
 <table>
   <thead>
@@ -2629,7 +2708,7 @@ Author           --affiliated--&gt;    Institution (5,799)
     </tr>
     <tr>
       <td>Geocoding (8,815 orgs)</td>
-      <td>Geo-search API</td>
+      <td>Google Places API</td>
       <td>~$48</td>
     </tr>
     <tr>
@@ -2640,81 +2719,32 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>The entire institution disambiguation pipeline, from raw affiliations to 5,799 geocoded organizations, cost $82. That seemed worth it.</p>
-
-<hr />
-
-<h2 id="coverage-statistics">Coverage Statistics</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Author-article pairs</td>
-      <td>85,194</td>
-    </tr>
-    <tr>
-      <td>Rows with org_id</td>
-      <td>102,332 (91.5%)</td>
-    </tr>
-    <tr>
-      <td>Rows without org_id</td>
-      <td>9,453 (8.5%)</td>
-    </tr>
-    <tr>
-      <td>Unique research orgs</td>
-      <td>5,799</td>
-    </tr>
-    <tr>
-      <td>Unique countries</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The 8.5% without an org_id are mostly collective/group authors (471 consortium names like “ECFS Diagnostic Network Working Group”), truly empty affiliations, and edge cases where the affiliation text just didn’t contain anything parseable.</p>
-
-<hr />
-
-<h2 id="real-examples-the-hard-cases">Real Examples: The Hard Cases</h2>
-
-<p><strong>Multilingual ambiguity</strong>: <em>“Centre Hospitalier Universitaire de Toulouse, Hopital des Enfants, Toulouse, France”</em>. The LLM correctly identified “Centre Hospitalier Universitaire de Toulouse” as the parent institution, not “Hopital des Enfants”, which is actually a department within the CHU.</p>
-
-<p><strong>Multi-institutional affiliations</strong>: <em>“Department of Pediatrics, University of North Carolina at Chapel Hill; and Marsico Lung Institute/Cystic Fibrosis Research Center, Chapel Hill, NC”</em>. Pre-split on semicolons, each segment gets parsed independently. The author ends up with two org_ids, correctly representing a dual appointment.</p>
-
-<p><strong>Pharma companies</strong>: <em>“Vertex Pharmaceuticals Incorporated, Boston, MA, USA”</em> parses cleanly. But <em>“Vertex Pharmaceuticals (Europe) Ltd, London, United Kingdom”</em> gets a different place ID than the Boston office, and it should. They’re separate facilities.</p>
-
-<p><strong>The generic problem</strong>: <em>“School of Medicine”</em> shows up 555 times across dozens of different universities. Without a city or country, there’s no way to figure out which one. These fall into the 8.5% without org_id. The LLM returns the institution name just fine, but the geo-search can’t disambiguate without geographic context.</p>
+<p>$82 to turn a pile of messy free text into a clean, geocoded institution graph that the rest of this series runs on.</p>
 
 <hr />
 
 <h2 id="lessons-learned">Lessons Learned</h2>
 
-<p>A few things that weren’t obvious going in:</p>
+<p>A few things that were not obvious going in:</p>
 
 <ol>
-  <li><strong>Always evaluate before committing to a model.</strong> gpt-5.4-mini matched frontier accuracy at 3-12x lower cost. I would have wasted hundreds of dollars if I’d just picked the “best” model without checking.</li>
-  <li><strong>Prompt caching varies wildly across providers.</strong> OpenAI does it automatically, Anthropic needs explicit annotations (with minimum token thresholds that can silently fail), Gemini does it implicitly. Check each provider’s docs.</li>
-  <li><strong>Track costs religiously.</strong> I logged token counts, cache hits, and compute costs per run. My initial cost estimate was 5x too low because of wrong pricing assumptions. Always verify against the vendor’s actual pricing page.</li>
-  <li><strong>Don’t trust auto-computed LLM costs blindly.</strong> LiteLLM (which MLflow uses for cost tracking) produced negative costs for cached Anthropic calls. I had to compute costs manually from raw token counts. The tooling is getting better fast, but it’s not fully reliable yet for multi-provider comparisons with caching enabled.</li>
+  <li><strong>Evaluate before committing.</strong> gpt-5.4-mini matched frontier accuracy at 3-12x lower cost. Picking the “best” model without checking would have wasted hundreds of dollars for no accuracy gain. The eval paid for itself on the first API bill.</li>
+  <li><strong>Eval infrastructure is free leverage once it is wired up.</strong> Prompt registry, dataset lineage, and multi-provider autolog take an afternoon to set up. After that, adding a seventh model is a one-line change and re-running with a tweaked prompt is free. The fixed cost is low and the marginal cost approaches zero.</li>
+  <li><strong>Prompt caching behavior varies wildly across providers.</strong> OpenAI does it automatically, Anthropic needs explicit <code class="language-plaintext highlighter-rouge">cache_control</code> annotations (with minimum token thresholds that can silently fail), Gemini does it implicitly. Check each provider’s docs before assuming.</li>
+  <li><strong>Don’t trust auto-computed LLM costs blindly.</strong> LiteLLM (which MLflow uses under the hood) produced negative costs for cached Anthropic calls. I had to compute costs by hand from the raw token breakdowns. The tooling is improving fast, but it is not fully reliable for multi-provider comparisons with caching enabled.</li>
 </ol>
 
 <hr />
 
 <h2 id="whats-next">What’s Next</h2>
 
-<p>With 5,799 organizations resolved and geolocated, I can now tackle the harder problem: <strong>author disambiguation</strong>. The organization IDs become a critical signal. “Smith, John at MIT” showing up on two papers is probably the same person. But “Smith, John at MIT” and “Smith, John at Stanford” might be the same person who moved… or they might be two completely different people.</p>
+<p>With 5,799 organizations resolved and geocoded, the harder entity-resolution problem finally has a fighting chance: <strong>author disambiguation</strong>. Organization IDs become a critical signal. “Smith, John at MIT” on two papers is probably the same person. But “Smith, John at MIT” and “Smith, John at Stanford” might be the same person who moved, or two different people entirely.</p>
 
-<p>Part 3 builds a temporal-aware disambiguation algorithm that uses publication dates to tell the difference between career moves and name collisions. It achieves F1=0.9996 against ORCID ground truth.</p>
+<p>Part 3 walks through a temporal-aware disambiguation algorithm that uses publication dates, ORCID anchoring, and each author’s affiliation history over time to tell the difference between real career moves and coincidental name collisions, built on top of the org IDs this post just finished producing.</p>
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="llm" /><category term="entity-resolution" /><category term="mlflow" /><category term="evaluation" /><summary type="html"><![CDATA[Part 2: LLM-based affiliation parsing, systematic evaluation with MLflow, and geo-search deduplication]]></summary></entry><entry><title type="html">Part 1: Building the Data Flywheel for CF Research Network Analysis</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/" rel="alternate" type="text/html" title="Part 1: Building the Data Flywheel for CF Research Network Analysis" /><published>2026-04-09T20:00:00+00:00</published><updated>2026-04-09T20:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/"><![CDATA[<blockquote>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="llm" /><category term="prompt-caching" /><category term="llm-evals" /><category term="pydantic" /><category term="entity-resolution" /><category term="mlflow" /><summary type="html"><![CDATA[LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.]]></summary></entry><entry><title type="html">Part 1: Building the Data Flywheel for CF Research Network Analysis</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/" rel="alternate" type="text/html" title="Part 1: Building the Data Flywheel for CF Research Network Analysis" /><published>2026-04-09T20:00:00+00:00</published><updated>2026-04-09T20:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/"><![CDATA[<blockquote>
   <p><em>Part 1 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
