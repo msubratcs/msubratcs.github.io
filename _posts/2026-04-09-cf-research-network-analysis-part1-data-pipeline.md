@@ -63,7 +63,7 @@ flowchart TD
     G --> H[Analysis<br/>Parts 2 to 7]
 ```
 
-Prefect wakes up once a week, grabs that week's NCBI update files, and walks them through the task graph in order. Downloads retry on their own if the network hiccups, and the integrity checks at the end halt the run if anything looks wrong (dangling foreign keys, row-count drifts, duplicate PMIDs) instead of quietly corrupting state. The extraction step that produces the Parquet files is separate: it runs when I ask for it, not on every refresh.
+Once a week, Prefect grabs that week's NCBI update files, and walks them through the task graph in order. Downloads retry on their own if the network hiccups, and the integrity checks at the end halt the run if anything looks wrong (dangling foreign keys, row-count drifts, duplicate PMIDs) instead of quietly corrupting state. The extraction step that produces the Parquet files is separate: it runs when I ask for it, not on every refresh.
 
 ---
 
@@ -112,9 +112,9 @@ The affiliations are by far the hardest part of all of this. They aren't structu
 
 > *Division of Pediatric Pulmonology, Department of Pediatrics, UNC School of Medicine, Chapel Hill, NC 27599, USA; Marsico Lung Institute / UNC Cystic Fibrosis Research Center, The University of North Carolina at Chapel Hill, Chapel Hill, NC 27599, USA. Electronic address: someone@email.unc.edu.*
 
-Both of those point at legitimate CF research institutions. The first is a clean organization name plus a city. The second is a six-level department hierarchy, a street address, a zip code, a joint appointment at a named research center, and an email stuck on the end for good measure. Some affiliations are in French, Turkish, or Chinese. Some list three institutions separated by semicolons because the researcher holds multiple appointments. And there are 57,675 distinct affiliation strings across the dataset, all of which eventually need to resolve to roughly 5,800 actual organizations.
+Both of those point at legitimate CF research institutions. The first is a clean organization name plus a city. The second is a six-level department hierarchy, a street address, a zip code, a joint appointment at a named research center, and an email stuck on the end for good measure. Some affiliations are in French, Turkish, or Chinese. Some list three institutions separated by semicolons because the researcher holds multiple appointments. Across the dataset there are **97,167 affiliation strings** attached to authors, and every one of them eventually needs to resolve to a real research organization with a stable ID.
 
-Parsing a handful of affiliations by hand is a weekend. Parsing 57,000 of them is a career. That is the problem [Part 2]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}) solves.
+Parsing a handful of affiliations by hand is a weekend. Parsing 97,000 of them is a career. That is the problem [Part 2]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}) solves.
 
 ---
 
@@ -141,13 +141,13 @@ I went with Parquet as the primary format on purpose. It's a columnar storage fo
 
 Two problems stand between the raw data and any real network analysis.
 
-1. **The institution problem**: 57,675 distinct affiliation strings that need to be resolved to roughly 5,800 actual research organizations. The same hospital shows up as "The Hospital for Sick Children", "SickKids", "Hospital for Sick Children, Toronto", and a dozen other variants. If we don't fix this, one hospital becomes 12 disconnected nodes in the network, and the analysis falls apart.
+1. **The institution problem**: 97,167 affiliation strings that need to be resolved to real research organizations. The same hospital shows up as "The Hospital for Sick Children", "SickKids", "Hospital for Sick Children, Toronto", and a dozen other variants. If we don't fix this, one hospital becomes 12 disconnected nodes in the network, and the analysis falls apart.
 
-2. **The author problem**: 42,949 unique name combinations that need to be resolved to about 39,000 actual people. "Smith, J" could be 4 different researchers at 4 different institutions. "Gokcen" and "Gökçen" are the same person with and without Turkish diacritics. If we get this wrong, we either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).
+2. **The author problem**: each of those 85,194 author mentions needs to resolve to a real person, but the same person can appear under many different name strings. "Smith, J" could be 4 different researchers at 4 different institutions. "Gokcen" and "Gökçen" are the same person with and without Turkish diacritics. If we get this wrong, we either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).
 
 Both problems are forms of entity resolution. [Part 2]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}) tackles the institution version using LLM-based affiliation parsing and a geo-search API. [Part 3]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}) tackles the author version with a temporal-aware disambiguation algorithm that achieves F1=0.9996 against ground truth.
 
 ---
 
-*Next: [Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %})*
+*Next: [Part 2: From Messy Affiliations to a Clean Institution Graph with LLMs]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %})*
 
