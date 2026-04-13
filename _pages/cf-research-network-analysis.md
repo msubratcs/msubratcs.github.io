@@ -49,7 +49,7 @@ This is a multi-part deep dive into building a research intelligence platform fr
 <ul class="series-list">
 
 <li>
-<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part1-data-pipeline %}">Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline</a></h3>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part1-data-pipeline %}">Part 1: Building the Data Flywheel for CF Research Network Analysis</a></h3>
 <p>PubMed ETL, PostgreSQL, Prefect orchestration, and filtering 26 million articles down to 11,500 focused on Cystic Fibrosis.</p>
 </li>
 
