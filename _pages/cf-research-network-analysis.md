@@ -54,7 +54,7 @@ This is a multi-part deep dive into building a research intelligence platform fr
 </li>
 
 <li>
-<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}">Part 2: Resolving 57,000 Affiliation Strings to 5,800 Research Organizations</a></h3>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}">Part 2: From Messy Affiliations to a Clean Institution Graph with LLMs</a></h3>
 <p>LLM-based affiliation parsing, systematic evaluation of 6 models with MLflow, and geo-search deduplication. Total cost: $82.</p>
 </li>
 
