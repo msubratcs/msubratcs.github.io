@@ -145,7 +145,7 @@ Two problems stand between the raw data and any real network analysis.
 
 2. **The author problem**: each of those 85,194 author mentions needs to resolve to a real person, but the same person can appear under many different name strings. "Smith, J" could be 4 different researchers at 4 different institutions. "Gokcen" and "Gökçen" are the same person with and without Turkish diacritics. If we get this wrong, we either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).
 
-Both problems are forms of entity resolution. [Part 2]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}) tackles the institution version using LLM-based affiliation parsing and a geo-search API. [Part 3]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}) tackles the author version with a temporal-aware disambiguation algorithm that achieves F1=0.9996 against ground truth.
+Both problems are forms of entity resolution. [Part 2]({% post_url 2026-04-09-cf-research-network-analysis-part2-institution-disambiguation %}) tackles the institution version using LLM-based affiliation parsing and a geo-search API. [Part 3]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}) tackles the author version with a temporal-aware disambiguation algorithm.
 
 ---
 
