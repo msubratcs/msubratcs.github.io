@@ -17,12 +17,12 @@
   
   
     
-      Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline | Subrat Mishra
+      Part 1: Building the Data Flywheel for CF Research Network Analysis | Subrat Mishra
     
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community">
+<meta name="description" content="The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -34,16 +34,16 @@
   <!-- OpenGraph -->
   <meta property="og:site_name" content="Subrat Mishra">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Subrat Mishra | Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline">
+  <meta property="og:title" content="Subrat Mishra | Part 1: Building the Data Flywheel for CF Research Network Analysis">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/">
-  <meta property="og:description" content="Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community">
+  <meta property="og:description" content="The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline">
-  <meta name="twitter:description" content="Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community">
+  <meta name="twitter:title" content="Part 1: Building the Data Flywheel for CF Research Network Analysis">
+  <meta name="twitter:description" content="The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.">
   
   
 
@@ -97,8 +97,8 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/",
         "@type": "BlogPosting",
-        "description": "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community",
-        "headline": "Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline",
+        "description": "The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.",
+        "headline": "Part 1: Building the Data Flywheel for CF Research Network Analysis",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
         
@@ -269,6 +269,8 @@
             
           
             
+          
+            
               
                 
                 <li class="nav-item active">
@@ -350,7 +352,7 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline</h1>
+    <h1 class="post-title">Part 1: Building the Data Flywheel for CF Research Network Analysis</h1>
     <p class="post-meta">
       Posted on April 9, 2026
       
@@ -365,13 +367,6 @@
           ·  
         
           
-            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
-          
-          
-             
-          
-        
-          
             <a href="/blog/tag/pubmed"> <i class="fa-solid fa-hashtag fa-sm"></i> pubmed</a>
           
           
@@ -379,21 +374,28 @@
           
         
           
-            <a href="/blog/tag/etl"> <i class="fa-solid fa-hashtag fa-sm"></i> etl</a>
+            <a href="/blog/tag/mesh"> <i class="fa-solid fa-hashtag fa-sm"></i> mesh</a>
           
           
              
           
         
           
-            <a href="/blog/tag/postgresql"> <i class="fa-solid fa-hashtag fa-sm"></i> postgresql</a>
+            <a href="/blog/tag/cystic-fibrosis"> <i class="fa-solid fa-hashtag fa-sm"></i> cystic-fibrosis</a>
           
           
              
           
         
           
-            <a href="/blog/tag/data-pipeline"> <i class="fa-solid fa-hashtag fa-sm"></i> data-pipeline</a>
+            <a href="/blog/tag/postgres"> <i class="fa-solid fa-hashtag fa-sm"></i> postgres</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/prefect"> <i class="fa-solid fa-hashtag fa-sm"></i> prefect</a>
           
           
         
@@ -419,30 +421,33 @@
   <p><em>Part 1 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
 </blockquote>
 
+<blockquote>
+  <p><strong><em>TL;DR:</em></strong> <em>This post is about the plumbing behind the whole series: the data flywheel that turns PubMed’s firehose into a clean local mirror of biomedical literature, and the frozen snapshot of that mirror the rest of this series runs on. If you came here for findings, you probably want <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5</a> or the <a href="/blog/cf-research-network-analysis/">series landing page</a>. If you want to see how the sausage is made, read on.</em></p>
+</blockquote>
+
 <hr>
+
+<p>Data is the foundation that every post in this series stands on. So before writing a single line of analysis code, I built a local mirror of PubMed that refreshes itself every week, and some SQL that distills 26 million indexed articles (everything in PubMed from 2000 onward) down to the 11,500 that actually matter for Cystic Fibrosis research. This post is that build, and an honest look at the choices that went into it.</p>
 
 <h2 id="the-data-26-million-articles-in-a-local-postgresql-database">The Data: 26 Million Articles in a Local PostgreSQL Database</h2>
 
-<p>To answer any of this, I needed data. Not a spreadsheet, but a live, queryable pipeline that could ingest the entirety of <a href="https://en.wikipedia.org/wiki/PubMed" rel="external nofollow noopener" target="_blank">PubMed’s</a> 26 million biomedical articles and let me slice into any disease, any time period, any research community.</p>
+<p>The stack has three pieces: a data source (<a href="https://en.wikipedia.org/wiki/PubMed" rel="external nofollow noopener" target="_blank">PubMed</a>), a database (Postgres), and a scheduler (<a href="https://www.prefect.io/" rel="external nofollow noopener" target="_blank">Prefect</a>). I’ll take them in that order.</p>
+
+<h3 id="why-pubmed">Why PubMed</h3>
+
+<p>PubMed is the natural choice, and crucially, it’s open source. It’s maintained by the <a href="https://www.nlm.nih.gov/" rel="external nofollow noopener" target="_blank">National Library of Medicine</a>, covers well over 40 million biomedical articles, and ships with structured metadata (authors, affiliations, publication types, and the <a href="https://en.wikipedia.org/wiki/Medical_Subject_Headings" rel="external nofollow noopener" target="_blank">MeSH</a> topic tags trained indexers at the NLM assign to every paper), all free to download in bulk. I ingest everything from the year 2000 onward, which keeps the processing time and on-disk volume manageable without losing anything this project cares about. Alternatives like Google Scholar, Scopus, Web of Science, and Semantic Scholar exist, but none of them work for a project that wants to ingest the full index, publish its data lineage openly, and rely on human-curated topic tags.</p>
 
 <h3 id="the-infrastructure">The Infrastructure</h3>
 
-<p>My setup is deliberately unglamorous. It’s a headless Linux server running Ubuntu, accessible only via SSH. No GUI, no cloud credits burning. Just <a href="https://en.wikipedia.org/wiki/PostgreSQL" rel="external nofollow noopener" target="_blank">PostgreSQL</a>, Python, and <a href="https://www.prefect.io/" rel="external nofollow noopener" target="_blank">Prefect</a> keeping everything fresh.</p>
+<p>The server itself is a Beelink mini-PC I bought with Windows preinstalled, wiped, and reloaded with Ubuntu. It sits in a corner of my desk running <a href="https://en.wikipedia.org/wiki/PostgreSQL" rel="external nofollow noopener" target="_blank">PostgreSQL</a>, Python, and Prefect, reachable over SSH.</p>
 
-<p>Prefect is a workflow orchestration tool, similar to Apache Airflow but lighter weight. Think of it as a scheduler that runs my data pipelines on a fixed cadence and handles all the messy things that go wrong: retries, logging, alerting if something fails.</p>
+<p>Prefect is the scheduler. Think of it as a patient robot that wakes up once a week, pulls the latest PubMed updates, loads them into Postgres in the right order, and retries anything that fails. It’s similar in spirit to Apache Airflow but lighter, which fits my server setup well.</p>
 
-<p>Why local instead of cloud? A few reasons:</p>
+<p>A single Postgres instance on my Linux server keeps costs near zero and keeps every moving part in one place. The Prefect flow runs once a week, pulls PubMed’s daily update files, parses the XML, and upserts the changes into the five tables, so the database is never more than seven days behind live PubMed and new papers show up without me touching anything.</p>
 
-<ol>
-  <li>
-<strong>26 million articles don’t fit in a notebook.</strong> PubMed’s annual baseline is around 35GB of compressed XML. You need a real database for this, not pandas. And running a PostgreSQL instance on a cloud VM 24/7 would cost real money for something I only query a few times a week.</li>
-  <li>
-<strong>Reproducibility.</strong> Everything is version-controlled SQL. Re-running a query three months from now gives the same results against the same schema with the same filters. No “well, the notebook was different last time I ran it.”</li>
-  <li>
-<strong>Weekly freshness.</strong> Prefect runs an <a href="https://en.wikipedia.org/wiki/Extract,_transform,_load" rel="external nofollow noopener" target="_blank">ETL</a> flow every week that pulls PubMed’s daily update files, parses the XML, and upserts into Postgres. The database is never more than 7 days behind live PubMed. New papers show up automatically.</li>
-</ol>
+<p>One thing worth flagging early: this series is not a live analysis. I froze a snapshot of the filtered data at the start and the rest of the posts run against that one fixed export, so the numbers you’ll read in later parts don’t move as PubMed updates. The reason the ETL keeps running every week anyway is that the mirror is an investment, not a one-off. I want to keep it current so I can build more cool stuff on top of it later without rebuilding the plumbing from scratch.</p>
 
-<p>The PostgreSQL schema is designed for the kinds of analytical queries this project needs, like “give me all authors who published on Cystic Fibrosis and Pseudomonas in 2020, along with their affiliations.” Five main tables:</p>
+<p>The schema is five tables joinable on <code class="language-plaintext highlighter-rouge">pmid</code>, shaped around the kinds of analytical queries this project actually runs.</p>
 
 <ul>
   <li>
@@ -457,115 +462,130 @@
 <strong>article_chemicals</strong>: Substances and drugs mentioned in each paper.</li>
 </ul>
 
-<p>The weekly Prefect flow handles the messy reality of PubMed updates. Articles get revised, retracted, and re-indexed all the time. A paper published in 2022 might get new MeSH tags added in 2024. The pipeline processes update files in order, handles deletions, and maintains referential integrity across all five tables. It’s not glamorous work, but it’s the kind of plumbing that makes everything downstream possible.</p>
+<p>PubMed is a living dataset. Articles get revised, retracted, and re-indexed all the time. A 2022 paper can grow new MeSH tags in 2024. The weekly flow has to absorb all of that without corrupting the mirror’s internal consistency across the five tables.</p>
+
+<h3 id="the-weekly-etl">The Weekly ETL</h3>
+
+<p>Here’s the architecture, from NCBI’s FTP all the way to the Parquet extracts later posts in this series read from:</p>
+
+<pre><code class="language-mermaid">flowchart LR
+    A[PubMed FTP&lt;br/&gt;daily update files] --&gt; B[Download task]
+    B --&gt; C[XML parser]
+    C --&gt; D[Staging area&lt;br/&gt;temp tables]
+    D --&gt; E[(PostgreSQL&lt;br/&gt;5 tables)]
+    E --&gt; F[SQL filter queries&lt;br/&gt;version-controlled]
+    F --&gt; G[Parquet + CSV&lt;br/&gt;extracts]
+    G --&gt; H[Analysis&lt;br/&gt;Parts 2 to 7]
+</code></pre>
+
+<p>Prefect wakes up once a week, grabs that week’s NCBI update files, and walks them through the task graph in order. Downloads retry on their own if the network hiccups, and the integrity checks at the end halt the run if anything looks wrong (dangling foreign keys, row-count drifts, duplicate PMIDs) instead of quietly corrupting state. The extraction step that produces the Parquet files is separate: it runs when I ask for it, not on every refresh.</p>
 
 <hr>
 
 <h2 id="filtering-26-million-articles-down-to-11500">Filtering 26 Million Articles Down to 11,500</h2>
 
-<p>With the full PubMed database sitting in Postgres, I could get surgical with the filtering. Everything is in pure SQL, which serves as the single source of truth. No Python filtering that could silently diverge from the SQL logic. If someone asks “exactly which articles did you include?”, I point them to the SQL file.</p>
+<p>With the full PubMed database sitting in Postgres, we can get surgical with the filtering. The funnel has three steps.</p>
 
-<p>Here’s how the funnel works:</p>
+<p><strong>Step 1: Disease identification via MeSH.</strong> PubMed doesn’t tag articles with plain-text disease names. Instead, it uses the <a href="https://en.wikipedia.org/wiki/Medical_Subject_Headings" rel="external nofollow noopener" target="_blank">Medical Subject Headings (MeSH)</a> vocabulary, a curated list of around 30,000 terms that trained indexers at the NLM assign to every article they catalog. MeSH matters for this project because a MeSH tag is effectively a human indexer’s vote that the article is actually <em>about</em> the topic, not just mentioning it in passing. A keyword search for “cystic fibrosis” would happily include papers that say things like “unlike cystic fibrosis, this disease…” or list CF in a roll-call of genetic disorders. Those are irrelevant for our analysis. MeSH filtering is dramatically more precise, and it is the backbone of Step 1.</p>
 
-<p><strong>Step 1: Disease identification via MeSH.</strong> PubMed doesn’t tag articles with plain-text disease names. Instead, it uses the <a href="https://en.wikipedia.org/wiki/Medical_Subject_Headings" rel="external nofollow noopener" target="_blank">Medical Subject Headings (MeSH)</a> controlled vocabulary, a hierarchical system of about 30,000 terms maintained by the National Library of Medicine. Every article in PubMed gets reviewed by a trained human indexer who assigns the relevant MeSH terms.</p>
+<p><strong>Step 2: Publication type.</strong> PubMed categorizes publications into roughly 80 types, and they are not all equal for understanding collaboration. We want evidence of original scientific teamwork: journal articles, clinical trials (all phases), observational studies, reviews, meta-analyses, case reports, and practice guidelines. These are the publication types where multiple researchers genuinely <em>worked on something together</em>. I excluded commentaries, letters to the editor, editorials, and news articles (over 2,700 items in total) because those represent discourse, not collaboration. A letter to the editor listing two co-authors doesn’t mean those two people actually did research together, and treating it as collaboration would create false edges in the network. This is honestly the step I iterated on quite a bit. What counts as “real collaboration” is a judgment call.</p>
 
-<p>This matters because an article tagged with MeSH descriptor “Cystic Fibrosis” has been confirmed by a human to actually be <em>about</em> CF, not just mentioning it in passing. A keyword search for “cystic fibrosis” would also catch papers that say things like “unlike cystic fibrosis, this disease…” or papers that briefly mention CF in a list of genetic diseases. MeSH filtering is dramatically more precise.</p>
-
-<p><strong>Step 2: Species filter.</strong> I specifically needed human research. MeSH helps here too: requiring the “Humans” descriptor filters out the 3% of CF articles that study only animal models. Those are important science, but animal-model researchers don’t collaborate with clinical researchers in the same way, and including them would muddy the network.</p>
-
-<p><strong>Step 3: Publication type filter.</strong> This one needed some thought. PubMed categorizes publications into roughly 80 types, and they’re not all equal for understanding collaboration. I wanted original scientific collaboration: journal articles, clinical trials (all phases), observational studies, reviews, meta-analyses, case reports, practice guidelines. These are the publication types where multiple researchers actually <em>work together</em> on a shared project.</p>
-
-<p>I explicitly excluded commentaries, letters to the editor, editorials, and news articles (over 2,700 items in total). Why? Because those represent discourse, not collaboration. A letter to the editor listing 2 authors doesn’t mean those 2 people actually did research together. Including them would create false collaboration links in the network.</p>
-
-<p><strong>Step 4: Time window.</strong> The window 2015–2025 was chosen for both data quality and scientific reasons, and these two considerations happen to align nicely:</p>
+<p><strong>Step 3: Time window.</strong> I set the window to 2015 through 2025 for two reasons that conveniently line up:</p>
 
 <ul>
   <li>
-<strong>Data quality</strong>: Affiliation coverage in PubMed crosses 80% around 2015. Before that, too many authors lack institutional information for meaningful network analysis. Since I need to know <em>where</em> each researcher works (not just <em>who</em> they are), going further back would mean losing a huge chunk of the data.</li>
+<strong>Data quality.</strong> PubMed’s affiliation coverage crosses 80% around 2015. Before that, too many authors lack institutional information, and since I need to know <em>where</em> each researcher works (not just <em>who</em> they are), going further back would mean losing a huge chunk of the data.</li>
   <li>
-<strong>Scientific significance</strong>: 2015 marks the approval of Orkambi, the first broadly accessible CFTR modulator. 2019 marks Trikafta. That gives us the two therapeutic eras we need for the before-and-after comparison.</li>
+<strong>Scientific significance.</strong> 2015 marks the approval of Orkambi, the first broadly accessible CFTR modulator. 2019 marks Trikafta. Those two drugs define the two therapeutic eras the whole series compares, and <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5</a> is where that before-and-after split gets turned into an actual measurement. The goal is to make sure both sides of that split sit on clean, consistently filtered data.</li>
 </ul>
 
-<p>The final filtered set: <strong>11,528 articles, 85,194 author-article pairs, spanning 11 years across two therapeutic eras</strong>.</p>
+<p>After the funnel runs: <strong>11,528 articles, 85,194 author-article pairs, spanning 11 years across two therapeutic eras</strong>.</p>
 
 <p>Here’s what the publication volume looks like year by year:</p>
 
 <iframe src="/assets/plotly/eda_publication_timeline.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The blue bars (Era 1) are clearly smaller than the orange bars (Era 2). Publication volume increased significantly after Trikafta’s approval in 2019. But the trend was already upward in the late Era 1 years, suggesting that the modulator revolution was building momentum even before Trikafta.</p>
+<p>The blue bars (Era 1) are clearly smaller than the orange bars (Era 2). Publication volume climbed sharply after Trikafta’s 2019 approval, but the trend was already accelerating in the late Era 1 years, a reminder that the modulator revolution was building momentum before the drug that became its headline.</p>
 
 <p>And this chart shows how the research themes themselves shifted between eras:</p>
 
 <iframe src="/assets/plotly/eda_topic_streams.html" frameborder="0" scrolling="no" height="560px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>CFTR Modulator topics (blue) surge upward starting around 2019, while infection research (orange) holds relatively steady. Quality of Life research (green) shows a gradual increase across the whole period. This is the two-eras story told through data: the research community literally pivoted its focus.</p>
+<p>CFTR Modulator topics (blue) surge upward starting around 2019, while infection research (orange) holds relatively steady. Quality of Life research (green) climbs gradually across the whole period. That’s the two-eras story told through data: the research community literally pivoted its focus.</p>
 
 <hr>
 
 <h2 id="what-the-raw-data-looks-like">What the Raw Data Looks Like</h2>
 
-<p>Here’s a real example of what PubMed gives us for a single article, so you can see what I’m working with:</p>
+<p>Here’s a real example of what PubMed hands over for a single article, so you can see what I’m actually working with:</p>
 
 <p><strong>PMID 33160331</strong>, a nephrology case report:</p>
 <ul>
   <li>
-<strong>Authors</strong>: 8 authors, each with name, position (0-indexed, meaning the first author is position 0), initials, and an affiliation text string</li>
+<strong>Authors</strong>: 8 authors, each with a name, a position (0-indexed, so the first author is position 0), initials, and an affiliation text string.</li>
   <li>
-<strong>Affiliations</strong>: Free text like <em>“The Nephrology Group Inc, 568 E Herndon Ave STE 201, Fresno, CA 93720”</em>, which mixes institution name, street address, city, state, and zip code into one long string that’s basically unparseable by a computer</li>
+<strong>Affiliations</strong>: Free text like <em>“The Nephrology Group Inc, 568 E Herndon Ave STE 201, Fresno, CA 93720”</em>, which mashes institution name, street address, city, state, and zip code into one unparseable line.</li>
   <li>
-<strong>MeSH terms</strong>: 14 descriptors, 3 flagged as major topics (meaning they’re central to the paper, not just mentioned)</li>
+<strong>MeSH terms</strong>: 14 descriptors, 3 flagged as major topics (meaning they’re central to the paper, not just mentioned).</li>
   <li>
-<strong>Publication types</strong>: Journal Article, Case Reports</li>
+<strong>Publication types</strong>: Journal Article, Case Reports.</li>
 </ul>
 
-<p>The affiliations are by far the hardest part. They’re not structured fields with labeled columns for “institution”, “city”, “country.” They’re just whatever the journal’s submission system happened to collect when the author submitted the paper. Think of it like trying to extract someone’s employer from a string like “John Smith, the guy at the corner building next to the pharmacy on Main Street, 12345” instead of a clean field that says “Employer: Acme Corp.”</p>
+<p>The affiliations are by far the hardest part of all of this. They aren’t structured fields with labels for “institution”, “city”, “country”. They’re whatever the journal’s submission system happened to collect on the day the author submitted the paper, and the variation is genuinely absurd. Two affiliation strings at opposite ends of the spectrum:</p>
 
-<p>The variation is staggering. Some affiliations have department hierarchies 7 levels deep (“Division of Pulmonary Medicine, Department of Pediatrics, College of Medicine, University of…”). Some are in French or Turkish or Chinese. Some have email addresses stuck in the middle. Some list 3 different institutions separated by semicolons because the researcher holds multiple appointments. And there are 57,675 distinct affiliation strings in our dataset that all need to be resolved to actual organizations.</p>
+<blockquote>
+  <p><em>Hospital for Sick Children, Toronto, Ontario, Canada.</em></p>
+</blockquote>
 
-<p>Turning all of this into something I can actually analyze is what Parts 2 and 3 are about.</p>
+<blockquote>
+  <p><em>Division of Pediatric Pulmonology, Department of Pediatrics, UNC School of Medicine, Chapel Hill, NC 27599, USA; Marsico Lung Institute / UNC Cystic Fibrosis Research Center, The University of North Carolina at Chapel Hill, Chapel Hill, NC 27599, USA. Electronic address: someone@email.unc.edu.</em></p>
+</blockquote>
+
+<p>Both of those point at legitimate CF research institutions. The first is a clean organization name plus a city. The second is a six-level department hierarchy, a street address, a zip code, a joint appointment at a named research center, and an email stuck on the end for good measure. Some affiliations are in French, Turkish, or Chinese. Some list three institutions separated by semicolons because the researcher holds multiple appointments. And there are 57,675 distinct affiliation strings across the dataset, all of which eventually need to resolve to roughly 5,800 actual organizations.</p>
+
+<p>Parsing a handful of affiliations by hand is a weekend. Parsing 57,000 of them is a career. That is the problem <a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2</a> solves.</p>
 
 <hr>
 
 <h2 id="the-extraction-pipeline">The Extraction Pipeline</h2>
 
-<p>With the filters defined in SQL, the extraction pipeline itself is deliberately simple. I’m a firm believer that data pipelines should be boring. The interesting work should happen in the analysis, not in the plumbing.</p>
+<p>With the filters defined in SQL, the extraction pipeline itself is short. For this series, I took one filtered snapshot at the start of the project, and every number in every later post comes from that one snapshot. That’s intentional: Parts 2 through 7 aren’t chasing a moving target.</p>
 
 <p>The pipeline:</p>
 
 <ol>
-  <li>Connect to PostgreSQL via Unix socket (no passwords flying over the network)</li>
-  <li>Read the SQL filter definitions, which are the source of truth, parameterized with year ranges</li>
-  <li>Run the articles query, save as <a href="https://en.wikipedia.org/wiki/Apache_Parquet" rel="external nofollow noopener" target="_blank">Parquet</a> (primary format) plus CSV (for eyeballing in a spreadsheet)</li>
-  <li>Run the authors query, save the same way</li>
-  <li>Print summary statistics as a sanity check</li>
+  <li>Connect to PostgreSQL via Unix socket.</li>
+  <li>Read the SQL filter definitions, parameterized with year ranges.</li>
+  <li>Run the articles query, save as <a href="https://en.wikipedia.org/wiki/Apache_Parquet" rel="external nofollow noopener" target="_blank">Parquet</a>.</li>
+  <li>Run the authors query, save the same way.</li>
 </ol>
 
 <p>The output:</p>
 <ul>
   <li>
-<strong>11,528 articles</strong> with title, abstract, pub_year, journal, DOI, keywords</li>
+<strong>11,528 articles</strong> with title, abstract, pub_year, journal, DOI, keywords.</li>
   <li>
-<strong>85,194 author-article pairs</strong> with PMID, author position, name, ORCID, affiliations</li>
+<strong>85,194 author-article pairs</strong> with PMID, author position, name, ORCID, affiliations.</li>
 </ul>
 
-<p>I went with Parquet as the primary format on purpose. It’s a columnar storage format that preserves data types (integers stay integers, arrays stay arrays), compresses well (20MB CSV becomes 6MB Parquet), and reads about 10x faster than CSV for the kind of column-level queries that downstream analysis needs. CSV is there as a backup for when I want to open something in a spreadsheet to sanity-check it.</p>
+<p>I went with Parquet as the primary format on purpose. It’s a columnar storage format that preserves data types (integers stay integers, arrays stay arrays), compresses well (20MB CSV becomes 6MB Parquet), and reads about 10x faster than CSV for the kind of column-level queries downstream analysis actually runs.</p>
 
 <hr>
 
 <h2 id="whats-next">What’s Next</h2>
 
-<p>The raw data has two critical problems that need to be solved before any network analysis is possible:</p>
+<p>Two problems stand between the raw data and any real network analysis.</p>
 
 <ol>
   <li>
-    <p><strong>The institution problem</strong>: 57,675 distinct affiliation strings that need to be resolved to roughly 5,800 actual research organizations. The same hospital shows up as “The Hospital for Sick Children”, “SickKids”, “Hospital for Sick Children, Toronto”, and a dozen other variants. If I don’t fix this, one hospital becomes 12 disconnected nodes in the network, and the analysis falls apart.</p>
+    <p><strong>The institution problem</strong>: 57,675 distinct affiliation strings that need to be resolved to roughly 5,800 actual research organizations. The same hospital shows up as “The Hospital for Sick Children”, “SickKids”, “Hospital for Sick Children, Toronto”, and a dozen other variants. If we don’t fix this, one hospital becomes 12 disconnected nodes in the network, and the analysis falls apart.</p>
   </li>
   <li>
-    <p><strong>The author problem</strong>: 42,949 unique name combinations that need to be resolved to about 39,000 actual people. “Wang, X” could be 4 different researchers at 4 different institutions. “Gokcen” and “Gokcen” are the same person with and without Turkish characters. If I get this wrong, I either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).</p>
+    <p><strong>The author problem</strong>: 42,949 unique name combinations that need to be resolved to about 39,000 actual people. “Wang, X” could be 4 different researchers at 4 different institutions. “Gokcen” and “Gökçen” are the same person with and without Turkish diacritics. If we get this wrong, we either merge two different people into one (creating fake collaborations) or split one person into two (losing real ones).</p>
   </li>
 </ol>
 
-<p>Both problems are forms of <a href="https://en.wikipedia.org/wiki/Record_linkage" rel="external nofollow noopener" target="_blank">entity resolution</a>, one of the oldest and hardest problems in data science. Part 2 tackles the institution version using LLM-based affiliation parsing and a geo-search API. Part 3 tackles the author version with a temporal-aware disambiguation algorithm that achieves F1=0.9996 against ground truth.</p>
+<p>Both problems are forms of <a href="https://en.wikipedia.org/wiki/Record_linkage" rel="external nofollow noopener" target="_blank">entity resolution</a>. <a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2</a> tackles the institution version using LLM-based affiliation parsing and a geo-search API. <a href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3</a> tackles the author version with a temporal-aware disambiguation algorithm that achieves F1=0.9996 against ground truth.</p>
 
 <hr>
 
@@ -623,6 +643,48 @@
 
 
     
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.7.0/dist/mermaid.min.js" integrity="sha256-TtLOdUA8mstPoO6sGvHIGx2ceXrrX4KgIItO06XOn8A=" crossorigin="anonymous"></script>
+  
+  <script>
+    let mermaidTheme = determineComputedTheme();
+
+    /* Create mermaid diagram as another node and hide the code block, appending the mermaid node after it
+       this is done to enable retrieving the code again when changing theme between light/dark */
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'complete') {
+        document.querySelectorAll('pre>code.language-mermaid').forEach((elem) => {
+          const svgCode = elem.textContent;
+          const backup = elem.parentElement;
+          backup.classList.add('unloaded');
+          /* create mermaid node */
+          let mermaid = document.createElement('pre');
+          mermaid.classList.add('mermaid');
+          const text = document.createTextNode(svgCode);
+          mermaid.appendChild(text);
+          backup.after(mermaid);
+        });
+
+        mermaid.initialize({ theme: mermaidTheme });
+
+        /* Zoomable mermaid diagrams */
+        if (typeof d3 !== 'undefined') {
+          window.addEventListener('load', function () {
+            var svgs = d3.selectAll('.mermaid svg');
+            svgs.each(function () {
+              var svg = d3.select(this);
+              svg.html('<g>' + svg.html() + '</g>');
+              var inner = svg.select('g');
+              var zoom = d3.zoom().on('zoom', function (event) {
+                inner.attr('transform', event.transform);
+              });
+              svg.call(zoom);
+            });
+          });
+        }
+      }
+    });
+  </script>
+
 
     
 
@@ -911,11 +973,11 @@
               window.location.href = "/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/";
             
           },
-        },{id: "post-part-1-building-a-real-time-biomedical-research-intelligence-pipeline",
+        },{id: "post-part-1-building-the-data-flywheel-for-cf-research-network-analysis",
           
-            title: "Part 1: Building a Real-Time Biomedical Research Intelligence Pipeline",
+            title: "Part 1: Building the Data Flywheel for CF Research Network Analysis",
           
-          description: "Part 1: PubMed ETL, PostgreSQL, and filtering 26M articles down to a focused research community",
+          description: "The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.",
           section: "Posts",
           handler: () => {
             
