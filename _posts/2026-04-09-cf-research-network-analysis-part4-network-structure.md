@@ -53,6 +53,10 @@ The gap between mean (16.5) and median (9) tells its own story. Most researchers
 
 <iframe src="{{ '/assets/plotly/degree_distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
+Scientific productivity follows the same shape. Most researchers in the dataset show up on exactly one CF paper; a long middle tail published a handful; and a tiny head published dozens or over a hundred. The right panel below also previews something Part 5 leans on: the split between researchers who only appear in Era 1, researchers who only appear in Era 2, and the 5,172 continuity researchers who span both eras and carry the institutional knowledge across the Trikafta transition.
+
+<iframe src="{{ '/assets/plotly/eda_author_productivity.html' | relative_url }}" frameborder='0' scrolling='no' height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
 ---
 
 ## It's a Small World

@@ -28,6 +28,12 @@ The growth numbers are dramatic:
 | Clustering coefficient | 0.880 | 0.877 | Stable |
 | Continuity researchers (span both) | | 5,172 | 13.2% of total |
 
+The era comparison dashboard makes the scale of the shift visible at a glance:
+
+<iframe src="{{ '/assets/plotly/eda_era_comparison.html' | relative_url }}" frameborder='0' scrolling='no' height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+Era 2 has nearly twice the publications, 80% more unique authors, and almost double the number of unique MeSH topics. The donut chart (top left) shows how the author populations overlap between eras, and the bar charts compare the country-level and institution-type distributions.
+
 The field nearly doubled in size. But here's the thing that surprised me: while the network grew 79% in researchers and 137% in collaboration pairs, the [clustering coefficient](https://en.wikipedia.org/wiki/Clustering_coefficient) barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups off to the side. The social fabric of CF research held its structure even as it doubled in scale.
 
 The more interesting question isn't the raw growth. It's what happened *structurally*.
