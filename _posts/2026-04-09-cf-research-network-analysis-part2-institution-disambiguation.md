@@ -395,4 +395,4 @@ Part 3 walks through a temporal-aware disambiguation algorithm that uses publica
 
 ---
 
-*Next: [Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %})*
+*Next: [Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence]({% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %})*

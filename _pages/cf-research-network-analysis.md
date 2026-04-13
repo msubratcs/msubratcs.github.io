@@ -59,7 +59,7 @@ This is a multi-part deep dive into building a research intelligence platform fr
 </li>
 
 <li>
-<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}">Part 3: Disambiguating 43,000 Author Names with Temporal Intelligence</a></h3>
+<h3><a href="{% post_url 2026-04-09-cf-research-network-analysis-part3-author-disambiguation %}">Part 3: From Ambiguous Author Names to a Clean Researcher Graph with Temporal Intelligence</a></h3>
 <p>ORCID anchoring, collision-aware matching, temporal career transitions, and achieving F1=0.9996 against ground truth.</p>
 </li>
 
