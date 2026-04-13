@@ -1311,14 +1311,25 @@ ninja-keys::part(ninja-input-wrapper) {
   color: var(--global-text-color);
 }
 
-// Mermaid diagrams: keep rendered SVGs inside the content column and centered,
-// so wide flowcharts scale down instead of clipping.
-.mermaid {
+// Mermaid diagrams: strip the inherited `pre` styling (bootstrap + _base.scss)
+// so rendered SVGs aren't clipped by a scroll container, padded box, or the
+// code-block background. Inline `max-width` from Mermaid is defeated with
+// !important so the diagram scales to the content column.
+pre.mermaid {
   text-align: center;
   margin: 1.5rem 0;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  overflow: visible !important;
+  max-height: none !important;
+  color: inherit !important;
 
   svg {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
   }
 }
