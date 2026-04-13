@@ -468,7 +468,7 @@
 
 <p>Here’s the architecture, from NCBI’s FTP all the way to the Parquet extracts later posts in this series read from:</p>
 
-<pre><code class="language-mermaid">flowchart LR
+<pre><code class="language-mermaid">flowchart TD
     A[PubMed FTP&lt;br/&gt;daily update files] --&gt; B[Download task]
     B --&gt; C[XML parser]
     C --&gt; D[Staging area&lt;br/&gt;temp tables]
