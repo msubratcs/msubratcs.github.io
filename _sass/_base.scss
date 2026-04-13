@@ -1310,3 +1310,15 @@ ninja-keys::part(ninja-input-wrapper) {
   background-color: var(--global-theme-color);
   color: var(--global-text-color);
 }
+
+// Mermaid diagrams: keep rendered SVGs inside the content column and centered,
+// so wide flowcharts scale down instead of clipping.
+.mermaid {
+  text-align: center;
+  margin: 1.5rem 0;
+
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}

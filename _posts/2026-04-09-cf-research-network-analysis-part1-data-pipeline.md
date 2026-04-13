@@ -53,7 +53,7 @@ PubMed is a living dataset. Articles get revised, retracted, and re-indexed all 
 Here's the architecture, from NCBI's FTP all the way to the Parquet extracts later posts in this series read from:
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[PubMed FTP<br/>daily update files] --> B[Download task]
     B --> C[XML parser]
     C --> D[Staging area<br/>temp tables]
