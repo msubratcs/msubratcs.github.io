@@ -281,6 +281,48 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item active">
@@ -363,7 +405,7 @@
 
   <div class="header-bar">
     <h1>Subrat's Blog</h1>
-    <h2>Practical writing on data science, healthcare, software, and AI, with frequent detours into curiosity.</h2>
+    <h2>Data science, healthcare, and AI, with frequent detours into curiosity.</h2>
   </div>
   
 
@@ -375,18 +417,88 @@
   
   
   <div class="container mb-4">
-    <a href="/blog/cf-research-network-analysis/" style="text-decoration: none; color: inherit;">
-      <div class="card hoverable">
-        <div class="card-body">
-          <h3 class="card-title">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</h3>
-          <p class="card-text">A 7-part series analyzing Cystic Fibrosis co-authorship networks from PubMed data using graph ML, generative AI, NLP, and network analysis.</p>
-          <p class="post-meta">
-            7 parts   ·  
-            April 09, 2026
-          </p>
-        </div>
+    <div class="card hoverable series-card">
+      <div class="card-body">
+        <p class="series-label text-muted mb-1">
+          <i class="fa-solid fa-layer-group fa-sm"></i>
+          Series · 7 parts
+        </p>
+        <h3 class="card-title mb-2">
+          <a href="/blog/cf-research-network-analysis/" style="text-decoration: none; color: inherit;">
+            Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive
+          </a>
+        </h3>
+        <p class="card-text mb-3">
+          PubMed ingestion, LLM-based entity resolution, network analysis, graph ML, and topic diffusion across 1,688 cities. <a href="/blog/cf-research-network-analysis/">Series overview</a>.
+        </p>
+        <ul class="series-parts list-unstyled mb-0">
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part1-data-pipeline/">Part 1: Building the Data Flywheel for CF Research Network Analysis</a>
+              <p class="mb-0 text-muted">The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.</p>
+              <p class="post-meta mb-0">
+                12 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2: From Messy Affiliations to a Master List of Institutions with LLMs</a>
+              <p class="mb-0 text-muted">LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.</p>
+              <p class="post-meta mb-0">
+                28 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence</a>
+              <p class="mb-0 text-muted">ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.</p>
+              <p class="post-meta mb-0">
+                18 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a>
+              <p class="mb-0 text-muted">Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.</p>
+              <p class="post-meta mb-0">
+                16 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a>
+              <p class="mb-0 text-muted">Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.</p>
+              <p class="post-meta mb-0">
+                16 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a>
+              <p class="mb-0 text-muted">Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.</p>
+              <p class="post-meta mb-0">
+                13 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+            
+            <li class="mb-2">
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a>
+              <p class="mb-0 text-muted">metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.</p>
+              <p class="post-meta mb-0">
+                17 min read · Apr 12, 2026
+              </p>
+            </li>
+          
+        </ul>
       </div>
-    </a>
+    </div>
   </div>
   
 
@@ -688,7 +800,7 @@
           
             title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
           
-          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
           section: "Posts",
           handler: () => {
             
@@ -699,7 +811,7 @@
           
             title: "Part 6: The Institutional Backbone and Geography of CF Research",
           
-          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          description: "Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.",
           section: "Posts",
           handler: () => {
             
@@ -710,7 +822,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
           section: "Posts",
           handler: () => {
             
@@ -721,7 +833,7 @@
           
             title: "Part 4: The Small World of CF Research",
           
-          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          description: "Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.",
           section: "Posts",
           handler: () => {
             

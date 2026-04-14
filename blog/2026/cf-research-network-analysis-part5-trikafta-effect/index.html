@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars">
+<meta name="description" content="Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -36,14 +36,14 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Subrat Mishra | Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">
-  <meta property="og:description" content="Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars">
+  <meta property="og:description" content="Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community">
-  <meta name="twitter:description" content="Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars">
+  <meta name="twitter:description" content="Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.">
   
   
 
@@ -97,7 +97,7 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/",
         "@type": "BlogPosting",
-        "description": "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+        "description": "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
         "headline": "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
@@ -275,6 +275,48 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item active">
@@ -358,7 +400,7 @@
   <header class="post-header">
     <h1 class="post-title">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</h1>
     <p class="post-meta">
-      Posted on April 9, 2026
+      Posted on April 12, 2026
       
       
       
@@ -371,14 +413,14 @@
           ·  
         
           
-            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
+            <a href="/blog/tag/cystic-fibrosis"> <i class="fa-solid fa-hashtag fa-sm"></i> cystic-fibrosis</a>
           
           
              
           
         
           
-            <a href="/blog/tag/network-analysis"> <i class="fa-solid fa-hashtag fa-sm"></i> network-analysis</a>
+            <a href="/blog/tag/trikafta"> <i class="fa-solid fa-hashtag fa-sm"></i> trikafta</a>
           
           
              
@@ -399,6 +441,20 @@
           
         
           
+            <a href="/blog/tag/graph-embeddings"> <i class="fa-solid fa-hashtag fa-sm"></i> graph-embeddings</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/link-prediction"> <i class="fa-solid fa-hashtag fa-sm"></i> link-prediction</a>
+          
+          
+             
+          
+        
+          
             <a href="/blog/tag/counterfactual"> <i class="fa-solid fa-hashtag fa-sm"></i> counterfactual</a>
           
           
@@ -413,6 +469,30 @@
               <i class="fa-solid fa-tag fa-sm"></i> data-science</a>
           
           
+             
+          
+        
+          
+            <a href="/blog/category/cystic-fibrosis">
+              <i class="fa-solid fa-tag fa-sm"></i> cystic-fibrosis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/category/network-analysis">
+              <i class="fa-solid fa-tag fa-sm"></i> network-analysis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/category/graph-ml">
+              <i class="fa-solid fa-tag fa-sm"></i> graph-ml</a>
+          
+          
         
       
     </p>
@@ -422,14 +502,14 @@
     
     <div id="markdown-content">
       <blockquote>
-  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr>
 
 <h2 id="before-and-after">Before and After</h2>
 
-<p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), I can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease.</p>
+<p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), We can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease. A caveat to keep in mind for everything that follows: Era 1 is 4 years long and Era 2 is 7 years long, so raw-size comparisons are inflated by the longer observation window. The per-researcher and structural claims below (average collaborators, clustering, edge turnover) don’t depend on that asymmetry, but the total-count numbers do.</p>
 
 <p>The growth numbers are dramatic:</p>
 
@@ -468,8 +548,8 @@
       <td>Stable</td>
     </tr>
     <tr>
-      <td>Continuity researchers (span both)</td>
-      <td> </td>
+      <td>Continuity researchers (in both eras)</td>
+      <td>5,172</td>
       <td>5,172</td>
       <td>13.2% of total</td>
     </tr>
@@ -482,27 +562,41 @@
 
 <p>Era 2 has nearly twice the publications, 80% more unique authors, and almost double the number of unique MeSH topics. The donut chart (top left) shows how the author populations overlap between eras, and the bar charts compare the country-level and institution-type distributions.</p>
 
-<p>The field nearly doubled in size. But here’s the thing that surprised me: while the network grew 79% in researchers and 137% in collaboration pairs, the <a href="https://en.wikipedia.org/wiki/Clustering_coefficient" rel="external nofollow noopener" target="_blank">clustering coefficient</a> barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups off to the side. The social fabric of CF research held its structure even as it doubled in scale.</p>
+<p>The field nearly doubled in size. But here’s the thing that’s interesting: while the network grew 79% in researchers and 137% in collaboration pairs, the <a href="https://en.wikipedia.org/wiki/Clustering_coefficient" rel="external nofollow noopener" target="_blank">clustering coefficient</a> barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups on the side. The social fabric of CF research held its structure even as it doubled in scale.</p>
 
-<p>The more interesting question isn’t the raw growth. It’s what happened <em>structurally</em>.</p>
+<p>The more interesting questions aren’t about the raw growth. They’re about what the field started studying, and who it started studying with.</p>
+
+<hr>
+
+<h2 id="the-topic-shift">The Topic Shift</h2>
+
+<p>The era comparison already showed the field doubled in size. Look at the research content alongside it and you see it also rotated on its axis: some topics surged into the Trikafta era, others quietly receded.</p>
+
+<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>Green bars on the right are MeSH topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.</p>
+
+<p>The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:</p>
+
+<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>That’s what researchers are studying now, and how sharply it pivoted around 2019. The next question is who they’re studying it with, and whether those partnerships changed just as sharply.</p>
 
 <hr>
 
 <h2 id="94-edge-turnover">94% Edge Turnover</h2>
 
-<p>Of the 237,350 collaboration pairs that exist in Era 2, only <strong>14,066 (5.9%) also existed in Era 1</strong>. That means 94.1% of the collaborations in the Trikafta era are brand new.</p>
-
-<p>Let that sink in. In a field with thousands of established researchers, nearly every collaboration pair in the post-Trikafta era is a connection that didn’t exist before 2019. To put this in perspective, in a stable scientific field you might expect 20-30% new edges per year as researchers start new projects. A 94% turnover over 4-7 years is extraordinary.</p>
+<p>Of the 237,350 collaboration pairs that exist in Era 2, only <strong>14,066 (5.9%) also existed in Era 1</strong>. That means 94.1% of the collaborations in the Trikafta era are brand new. In a field with thousands of established researchers, nearly every collaboration pair in the post-Trikafta era is a connection that didn’t exist before 2019. Seeing 94% of Era 2 edges being brand new across a comparison that spans barely a decade is interesting.</p>
 
 <p>Breaking it down:</p>
 
 <ul>
   <li>
-<strong>86,283 dissolved collaborations</strong>: These existed in Era 1 but didn’t continue into Era 2. Some of these researchers retired, some shifted to other disease areas, and many simply moved on to new projects with new teams.</li>
+<strong>86,283 dissolved collaborations</strong>: These existed in Era 1 but didn’t continue into Era 2. Some of these researchers retired, some shifted to other disease areas, and some probably moved on to new projects.</li>
   <li>
 <strong>14,066 continued collaborations</strong>: The durable partnerships. Researchers who published together before Trikafta and continued after. These are the long-term pairs, the mentor-mentee relationships, the lab groups that stuck together through the transition.</li>
   <li>
-<strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later. This is where the action is.</li>
+<strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later.</li>
 </ul>
 
 <iframe src="/assets/plotly/eda_network_evolution.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
@@ -517,25 +611,27 @@
 
 <p>Here’s where I got to use some of the graph ML techniques from the Stanford course. The question is simple: of all those new Era 2 collaborations, how many would have happened anyway (because researchers were already trending toward each other) vs. how many are genuinely <em>caused</em> by the Trikafta revolution?</p>
 
-<p>To answer this, I built a <a href="https://en.wikipedia.org/wiki/Counterfactual_conditional" rel="external nofollow noopener" target="_blank">counterfactual</a> model. The idea is to learn how collaborations “naturally” form based on Era 1 patterns, then predict what the Era 2 network would have looked like if nothing had changed.</p>
+<p>To answer this, I built a counterfactual model. The idea is to learn how collaborations “naturally” form based on Era 1 patterns, then predict what the Era 2 network would have looked like if nothing had changed.</p>
 
 <h3 id="how-the-model-works">How the model works</h3>
 
 <p>First, I trained <a href="https://en.wikipedia.org/wiki/Node2vec" rel="external nofollow noopener" target="_blank">Node2Vec</a> embeddings on the Era 1 graph. Node2Vec is an algorithm that learns a compact numerical representation (a 64-dimensional vector) for each researcher based on their position in the network. It works by simulating random walks through the graph: starting at a researcher, randomly hopping to a collaborator, then to that person’s collaborator, and so on. Researchers who appear in similar “neighborhoods” during these walks get similar vectors. Think of it as: “tell me who you collaborate with, and I’ll tell you what kind of researcher you are.”</p>
 
-<p>Then I trained a simple <a href="https://en.wikipedia.org/wiki/Logistic_regression" rel="external nofollow noopener" target="_blank">logistic regression</a> classifier on top of these embeddings. For each pair of researchers, I multiply their embedding vectors element-wise (this captures whether they’re in similar network positions) and the classifier predicts whether they’ll collaborate. I trained on real Era 1 edges (positive examples) and randomly sampled non-edges (negative examples).</p>
+<p>Then I trained a simple logistic regression classifier on top of these embeddings. For each pair of researchers, I built a single edge feature by multiplying their two embedding vectors element-wise to convert node embeddings into link-prediction features and the classifier predicts whether the pair will collaborate. I trained on real Era 1 edges (positive examples) and randomly sampled non-edges (negative examples).</p>
 
-<p>The model achieves an <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve" rel="external nofollow noopener" target="_blank">AUC</a> of 0.674 on Era 1 data. That’s not a perfect predictor, but it’s meaningfully above random chance (0.5), meaning it captures real patterns in how CF researchers form partnerships: things like institutional proximity, shared network neighborhoods, and similar structural positions.</p>
+<p>The model hits a training AUC of 0.674 on Era 1 (evaluated on the same edges it trained on, so this is a signal-check rather than a generalization benchmark). That’s not a perfect predictor, but it’s still meaningfully above random chance (0.5), meaning the embeddings carry real signal about how CF researchers form partnerships: institutional proximity, shared network neighborhoods, and similar structural positions.</p>
 
 <h3 id="the-counterfactual-results">The counterfactual results</h3>
 
-<p>Then I asked: if I apply this Era 1 model to the new Era 2 edges, how many would the pre-Trikafta model have predicted?</p>
+<p>If we apply this Era 1 model to the new Era 2 edges, how many would the pre-Trikafta model have predicted?</p>
 
 <p><strong>Only 37.5%.</strong></p>
 
 <iframe src="/assets/plotly/tier7_counterfactual.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>Of the new Era 2 collaborations I could score (27,319 edges where both researchers had Era 1 embeddings):</p>
+<p>A crucial scope note before the breakdown: the Era 1 model only has embeddings for researchers who were already active in 2015-2018. That means we can only score new Era 2 edges where <em>both</em> endpoints are continuity researchers. That works out to 27,319 edges, roughly 12% of the 223,284 new Era 2 edges. The other 88% involve at least one researcher who joined the field in Era 2, for whom the model simply has no prior. So every number below is about the “old guard rewiring itself” subset of the new edges, not the whole Era 2 growth.</p>
+
+<p>Of the 27,319 new-but-scoreable Era 2 collaborations:</p>
 
 <ul>
   <li>
@@ -544,9 +640,9 @@
 <strong>17,062 (62.5%) were “Trikafta-created”</strong>: The model didn’t predict these. These are collaborations that only exist because the drug approval changed the research landscape. New research questions (long-term modulator outcomes, CF in aging patients, mental health in CF) brought together researchers who had no structural reason to collaborate before 2019.</li>
 </ul>
 
-<p>And on the other side: <strong>57,397 collaborations were “Trikafta-destroyed.”</strong> The model predicted they would continue based on Era 1 patterns, but they ended. These represent research directions and partnerships that became less relevant once Trikafta transformed the standard of care. Some of these were likely infection-focused collaborations that wound down as patients on modulators had fewer lung infections.</p>
+<p>And on the other side: of the 86,283 Era 1 pairs that did <em>not</em> continue into Era 2, the model predicted <strong>57,397 (about two-thirds)</strong> would continue if the field had stayed on its pre-2019 trajectory. Call these the “Trikafta-destroyed” edges. The model is saying: these partnerships should still be going, and they aren’t. They represent research directions and partnerships that became less relevant once Trikafta transformed the standard of care. Some were likely infection-focused collaborations that wound down as patients on modulators had fewer lung infections.</p>
 
-<p>A caveat: “Trikafta-created” doesn’t mean Trikafta literally caused each collaboration. It means these connections don’t follow pre-2019 network dynamics. Some might be driven by other factors (COVID-19, funding shifts, career moves). But the scale of the effect (62.5% of new edges are unexplained by the pre-Trikafta model) strongly suggests the drug approval was the dominant force reshaping the network.</p>
+<p>A few caveats on what this does and doesn’t show. “Trikafta-created” doesn’t mean Trikafta literally caused each collaboration, it means these connections don’t follow pre-2019 network dynamics, and some share of them is surely driven by other factors (COVID-19, funding shifts, career moves). The 62.5% figure is specific to continuity-researcher pairs, not to the Era 2 network as a whole. And the Era 1 model is a simple node2vec + logistic regression link predictor which has it’s limitations. Taken together, though, the picture is still interesting; even restricted to researchers who were already in the field, a clear majority of their new partnerships don’t fit the pre-2019 pattern, and most of their dissolved partnerships “should” still be going. Something field-wide and large happened around 2019, and Trikafta is the most likely candidate.</p>
 
 <hr>
 
@@ -685,22 +781,22 @@
     <tr>
       <td>UK - US</td>
       <td>2,526</td>
-      <td>Shared language, major CF centers on both sides, joint clinical trials</td>
+      <td>Shared language, major CF centers on both sides</td>
     </tr>
     <tr>
       <td>Canada - US</td>
       <td>2,134</td>
-      <td>Geographic proximity, Toronto-Seattle axis</td>
+      <td>Geographic proximity, Toronto-Seattle</td>
     </tr>
     <tr>
       <td>Australia - US</td>
       <td>1,618</td>
-      <td>Anglophone connection, shared trial infrastructure</td>
+      <td>Shared language and possibly shared trial infrastructure?</td>
     </tr>
     <tr>
       <td>Germany - US</td>
       <td>1,400</td>
-      <td>Strong German CF program, Vertex partnerships</td>
+      <td>Strong German CF program &amp; possibly due to Vertex partnerships</td>
     </tr>
     <tr>
       <td>Australia - UK</td>
@@ -710,28 +806,28 @@
     <tr>
       <td>France - US</td>
       <td>1,119</td>
-      <td>Major French CF program (INSERM)</td>
+      <td>Interesting, but I’m not sure why</td>
     </tr>
     <tr>
       <td>Germany - UK</td>
       <td>925</td>
-      <td>European clinical trial networks</td>
+      <td>Geographic proximity, EU Zone</td>
     </tr>
     <tr>
       <td>Germany - France</td>
       <td>912</td>
-      <td>Strongest intra-European corridor</td>
+      <td>Geographic proximity, EU Zone</td>
     </tr>
   </tbody>
 </table>
 
-<p>The Anglophone bias is striking: the top 5 corridors all involve English-speaking countries. Within continental Europe, Germany-France (912 shared publications) is the strongest partnership, but it’s less than half the UK-US corridor. Language and shared clinical trial infrastructure clearly shape who collaborates with whom, even in 2025.</p>
+<p>The top 5 corridors all involve English-speaking countries. Within continental Europe, Germany-France (912 shared publications) is the strongest partnership, but it’s less than half the UK-US corridor. Shared language and geographic proximity clearly shape who collaborates with whom, even in 2025.</p>
 
 <hr>
 
 <h2 id="rising-stars-whos-gaining-influence-fastest">Rising Stars: Who’s Gaining Influence Fastest?</h2>
 
-<p>By comparing <a href="https://en.wikipedia.org/wiki/Centrality#Degree_centrality" rel="external nofollow noopener" target="_blank">degree centrality</a> between Era 1 and Era 2, I identified researchers whose network influence grew the most. I filtered to researchers above the median Era 2 centrality to focus on people who became genuinely influential, not just someone who went from 0 to 1 connection.</p>
+<p>By comparing <a href="https://en.wikipedia.org/wiki/Centrality#Degree_centrality" rel="external nofollow noopener" target="_blank">degree centrality</a> between Era 1 and Era 2, we can flag researchers whose network position grew the most. I filtered to researchers above the median Era 2 centrality to screen out the trivial “0 to 1 connection” cases.</p>
 
 <table>
   <thead>
@@ -782,13 +878,34 @@
   </tbody>
 </table>
 
-<p>An important caveat: high growth rates are easier from a low base. Lisa Morrison’s 82x growth sounds massive, but she started from essentially zero (a single connection in Era 1). The more interesting rising stars are people like Meghana Nitin Sathe (28 articles, 36x growth) and Dana P. Albon (26 articles, 20x growth), who have substantial publication records and went from peripheral to central.</p>
-
-<p>What these rising stars have in common: they were on the edge of the field in 2015-2018, maybe a postdoc or early-career investigator with one or two papers. Then in Era 2, they became hubs in new research areas that Trikafta opened up: long-term outcomes, rare mutations, CF-related diabetes, mental health. The network structure reveals their emergence years before traditional metrics (h-index, citation counts) would flag them. For a hiring committee or funding agency trying to identify the next generation of CF leaders, this kind of analysis is exactly what you’d want.</p>
+<p>A few caveats before anyone reads too much into this list. High growth multipliers are easy from a low base: Lisa Morrison’s 82x sounds massive, but she started from a single Era 1 connection, which inflates the ratio regardless of what she actually does now. Even the more substantial entries (Meghana Nitin Sathe at 28 articles and 36x, Dana P. Albon at 26 articles and ~20x) are only flagged by one metric — degree centrality growth — over two coarse time buckets. That is a shallow lens. It can’t tell you <em>why</em> someone’s connections grew, whether the growth is durable, or how they compare on the other centrality measures from Part 4 (betweenness, eigenvector, PageRank, weighted degree). Actually identifying genuine rising stars would need a much deeper look: tracking multiple centrality measures across a sliding window, checking whether the growth compounds or reverts, and sanity-checking against the person’s actual publication record and research topics. The table above is best read as a list of researchers worth investigating further, not a verdict on who the next generation of CF leaders will be.</p>
 
 <hr>
 
+<p>The dashboard below pulls the four main threads of this post into one view: the edge-turnover pie (continued vs dissolved vs brand new), the author population shift between eras, the domestic/international split for continued and new collaborations, and the density curve across the sliding windows.</p>
+
 <iframe src="/assets/plotly/tier4_trikafta_effect.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<hr>
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ul>
+  <li>
+<strong>A drug approval rewired the graph.</strong> 94% of Era 2 collaboration pairs are brand new compared to Era 1, far above the 20-30% per-year baseline for a stable field. The structural backbone held even as the field doubled: average clustering barely moved (0.880 → 0.877).</li>
+  <li>
+<strong>Most of the rewiring doesn’t fit pre-2019 dynamics.</strong> Restricted to continuity-researcher pairs where a pre-Trikafta node2vec + logistic-regression model can actually vote, 62.5% of their new edges are unexplained by the Era 1 pattern, and two-thirds of their dissolved edges were predicted to survive.</li>
+  <li>
+<strong>Topics rotated along with partnerships.</strong> Modulator-related MeSH topics surged and some infection-focused topics receded, normalized against publication counts per era.</li>
+  <li>
+<strong>The post-Trikafta field is tighter, not just bigger.</strong> Across 3-year sliding windows, network density rose 14% (0.00097 → 0.00111) and the giant component expanded from 69.8% to 77.3% of researchers.</li>
+  <li>
+<strong>Degree-centrality growth flags some candidate rising stars — tentatively.</strong> Filtering to above-median Era 2 centrality to screen out zero-base artifacts surfaces names like Meghana Nitin Sathe (28 articles, 36x) and Dana P. Albon (26 articles, ~20x). A single-metric, two-bucket comparison is a shallow lens, though; confirming anyone as a real rising star would need multi-metric, sliding-window analysis.</li>
+</ul>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Part 6 zooms out from researchers to institutions and geography: which organizations anchor CF research, how the map changes when you enrich it with ROR metadata, and why nearly half of institutional edges cross a national border.</p>
 
 <hr>
 
@@ -1071,7 +1188,7 @@
           
             title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
           
-          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
           section: "Posts",
           handler: () => {
             
@@ -1082,7 +1199,7 @@
           
             title: "Part 6: The Institutional Backbone and Geography of CF Research",
           
-          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          description: "Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.",
           section: "Posts",
           handler: () => {
             
@@ -1093,7 +1210,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
           section: "Posts",
           handler: () => {
             
@@ -1104,7 +1221,7 @@
           
             title: "Part 4: The Small World of CF Research",
           
-          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          description: "Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.",
           section: "Posts",
           handler: () => {
             

@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders">
+<meta name="description" content="Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -36,14 +36,14 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Subrat Mishra | Part 4: The Small World of CF Research">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure/">
-  <meta property="og:description" content="Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders">
+  <meta property="og:description" content="Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Part 4: The Small World of CF Research">
-  <meta name="twitter:description" content="Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders">
+  <meta name="twitter:description" content="Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.">
   
   
 
@@ -97,7 +97,7 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure/",
         "@type": "BlogPosting",
-        "description": "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+        "description": "Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.",
         "headline": "Part 4: The Small World of CF Research",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
@@ -275,6 +275,48 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item active">
@@ -358,7 +400,7 @@
   <header class="post-header">
     <h1 class="post-title">Part 4: The Small World of CF Research</h1>
     <p class="post-meta">
-      Posted on April 9, 2026
+      Posted on April 12, 2026
       
       
       
@@ -371,14 +413,7 @@
           ·  
         
           
-            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
-          
-          
-             
-          
-        
-          
-            <a href="/blog/tag/network-analysis"> <i class="fa-solid fa-hashtag fa-sm"></i> network-analysis</a>
+            <a href="/blog/tag/cystic-fibrosis"> <i class="fa-solid fa-hashtag fa-sm"></i> cystic-fibrosis</a>
           
           
              
@@ -386,6 +421,20 @@
         
           
             <a href="/blog/tag/graph-theory"> <i class="fa-solid fa-hashtag fa-sm"></i> graph-theory</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/small-world"> <i class="fa-solid fa-hashtag fa-sm"></i> small-world</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/leiden"> <i class="fa-solid fa-hashtag fa-sm"></i> leiden</a>
           
           
              
@@ -402,6 +451,20 @@
             <a href="/blog/tag/centrality"> <i class="fa-solid fa-hashtag fa-sm"></i> centrality</a>
           
           
+             
+          
+        
+          
+            <a href="/blog/tag/topsis"> <i class="fa-solid fa-hashtag fa-sm"></i> topsis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/networkx"> <i class="fa-solid fa-hashtag fa-sm"></i> networkx</a>
+          
+          
         
       
 
@@ -413,6 +476,22 @@
               <i class="fa-solid fa-tag fa-sm"></i> data-science</a>
           
           
+             
+          
+        
+          
+            <a href="/blog/category/cystic-fibrosis">
+              <i class="fa-solid fa-tag fa-sm"></i> cystic-fibrosis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/category/network-analysis">
+              <i class="fa-solid fa-tag fa-sm"></i> network-analysis</a>
+          
+          
         
       
     </p>
@@ -422,16 +501,18 @@
     
     <div id="markdown-content">
       <blockquote>
-  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr>
 
+<p>In parts 2 and 3 we created a list of 39,206 researchers and 11,500 CF publications. This post is where that raw material finally becomes a graph, and where the graph starts answering questions. Three in particular: what does the CF research network <em>look like</em> as a structure, who are the most influential researchers once you accept that “influential” has more than one meaning, and how is the field organized into communities and the bridge-builders who connect them.</p>
+
 <h2 id="building-the-graph">Building the Graph</h2>
 
-<p>With 39,206 disambiguated authors and 11,500 publications from Parts 2 and 3, I can now build what this entire project has been leading to: the <a href="https://en.wikipedia.org/wiki/Co-authorship_network" rel="external nofollow noopener" target="_blank">co-authorship network</a>.</p>
+<p>In a co-authorship network, each researcher is a <strong>node</strong>, and two nodes are linked by an <strong>edge</strong> if those researchers share a paper. Everything that follows is built on top of those two primitives: we weigh nodes to measure influence and edges to measure collaboration depth.</p>
 
-<p>The basic idea is straightforward. Two researchers are connected if they co-authored a paper. But not all authorship positions carry the same meaning. In biomedical research, authorship order is a strong signal of contribution: the first author typically did most of the hands-on work (running experiments, analyzing data, writing the paper), and the last author is usually the senior investigator who led the project and whose lab it came out of. Middle authors contributed specific expertise, a statistical analysis, a patient cohort, a reagent, but their role in the direct collaboration is less central.</p>
+<p>With the 39,206 authors and 11,500 publications from Parts 2 and 3, we can now wire up the network. The basic idea is straightforward. Two researchers are connected if they co-authored a paper. But not all authorship positions carry the same meaning. In biomedical research, authorship order is a strong signal of contribution: the first author typically did most of the hands-on work (running experiments, analyzing data, writing the paper), and the last author is usually the senior investigator who led the project and whose lab it came out of. Middle authors contributed specific expertise, a statistical analysis, a patient cohort, a reagent, but their role in the direct collaboration is less central.</p>
 
 <p>So instead of treating every co-authorship equally, I used a position-weighted scheme:</p>
 
@@ -472,7 +553,7 @@
   </tbody>
 </table>
 
-<p>The edge weight between two researchers equals the sum of their position weights across all shared papers. If Felix Ratjen (last author, weight 1.0) and a trainee (first author, weight 1.0) published 5 papers together, their edge weight is 5.0, a strong, repeated partnership. Compare that with two middle authors (weight 0.3 each) who appeared on a single large clinical trial: their edge weight is just 0.09. This distinction matters because a clinical trial with 40 authors doesn’t represent 780 meaningful collaborations. It represents one coordinated effort.</p>
+<p>For each paper two researchers share, multiply their position weights together; the edge weight is the sum of those per-paper products. If Felix Ratjen (last author, weight 1.0) and a trainee (first author, weight 1.0) published 5 papers together, their edge weight is 1.0 × 1.0 summed five times, or 5.0, a strong, repeated partnership. Compare that with two middle authors (weight 0.3 each) who appeared on a single large clinical trial: their edge weight is 0.3 × 0.3 = 0.09. This distinction matters because a clinical trial with 40 authors doesn’t represent 780 meaningful collaborations. It represents one coordinated effort.</p>
 
 <hr>
 
@@ -517,7 +598,7 @@
 
 <p>That last number caught my eye. 819 distinct collaborators means this person has co-authored papers with more than 2% of the entire CF research community. This typically happens with researchers who coordinate large multi-center clinical trials, where a single Phase 3 trial paper might list 40+ authors from 20 different institutions. They’re not necessarily the deepest collaborators, but they’re the ultimate connectors.</p>
 
-<p>The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few “super-connectors” pull the average way up. This is the hallmark of a <a href="https://en.wikipedia.org/wiki/Power_law" rel="external nofollow noopener" target="_blank">power-law distribution</a>, and it’s exactly what you’d expect in a real scientific collaboration network.</p>
+<p>The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few “super-connectors” pull the average way up. This is the hallmark of a power-law distribution, and it’s exactly what you’d expect in a real scientific collaboration network.</p>
 
 <iframe src="/assets/plotly/degree_distribution.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
@@ -622,7 +703,7 @@
       <td>Isabelle Sermet-Gaudelus</td>
       <td>123</td>
       <td>FR</td>
-      <td>Second-highest betweenness (0.026)</td>
+      <td>Third-highest betweenness (0.026)</td>
     </tr>
     <tr>
       <td>8</td>
@@ -636,7 +717,7 @@
       <td>Carla Colombo</td>
       <td>91</td>
       <td>IT</td>
-      <td>Third-highest betweenness (0.029)</td>
+      <td>Second-highest betweenness (0.029)</td>
     </tr>
     <tr>
       <td>10</td>
@@ -656,23 +737,9 @@
 
 <hr>
 
-<h2 id="what-are-people-studying-the-mesh-topic-landscape">What Are People Studying? The MeSH Topic Landscape</h2>
+<h2 id="the-major-communities-of-cf-research">The Major Communities of CF Research</h2>
 
-<p>Before looking at communities, it helps to understand what the research is actually about. The MeSH topic evolution chart shows which research topics grew and which shrank between eras:</p>
-
-<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
-
-<p>Green bars on the right are topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.</p>
-
-<p>The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:</p>
-
-<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
-
-<hr>
-
-<h2 id="the-seven-tribes-of-cf-research">The Seven Tribes of CF Research</h2>
-
-<p>Using the <a href="https://en.wikipedia.org/wiki/Leiden_algorithm" rel="external nofollow noopener" target="_blank">Leiden algorithm</a> for <a href="https://en.wikipedia.org/wiki/Community_structure" rel="external nofollow noopener" target="_blank">community detection</a>, I found <strong>1,231 communities</strong> with a <a href="https://en.wikipedia.org/wiki/Modularity_(networks)" rel="external nofollow noopener" target="_blank">modularity</a> of 0.815.</p>
+<p>Using the <a href="https://en.wikipedia.org/wiki/Leiden_algorithm" rel="external nofollow noopener" target="_blank">Leiden algorithm</a> for community detection, I found <strong>1,231 communities</strong> with a <a href="https://en.wikipedia.org/wiki/Modularity_(networks)" rel="external nofollow noopener" target="_blank">modularity</a> of 0.815.</p>
 
 <p>A quick explanation: the Leiden algorithm looks for groups of researchers who collaborate more with each other than you’d expect by chance. It’s an improvement over the older <a href="https://en.wikipedia.org/wiki/Louvain_method" rel="external nofollow noopener" target="_blank">Louvain method</a> because it guarantees that every detected community is internally well-connected, not just well-separated from others. Modularity is a score from 0 to 1 that measures how cleanly the network splits into communities. A score of 0.815 is very high, meaning CF research has genuinely distinct research clusters, not a homogeneous blob.</p>
 
@@ -861,6 +928,25 @@
 <p>Why does this matter? Because ideas flow through people. A breakthrough in Pseudomonas treatment in Liverpool only reaches the transplant community in Toronto if someone bridges those two groups. Bridge builders are the people through whom knowledge diffuses across the field. Remove them, and the network fragments into national or topical silos.</p>
 
 <p>In total, <strong>5,549 researchers</strong> (14.2% of the network) bridge two or more communities. That’s the connective tissue holding the CF research world together. The other 85.8% publish within a single community. Both roles are valuable, but the 14.2% of bridge builders have an outsized influence on how quickly ideas spread.</p>
+
+<hr>
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ul>
+  <li>
+<strong>It’s a village, not a web.</strong> A 4.31-hop average path length and a clustering coefficient of 0.862 mark CF research as a classic small-world network: sparse overall, but densely connected inside teams and shockingly close across them.</li>
+  <li>
+<strong>Influence has five flavors.</strong> Degree, weighted degree, betweenness, eigenvector, and PageRank each capture a different kind of prominence. TOPSIS combines them into one ranking so local-network stars (the Hacettepe Turkish group) surface alongside global connectors (Davies, Sermet-Gaudelus, Ratjen, Colombo, Mall) in the same top 10.</li>
+  <li>
+<strong>1,231 communities, organized mostly by country.</strong> A Leiden modularity of 0.815 says the communities are real, not artifacts of the algorithm, and the biggest ones anchor on single flagship institutions: Washington, INSERM, Rome, Hannover, Liverpool, Toronto, Carlos III, Sydney.</li>
+  <li>
+<strong>14.2% of researchers are the connective tissue.</strong> 5,549 bridge builders link two or more communities; Jane Davies alone spans 40. Remove them and the field fragments into national and topical silos.</li>
+</ul>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Part 5 asks whether this structure actually held when Trikafta landed in late 2019, or whether a single drug approval was enough to rewire the graph.</p>
 
 <hr>
 
@@ -1143,7 +1229,7 @@
           
             title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
           
-          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
           section: "Posts",
           handler: () => {
             
@@ -1154,7 +1240,7 @@
           
             title: "Part 6: The Institutional Backbone and Geography of CF Research",
           
-          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          description: "Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.",
           section: "Posts",
           handler: () => {
             
@@ -1165,7 +1251,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
           section: "Posts",
           handler: () => {
             
@@ -1176,7 +1262,7 @@
           
             title: "Part 4: The Small World of CF Research",
           
-          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          description: "Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.",
           section: "Posts",
           handler: () => {
             

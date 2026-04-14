@@ -17,12 +17,12 @@
   
   
     
-      From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration | Subrat Mishra
+      Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive | Subrat Mishra
     
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="A 7-part series on how one drug approval rewired the Cystic Fibrosis research community. PubMed, LLM-based entity resolution, network analysis, and graph ML.">
+<meta name="description" content="A 7-part data science deep dive into the Cystic Fibrosis research community: PubMed ingestion, LLM-based entity resolution, network analysis, graph machine learning, and a topic-diffusion map across 1,688 cities.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -34,16 +34,16 @@
   <!-- OpenGraph -->
   <meta property="og:site_name" content="Subrat Mishra">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Subrat Mishra | From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration">
+  <meta property="og:title" content="Subrat Mishra | Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive">
   <meta property="og:url" content="https://msubratcs.github.io/blog/cf-research-network-analysis/">
-  <meta property="og:description" content="A 7-part series on how one drug approval rewired the Cystic Fibrosis research community. PubMed, LLM-based entity resolution, network analysis, and graph ML.">
+  <meta property="og:description" content="A 7-part data science deep dive into the Cystic Fibrosis research community: PubMed ingestion, LLM-based entity resolution, network analysis, graph machine learning, and a topic-diffusion map across 1,688 cities.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration">
-  <meta name="twitter:description" content="A 7-part series on how one drug approval rewired the Cystic Fibrosis research community. PubMed, LLM-based entity resolution, network analysis, and graph ML.">
+  <meta name="twitter:title" content="Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive">
+  <meta name="twitter:description" content="A 7-part data science deep dive into the Cystic Fibrosis research community: PubMed ingestion, LLM-based entity resolution, network analysis, graph machine learning, and a topic-diffusion map across 1,688 cities.">
   
   
 
@@ -97,8 +97,8 @@
         },
         "url": "https://msubratcs.github.io/blog/cf-research-network-analysis/",
         "@type": "BlogPosting",
-        "description": "A 7-part series on how one drug approval rewired the Cystic Fibrosis research community. PubMed, LLM-based entity resolution, network analysis, and graph ML.",
-        "headline": "From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration",
+        "description": "A 7-part data science deep dive into the Cystic Fibrosis research community: PubMed ingestion, LLM-based entity resolution, network analysis, graph machine learning, and a topic-diffusion map across 1,688 cities.",
+        "headline": "Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
         
@@ -275,6 +275,48 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item active">
@@ -351,38 +393,48 @@
 <div class="post">
   <header class="post-header">
     
-      <h1 class="post-title">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</h1>
-      <p class="post-description">A 7-part series on how one drug approval rewired the Cystic Fibrosis research community. PubMed, LLM-based entity resolution, network analysis, and graph ML.</p>
+      <h1 class="post-title">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</h1>
+      <p class="post-description">A 7-part data science deep dive into the Cystic Fibrosis research community: PubMed ingestion, LLM-based entity resolution, network analysis, graph machine learning, and a topic-diffusion map across 1,688 cities.</p>
     
   </header>
 
   <article>
-    <h2 id="the-question-that-started-it-all">The Question That Started It All</h2>
+    <h2 id="the-questions-that-started-it-all">The Questions That Started It All</h2>
 
-<p>What happens to a scientific community when a breakthrough drug transforms an entire disease? Not the clinical outcomes. Those are well-documented. The <em>human network</em>. Who starts collaborating with whom? Which institutions rise? Which research topics quietly die, and which ones spring up from nothing?</p>
+<p>This series treats a decade of Cystic Fibrosis research as a data set and asks what you can learn about a scientific community by looking only at its <em>human network</em>. Five questions guide the work:</p>
+
+<ul>
+  <li>Who collaborates with whom in CF research, and how tightly knit is the field once you draw the graph?</li>
+  <li>Which institutions and cities anchor the work today, and which ones are quietly on the rise?</li>
+  <li>How does a research community evolve when a generational drug — Trikafta, in this case — arrives in the middle of the timeline?</li>
+  <li>How do new ideas — pandemics, modulators, resistant infections — spread across the globe, and why do some reach everyone in months while others take decades?</li>
+  <li>Can graph machine learning surface latent connections and innovation brokers that traditional bibliometrics miss?</li>
+</ul>
+
+<p>None of these questions need a medical answer. They need a map of the people doing the science.</p>
 
 <hr>
 
-<h2 id="cystic-fibrosis-a-disease-transformed">Cystic Fibrosis: A Disease Transformed</h2>
+<h2 id="cystic-fibrosis-why-this-community">Cystic Fibrosis: Why This Community?</h2>
 
-<p>Cystic Fibrosis is a genetic disease caused by mutations in the <a href="https://en.wikipedia.org/wiki/Cystic_fibrosis_transmembrane_conductance_regulator" rel="external nofollow noopener" target="_blank">CFTR gene</a>. For decades, treatment meant managing symptoms: chronic lung infections, nutrition, and lung transplant when things got bad enough. Median survival hovered around 40.</p>
+<p>Cystic Fibrosis is a genetic disease caused by mutations in the <a href="https://en.wikipedia.org/wiki/Cystic_fibrosis_transmembrane_conductance_regulator" rel="external nofollow noopener" target="_blank">CFTR gene</a>. The techniques in this series are general and apply to any biomedical research community, but CF makes for an unusually rich case study: the corpus (roughly 11,500 articles, 39,000 researchers) is big enough to show real network structure but small enough to iterate on from a single workstation, and the field is tight-knit enough that the human stories behind the graph are worth telling.</p>
 
-<p>Then the science shifted. Instead of treating symptoms, researchers started going after the underlying molecular defect:</p>
+<p>It also comes with a natural experiment baked into the timeline. The therapeutic landscape pivoted three times in one decade — <strong>Ivacaftor (2012)</strong> for a small subset of patients, <strong>Orkambi (2015)</strong> for roughly half, and <strong>Trikafta (2019)</strong> for about 90% of CF patients, with clinical benefits nobody had seen before. That last one is one of several inflection points the series tracks, and it powers the Era 1 (2015-2018) vs Era 2 (2019-2025) comparison in <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5</a>. The other six parts each ask their own questions — about data pipelines, entity resolution, network structure, institutional geography, embeddings, and knowledge diffusion — that don’t need the Trikafta lens at all.</p>
 
-<ul>
-  <li>
-<strong>2012</strong>: Ivacaftor (Kalydeco), the first CFTR modulator. A real breakthrough, but only for a small percentage of patients with a specific mutation.</li>
-  <li>
-<strong>2015</strong>: Orkambi extended modulator therapy to roughly 50% of patients, those homozygous for the F508del mutation.</li>
-  <li>
-<strong>2019</strong>: Trikafta. The big one. Effective for about 90% of CF patients, with improvements in lung function, nutrition, and quality of life that nobody had seen before.</li>
-</ul>
+<p>Below is a taste of what the seven parts together actually turn up:</p>
 
-<p>Imagine a single pill that worked for 90% of diabetics instead of 5%. That is the scale of Trikafta. Median survival projections jumped dramatically, patients came off lung transplant waiting lists, and the research agenda pivoted from “how do we manage decline” to “what does it mean to age with CF.”</p>
-
-<p>That pivot is the natural experiment this series runs on. <strong>Era 1 (2015-2018)</strong> is the early-modulator world, still centered on infections, nutrition, and transplant. <strong>Era 2 (2019-2025)</strong> is the Trikafta revolution, pivoting toward long-term outcomes and the minority of patients who don’t respond. The project is not really about CF itself. It is about whether the <em>network of researchers</em> felt that pivot, and whether graph machine learning can pick it up before traditional bibliometrics can.</p>
-
-<p>Spoiler: it did! By the end of this series, we’ll see that a single researcher at Imperial College London bridges <strong>40 research communities</strong> across the globe, that <strong>62.5% of new collaborations</strong> in the post-breakthrough era were ones no pre-existing pattern predicted, and that two researchers on opposite sides of the Atlantic have nearly identical “research DNA” but have never met.</p>
+<blockquote>
+  <p><strong>Spoiler highlights:</strong></p>
+  <ul>
+    <li>A three-step filter funnel distills <strong>26 million</strong> PubMed articles down to <strong>11,528</strong> CF-specific papers (<a href="/blog/2026/cf-research-network-analysis-part1-data-pipeline/">Part 1</a>).</li>
+    <li>An LLM-based entity-resolution pipeline beats five traditional baselines that top out near 58% consistency, cleaning <strong>50,981</strong> messy affiliation strings for about <strong>$82</strong> end-to-end (<a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2</a>).</li>
+    <li>One researcher at Imperial College London sits on <strong>40 Leiden communities</strong> at once, holding a surprisingly large chunk of the CF field together (<a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4</a>).</li>
+    <li>Even among researchers who were already active before 2019, <strong>62.5%</strong> of their new post-Trikafta partnerships don’t fit pre-Trikafta network dynamics (<a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5</a>).</li>
+    <li>
+<strong>46%</strong> of institutional collaboration edges cross a national border, and pre-1900 universities still own nearly half of CF output (<a href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6</a>).</li>
+    <li>Two researchers on opposite sides of the Atlantic have nearly identical “Research DNA” in a 128-dim metapath2vec embedding space but have never co-authored — and COVID-19 reached <strong>277 cities</strong> in two years while CFTR modulators are still percolating after more than a decade (<a href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7</a>).</li>
+  </ul>
+</blockquote>
 
 <blockquote>
   <p><strong>Disclaimer:</strong> I am not a medical professional or a Cystic Fibrosis expert. This series is a data science and graph ML project, nothing in it is medical advice. For information about CF or its treatment, consult a qualified healthcare provider or visit the <a href="https://www.cff.org/" rel="external nofollow noopener" target="_blank">Cystic Fibrosis Foundation</a>.</p>
@@ -392,9 +444,7 @@
 
 <h2 id="the-road-map">The Road Map</h2>
 
-<p>The techniques here are general and apply to any biomedical research community. Cystic Fibrosis earns its role as the case study for three reasons: its recent therapeutic history is an extraordinary natural experiment, its corpus (roughly 11,500 articles and 39,000 researchers) is big enough to show rich network structure but small enough to iterate on from a single workstation, and its research community is tight-knit enough to make the human stories behind the graph worth telling.</p>
-
-<p>The series splits cleanly into two halves. Parts 1 to 3 build the raw material: ingesting <a href="https://pubmed.ncbi.nlm.nih.gov/" rel="external nofollow noopener" target="_blank">PubMed</a>, cleaning the institutions into a master list, and disambiguating the authors into a second one. Parts 4 to 7 turn those two lists into a collaboration graph and run the analyses, starting with the raw structure of the network and ending with <a href="https://en.wikipedia.org/wiki/Graph_neural_network" rel="external nofollow noopener" target="_blank">graph neural networks</a> on a heterogeneous researcher-topic-institution graph.</p>
+<p>The series splits cleanly into two halves. The first half is <strong>data engineering</strong>: Parts 1 to 3 ingest <a href="https://pubmed.ncbi.nlm.nih.gov/" rel="external nofollow noopener" target="_blank">PubMed</a>, build a master list of institutions, and disambiguate the authors into a second master list of researchers. The second half is <strong>analysis</strong>: Parts 4 to 7 turn those two lists into a collaboration graph and work through its structure, its temporal response to Trikafta, its institutional geography, and finally its latent structure via <a href="https://ericdongyx.github.io/papers/KDD17-dong-chawla-swami-metapath2vec.pdf" rel="external nofollow noopener" target="_blank">metapath2vec</a> embeddings over a heterogeneous researcher-paper-topic-journal-institution graph.</p>
 
 <p><strong>Part I · From messy PubMed to a clean collaboration graph</strong></p>
 
@@ -417,35 +467,46 @@
 
 </ul>
 
-<p><strong>Part II · Reading the network</strong></p>
+<p><strong>Part II · Mining the network for insight</strong></p>
 
 <ul class="series-list">
 
 <li>
 <h3><a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a></h3>
-<p>With the graph finally built, the structural portrait comes into focus: a small-world network of 1,231 research communities glued together by a handful of bridge builders, including one researcher at Imperial College London who sits on 40 of them at once.</p>
+<p>With the graph finally built, the structural portrait comes into focus: a small-world network of 1,231 Leiden communities, five centrality measures fused via TOPSIS to rank influence across local clusters and global connectors alike, and a handful of bridge builders holding the field together — including one researcher at Imperial College London who sits on 40 communities at once.</p>
 </li>
 
 <li>
 <h3><a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></h3>
-<p>In a typical scientific field, 20 to 30% of collaboration edges turn over each year. The post-Trikafta CF network saw 94%. A Node2Vec-based counterfactual shows that 62.5% of the new collaborations were genuinely unpredictable from pre-2019 patterns: a single drug approval rewired the graph.</p>
+<p>94% of the collaboration pairs in the post-Trikafta CF network didn't exist before 2019. A Node2Vec-based counterfactual, scoring only the subset of new edges where both researchers were already active in Era 1, finds that 62.5% of those partnerships don't fit pre-Trikafta network dynamics — and two-thirds of the dissolved ones "should" still be going.</p>
 </li>
 
 <li>
 <h3><a href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></h3>
-<p>46% of institution-to-institution edges cross a national border. A founding-era analysis via ROR shows that 19th-century institutions still carry an outsized share of the output, while academic-industry corridors, most visibly Vertex Pharmaceuticals, trace the flow of translational work from the lab into the clinic.</p>
+<p>A bipartite projection of the researcher graph yields a 5,628-institution backbone where 46% of edges cross a national border. ROR enrichment dates 937 organizations and shows that pre-1900 universities still own nearly half of CF output, while the strongest international corridors are overwhelmingly Anglophone and Vertex Pharmaceuticals is the only industry player operating at scale.</p>
 </li>
 
 <li>
 <h3><a href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a></h3>
-<p>A heterogeneous graph of researchers, topics, journals, and institutions, trained with metapath2vec embeddings, surfaces Research Twins: pairs of scientists with nearly identical research DNA who have never co-authored. Innovation brokerage scoring picks out the people who pull new ideas across community lines, and a topic-diffusion analysis across 1,688 cities shows why COVID-19 reached everywhere in months while CFTR modulators are still percolating.</p>
+<p>A 60,000-node heterogeneous graph of researchers, papers, topics, journals, and institutions, with metapath2vec walked along Author-Paper-Topic-Paper-Author to encode each scientist as a 128-dim "Research DNA" vector. The embedding surfaces Research Twins (pairs with nearly identical topic profiles who have never co-authored), a four-signal Innovation Brokerage Score blends Shannon-entropy topic diversity with Burt's structural holes to find the people who pull new ideas across community lines, and a topic-diffusion analysis across 1,688 cities shows why COVID-19 reached everywhere in months while CFTR modulators are still percolating.</p>
 </li>
 
 </ul>
 
 <hr>
 
-<p><em>Acknowledgments: I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec" rel="external nofollow noopener" target="_blank">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/" rel="external nofollow noopener" target="_blank">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts" rel="external nofollow noopener" target="_blank">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/" rel="external nofollow noopener" target="_blank">CS224U: Natural Language Understanding</a>) at Stanford, whose courses gave me the foundation to take on a project like this.</em></p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<p>This project only exists because a lot of other people did the hard work first and made it public. I’m grateful to Prof. <a href="https://profiles.stanford.edu/jure-leskovec" rel="external nofollow noopener" target="_blank">Jure Leskovec</a> (<a href="https://web.stanford.edu/class/cs224w/" rel="external nofollow noopener" target="_blank">CS224W: Machine Learning with Graphs</a>) and Prof. <a href="https://profiles.stanford.edu/christopher-potts" rel="external nofollow noopener" target="_blank">Chris Potts</a> (<a href="https://web.stanford.edu/class/cs224u/" rel="external nofollow noopener" target="_blank">CS224U: Natural Language Understanding</a>), whose courses gave me the foundation to take on a project like this. The series also stands on:</p>
+
+<ul>
+  <li>
+<strong>Data sources</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/" rel="external nofollow noopener" target="_blank">PubMed / NCBI</a> for the literature, <a href="https://www.nlm.nih.gov/mesh/meshhome.html" rel="external nofollow noopener" target="_blank">MeSH</a> for topic vocabulary, <a href="https://orcid.org/" rel="external nofollow noopener" target="_blank">ORCID</a> for author identity, and the <a href="https://ror.org/" rel="external nofollow noopener" target="_blank">Research Organization Registry (ROR)</a> for institution identity.</li>
+  <li>
+<strong>LLM and API providers</strong>: OpenAI, Anthropic, and Google for the models used in the Part 2 entity-resolution eval; Google Places for geocoding institutions.</li>
+  <li>
+<strong>Open-source tooling</strong>: <a href="https://www.prefect.io/" rel="external nofollow noopener" target="_blank">Prefect</a> for the ETL pipeline, <a href="https://mlflow.org/" rel="external nofollow noopener" target="_blank">MLflow</a> for experiment tracking, <a href="https://networkx.org/" rel="external nofollow noopener" target="_blank">NetworkX</a> and <a href="https://python.igraph.org/" rel="external nofollow noopener" target="_blank">python-igraph</a> for the graph work, <a href="https://pytorch-geometric.readthedocs.io/" rel="external nofollow noopener" target="_blank">PyTorch Geometric</a> for metapath2vec, <a href="https://umap-learn.readthedocs.io/" rel="external nofollow noopener" target="_blank">UMAP</a> for dimensionality reduction, and <a href="https://plotly.com/python/" rel="external nofollow noopener" target="_blank">Plotly</a> for the interactive charts that hopefully make the findings easier to explore than they were to compute.</li>
+</ul>
 
   </article>
 
@@ -716,7 +777,7 @@
           
             title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
           
-          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
           section: "Posts",
           handler: () => {
             
@@ -727,7 +788,7 @@
           
             title: "Part 6: The Institutional Backbone and Geography of CF Research",
           
-          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          description: "Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.",
           section: "Posts",
           handler: () => {
             
@@ -738,7 +799,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
           section: "Posts",
           handler: () => {
             
@@ -749,7 +810,7 @@
           
             title: "Part 4: The Small World of CF Research",
           
-          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          description: "Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.",
           section: "Posts",
           handler: () => {
             

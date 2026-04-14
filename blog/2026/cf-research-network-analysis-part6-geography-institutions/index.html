@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping">
+<meta name="description" content="Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -36,14 +36,14 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Subrat Mishra | Part 6: The Institutional Backbone and Geography of CF Research">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions/">
-  <meta property="og:description" content="Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping">
+  <meta property="og:description" content="Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Part 6: The Institutional Backbone and Geography of CF Research">
-  <meta name="twitter:description" content="Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping">
+  <meta name="twitter:description" content="Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.">
   
   
 
@@ -97,7 +97,7 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions/",
         "@type": "BlogPosting",
-        "description": "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+        "description": "Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.",
         "headline": "Part 6: The Institutional Backbone and Geography of CF Research",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
@@ -275,6 +275,48 @@
             
           
             
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item active">
@@ -358,7 +400,7 @@
   <header class="post-header">
     <h1 class="post-title">Part 6: The Institutional Backbone and Geography of CF Research</h1>
     <p class="post-meta">
-      Posted on April 9, 2026
+      Posted on April 12, 2026
       
       
       
@@ -371,14 +413,14 @@
           ·  
         
           
-            <a href="/blog/tag/co-authorship"> <i class="fa-solid fa-hashtag fa-sm"></i> co-authorship</a>
+            <a href="/blog/tag/cystic-fibrosis"> <i class="fa-solid fa-hashtag fa-sm"></i> cystic-fibrosis</a>
           
           
              
           
         
           
-            <a href="/blog/tag/network-analysis"> <i class="fa-solid fa-hashtag fa-sm"></i> network-analysis</a>
+            <a href="/blog/tag/trikafta"> <i class="fa-solid fa-hashtag fa-sm"></i> trikafta</a>
           
           
              
@@ -392,7 +434,7 @@
           
         
           
-            <a href="/blog/tag/geography"> <i class="fa-solid fa-hashtag fa-sm"></i> geography</a>
+            <a href="/blog/tag/bipartite-projection"> <i class="fa-solid fa-hashtag fa-sm"></i> bipartite-projection</a>
           
           
              
@@ -400,6 +442,20 @@
         
           
             <a href="/blog/tag/ror"> <i class="fa-solid fa-hashtag fa-sm"></i> ror</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/academic-industry"> <i class="fa-solid fa-hashtag fa-sm"></i> academic-industry</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/geography"> <i class="fa-solid fa-hashtag fa-sm"></i> geography</a>
           
           
         
@@ -413,6 +469,22 @@
               <i class="fa-solid fa-tag fa-sm"></i> data-science</a>
           
           
+             
+          
+        
+          
+            <a href="/blog/category/cystic-fibrosis">
+              <i class="fa-solid fa-tag fa-sm"></i> cystic-fibrosis</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/category/network-analysis">
+              <i class="fa-solid fa-tag fa-sm"></i> network-analysis</a>
+          
+          
         
       
     </p>
@@ -422,16 +494,16 @@
     
     <div id="markdown-content">
       <blockquote>
-  <p><em>Part 6 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+  <p><em>Part 6 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr>
 
 <h2 id="the-institution-network">The Institution Network</h2>
 
-<p>So far I’ve been looking at the network through the lens of individual researchers. But there’s another way to slice it: by institution. If two institutions have authors who co-published a paper, those institutions are connected. The weight of the connection is the number of shared publications. This is essentially a <a href="https://en.wikipedia.org/wiki/Bipartite_graph" rel="external nofollow noopener" target="_blank">bipartite graph</a> projection: the original data has authors connected to papers, and I project it onto institutions by saying “two institutions are linked if they share at least one paper.”</p>
+<p>So far We’ve been looking at the network through the lens of individual researchers. But there’s another way to slice it: by institution. If two institutions have authors who co-published a paper, those institutions are connected. The weight of the connection is the number of shared publications. This is essentially a <a href="https://en.wikipedia.org/wiki/Bipartite_graph" rel="external nofollow noopener" target="_blank">bipartite graph</a> projection. The underlying bipartite structure has papers on one side and institutions on the other, with an edge whenever a paper has an author affiliated with that institution. Projecting that graph onto institutions gives us the collaboration network: two institutions are linked if they share at least one paper, weighted by the number of shared papers.</p>
 
-<p>This gives us a very different view. Instead of 39,206 nodes and 323,633 edges, the institution network has <strong>5,628 institutions connected by 61,059 collaboration edges</strong>. It’s a more tractable graph, and it reveals the organizational backbone of CF research.</p>
+<p>This gives us a very different view. Instead of 39,206 nodes and 323,633 edges, the institution network has <strong>5,628 institutions connected by 61,059 collaboration edges</strong> — the 5,628 figure is the subset of the 5,799 organizations from Part 2 that has at least one cross-institution collaboration (the rest only ever appeared on single-affiliation papers). It’s a much more tractable graph, and it reveals the organizational backbone of CF research.</p>
 
 <p>Here’s a bar chart of the top 30, with bars stacked by era to show how each institution’s output split between pre- and post-Trikafta:</p>
 
@@ -505,7 +577,7 @@
     </tr>
     <tr>
       <td>8</td>
-      <td>Charite Campus Mitte</td>
+      <td>Charité Campus Mitte</td>
       <td>DE</td>
       <td>1,168</td>
       <td>467</td>
@@ -527,9 +599,9 @@
   </tbody>
 </table>
 
-<p>The University of Toronto has the most institutional connections (554 collaborating institutions), even though the University of Washington has the most shared publications (2,102). This suggests UW has deeper relationships with fewer partners, while U of T has broader but shallower connections.</p>
+<p>The University of Toronto has the most institutional connections (554 collaborating institutions), even though the University of Washington has the most shared publications (2,102). The gap is real but modest: UW averages roughly 3.9 shared pubs per partner against U of T’s 3.1, so UW’s relationships are marginally deeper while U of T’s are marginally broader.</p>
 
-<p>The CF Foundation at #2 is interesting. It’s not a research university or hospital. It’s a nonprofit that funds and coordinates clinical trial networks, which is why it shows up as a shared affiliation on so many multi-center studies. Its structural position in the network reflects its role as an enabler of collaboration.</p>
+<p>The CF Foundation at #2 is interesting — a nonprofit, not a university or hospital, that funds and coordinates clinical trial networks, which is why it shows up as a shared affiliation on so many multi-center studies. Its structural position in the network reflects its role as an enabler of collaboration.</p>
 
 <hr>
 
@@ -537,7 +609,7 @@
 
 <p>CF research has a significant industry component, mostly driven by Vertex Pharmaceuticals, which developed the CFTR modulator drugs. I classified the 5,799 organizations into broad types (academic, hospital, industry, government, other) and mapped the academic-industry collaboration patterns.</p>
 
-<p><strong>Vertex Pharmaceuticals dominates</strong> the industry side with 558 shared publications across its two main facilities (378 from the Boston campus, 180 from additional sites). No other company comes close.</p>
+<p><strong>Vertex Pharmaceuticals dominates</strong> the industry side with 558 shared publications — 378 from its Boston headquarters and another 180 from its other sites combined. No other company comes close.</p>
 
 <iframe src="/assets/plotly/tier5_industry_connections.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
@@ -566,13 +638,13 @@
       <td>26</td>
     </tr>
     <tr>
-      <td>Universita di Napoli Federico II</td>
+      <td>Università di Napoli Federico II</td>
       <td>IT</td>
       <td>44</td>
       <td>5</td>
     </tr>
     <tr>
-      <td>Charite Campus Mitte</td>
+      <td>Charité Campus Mitte</td>
       <td>DE</td>
       <td>42</td>
       <td>20</td>
@@ -616,7 +688,7 @@
   </tbody>
 </table>
 
-<p>An interesting contrast: Napoli Federico II has 44 shared publications with industry but only 5 industry partners. That’s a deep relationship with a small number of companies (likely Vertex and CEINGE Biotecnologie). Meanwhile, UAB has 46 publications spread across 26 different industry partners, a much broader portfolio.</p>
+<p>An interesting contrast: Napoli Federico II has 44 shared publications with industry but only 5 industry partners — a deeply consolidated portfolio centered on a handful of pharma collaborators. Meanwhile, UAB has 46 publications spread across 26 different industry partners, a much broader portfolio.</p>
 
 <hr>
 
@@ -675,7 +747,7 @@
 
 <h2 id="the-age-of-research-how-old-are-these-institutions">The Age of Research: How Old Are These Institutions?</h2>
 
-<p>This is something I couldn’t have done with just the Google Places data. By enriching the top 1,000 institutions with data from the <a href="https://en.wikipedia.org/wiki/Research_Organization_Registry" rel="external nofollow noopener" target="_blank">Research Organization Registry (ROR)</a>, an open, community-led registry of research organizations worldwide, I got founding years for 937 of them. The results add a whole new dimension to the analysis.</p>
+<p>This is something we couldn’t have done with just the Google Places data. By enriching the top 1,000 institutions with data from the <a href="https://en.wikipedia.org/wiki/Research_Organization_Registry" rel="external nofollow noopener" target="_blank">Research Organization Registry (ROR)</a>, an open, community-led registry of research organizations worldwide, I got founding years for 937 of them. The results add a new interesting dimension to the analysis.</p>
 
 <h3 id="the-age-distribution">The Age Distribution</h3>
 
@@ -718,16 +790,16 @@
   </tbody>
 </table>
 
-<p>Legacy institutions, places like the University of Washington (1861), University of Toronto (1827), UNC Chapel Hill (1789), and Charite (1710), make up about 40% of the institutions but account for nearly <strong>half of all CF research output</strong>. The accumulated advantages of centuries of infrastructure, reputation, and network position show up clearly in the data.</p>
+<p>Legacy institutions, places like the University of Washington (1861), University of Toronto (1827), UNC Chapel Hill (1789), and Charité (1710), make up about 40% of the institutions but account for nearly <strong>half of all CF research output</strong>. The accumulated advantages of centuries of infrastructure, reputation, and network position show up clearly in the data.</p>
 
-<p>But the newcomers are interesting too. Seattle Children’s Research Institute (2006) already has 674 shared publications. Perth Children’s Hospital (2018) and University Paris Cite (2019) are climbing fast despite being less than a decade old. Several of these “newcomer” institutions are actually reorganizations or spin-offs from existing legacy institutions, which explains their rapid rise.</p>
+<p>But the newcomers are interesting too. Seattle Children’s Research Institute (2006) already has 674 shared publications. Perth Children’s Hospital (2018) and Université Paris Cité (2019) are climbing fast despite being less than a decade old. Several of these “newcomer” institutions are actually reorganizations or spin-offs from existing legacy institutions, which explains their rapid rise.</p>
 
 <h3 id="does-age-predict-influence">Does Age Predict Influence?</h3>
 
 <iframe src="/assets/plotly/ror_age_vs_centrality.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Hover over points for details.</em></p>
 
-<p>I ran <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient" rel="external nofollow noopener" target="_blank">Spearman rank correlations</a> between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 (perfect inverse relationship) to +1 (perfect positive relationship), with 0 meaning no relationship:</p>
+<p>I ran <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient" rel="external nofollow noopener" target="_blank">Spearman rank correlations</a> between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 to +1, with 0 meaning no relationship:</p>
 
 <table>
   <thead>
@@ -761,7 +833,7 @@
   </tbody>
 </table>
 
-<p>The correlations are statistically significant but modest. Institutional age explains some of the variance in network position, but it’s far from deterministic. <strong>Betweenness centrality has the strongest age effect</strong> (rho = 0.223), meaning older institutions are disproportionately likely to be bridges between different research groups. This makes sense: centuries of accumulated alumni, collaborations, and institutional relationships create structural connections that newer institutions can’t replicate overnight.</p>
+<p>The correlations are statistically significant but modest. Institutional age explains some of the variance in network position, but it’s far from deterministic. <strong>Betweenness centrality has the strongest age effect</strong> (rho = 0.223), meaning older institutions are disproportionately likely to be bridges between different research groups. This makes sense: centuries of accumulated alumni, collaborations, and institutional relationships create structural connections providing them an edge.</p>
 
 <p>But the scatter plot tells a more nuanced story. There’s a cloud of legacy institutions at various centrality levels, meaning being old doesn’t guarantee being important. And there are newcomers punching well above their weight.</p>
 
@@ -808,21 +880,22 @@
 
 <p>The shift is subtle but real. Legacy institutions lost 2.3 percentage points of network share between eras, while the Established cohort (1900-1960) gained 2.6 points. The Modern and Newcomer cohorts stayed flat.</p>
 
-<p>This doesn’t mean the Trikafta revolution redistributed power away from old institutions in any dramatic way. The legacy institutions still dominate. But the established mid-century institutions, places like the CF Foundation (1955), National Jewish Health (1899), and many of the major children’s hospitals, gained relative ground. These are exactly the institutions most deeply embedded in CF clinical trial networks, which expanded significantly in the Trikafta era.</p>
+<p>This doesn’t mean the Trikafta revolution redistributed power away from old institutions in any dramatic way. The legacy institutions still dominate. But the established institutions like the CF Foundation (1955), National Jewish Health (1899), and many of the major children’s hospitals, gained relative ground.</p>
 
 <h3 id="the-age-map">The Age Map</h3>
 
 <iframe src="/assets/plotly/ror_age_map.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old powerhouses still dominate.</p>
+<p>The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old ones still dominate.</p>
 
-<h3 id="ror-based-type-mixing">ROR-Based Type Mixing</h3>
+<h3 id="a-cleaner-cut-at-type-mixing">A Cleaner Cut at Type Mixing</h3>
 
-<p>With the ROR enrichment, I can also redo the type mixing analysis from earlier using ROR’s cleaner 18-type taxonomy instead of Google’s 278 fragmented categories. The biggest difference: ROR allows multi-valued types (49% of institutions have 2+ types like “education;funder;healthcare”), which captures the reality that a university hospital is both educational and clinical:</p>
+<p>One last unexpected bonus from the ROR enrichment: since ROR also classifies institutions by type, we can redo the type mixing analysis from earlier using its cleaner 18-type taxonomy instead of Google’s 278 fragmented categories. The biggest difference is that ROR allows multi-valued types (49% of institutions have 2+ types like “education;funder;healthcare”), which captures the reality that a university hospital is both educational and clinical:</p>
 
 <iframe src="/assets/plotly/ror_type_mixing.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The funder-education axis dominates, which makes sense: most research institutions are both educational and funded. The healthcare-funder axis is the next strongest, reflecting hospital-based research funded by grants.</p>
+<p>The education-funder axis dominates. Many major universities carry both <code class="language-plaintext highlighter-rouge">education</code> and <code class="language-plaintext highlighter-rouge">funder</code>. 
+The education-healthcare axis seems the next most interpretable, showcasing the university-hospital backbone of clinical CF research.</p>
 
 <hr>
 
@@ -838,13 +911,13 @@
 
 <iframe src="/assets/plotly/cf_hubs_animated.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation’s Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston grows steadily (home of Vertex Pharmaceuticals). And the European hubs (Paris, London, Milan) maintain their positions throughout.</p>
+<p>Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation’s Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston (home of Vertex Pharmaceuticals) grows steadily. The European hubs (Paris, London, Milan) maintain their positions throughout.</p>
 
 <h3 id="top-countries">Top Countries</h3>
 
 <iframe src="/assets/plotly/eda_top_countries.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group that showed up in the centrality rankings.</p>
+<p>The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group in Ankara — the same cluster that surfaced as a rising bridge in the Part 4 centrality rankings.</p>
 
 <h3 id="international-collaboration-corridors">International Collaboration Corridors</h3>
 
@@ -852,9 +925,17 @@
 
 <iframe src="/assets/plotly/tier5_intl_corridors.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within Europe, Germany-France (912) and France-Italy (647) are the strongest continental partnerships.</p>
+<p>The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within mainland Europe, Germany-France (912) and France-Italy (647) are the strongest partnerships — and both come in well below top two.</p>
 
-<p>The Anglophone bias is obvious: the top 5 corridors all involve English-speaking countries. The European cross-language corridors (Germany-France, France-Italy, Germany-Netherlands) are strong but consistently smaller, suggesting that language and cultural barriers still shape who collaborates with whom, even in science.</p>
+<p>There is an obvious pattern at the top of the list: every one of the top 5 corridors links at least one of the US, UK, Canada, or Australia, and four of those five connect two of those countries directly. The strongest within-mainland-Europe pairs (Germany-France, France-Italy, Germany-Netherlands) sit consistently below them. It’s tempting to read this as shared language and cultural proximity shaping who collaborates with whom but we need more evidence to make that conclusion.</p>
+
+<hr>
+
+<h2 id="zooming-out">Zooming Out</h2>
+
+<p>Four very different slices of the data all point at the same organizational spine: a few dozen legacy university-hospital hubs in the US, UK, Canada, and Western Europe, stitched together by a dense academic-hospital axis domestically and by Anglophone corridors internationally. Vertex is the only industry player operating at that scale. Age buys structural advantage but not dominance — newcomers like Seattle Children’s and Université Paris Cité punch well above their weight — and the Trikafta era has nudged power subtly toward mid-century clinical-trial institutions rather than reshuffling the whole board.</p>
+
+<p>Part 7 drops the institutional lens entirely and goes back to individuals, this time with a machine-learning question: can a model learn each researcher’s “research DNA” from who, what, where, and with whom they publish — and use it to find pairs of scientists on opposite sides of the world who should already know each other?</p>
 
 <hr>
 
@@ -1137,7 +1218,7 @@
           
             title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
           
-          description: "Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities",
+          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
           section: "Posts",
           handler: () => {
             
@@ -1148,7 +1229,7 @@
           
             title: "Part 6: The Institutional Backbone and Geography of CF Research",
           
-          description: "Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping",
+          description: "Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.",
           section: "Posts",
           handler: () => {
             
@@ -1159,7 +1240,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars",
+          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
           section: "Posts",
           handler: () => {
             
@@ -1170,7 +1251,7 @@
           
             title: "Part 4: The Small World of CF Research",
           
-          description: "Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders",
+          description: "Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.",
           section: "Posts",
           handler: () => {
             

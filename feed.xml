@@ -1,71 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-13T07:19:00+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
-</subtitle><entry><title type="html">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml/" rel="alternate" type="text/html" title="Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion" /><published>2026-04-09T21:00:00+00:00</published><updated>2026-04-09T21:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml/"><![CDATA[<blockquote>
-  <p><em>Part 7 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://msubratcs.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://msubratcs.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-14T06:33:21+00:00</updated><id>https://msubratcs.github.io/feed.xml</id><title type="html">blank</title><subtitle>Personal blog of Subrat Mishra.
+</subtitle><entry><title type="html">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml/" rel="alternate" type="text/html" title="Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion" /><published>2026-04-12T21:00:00+00:00</published><updated>2026-04-12T21:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part7-graph-ml/"><![CDATA[<blockquote>
+  <p><em>Part 7 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr />
 
-<p>This is the part I’ve been building toward since Part 1. Everything before this, the data pipeline, the disambiguation, the network construction, was infrastructure. Now I get to apply graph machine learning techniques to uncover things that traditional research metrics simply can’t see.</p>
+<p>This is the part I’ve been building toward since Part 1. Everything before this, the data pipeline, the disambiguation, the network construction, was infrastructure. Now we can apply graph machine learning techniques to uncover insights that traditional research metrics simply can’t uncover.</p>
 
 <p>Three analyses, each answering a different question:</p>
 <ol>
-  <li>Who are the “Research Twins” who should be collaborating but aren’t?</li>
+  <li>Who are the “Research Twins” who could be possible collaborators?</li>
   <li>Who is best positioned to catalyze the <em>next</em> breakthrough?</li>
   <li>How does research knowledge spread across the globe?</li>
 </ol>
 
 <hr />
 
-<h2 id="1-research-dna-embeddings-finding-your-scientific-twin">1. Research DNA Embeddings: Finding Your Scientific Twin</h2>
-
-<h3 id="the-idea">The Idea</h3>
+<h2 id="1-research-dna-embeddings-finding-scientific-research-twins">1. Research DNA Embeddings: Finding Scientific Research Twins</h2>
 
 <p>Traditional co-authorship analysis captures one dimension: who works with whom. But a researcher’s identity is richer than their list of collaborators. It includes <em>what</em> they study (MeSH topics), <em>where</em> they publish (journals), <em>where</em> they work (institutions), and <em>who</em> they work with (co-authors).</p>
 
-<p>I wanted a way to encode all of these dimensions into a single numerical fingerprint, a kind of “Research DNA” for each of the 39,206 researchers. Two researchers with similar DNA would be doing similar work, even if they’d never met.</p>
+<p>We need a way to encode that rich profile into a single numerical fingerprint, a kind of “Research DNA” for each of the 39,206 researchers. Two researchers with similar DNA would be doing similar work, even if they’d never met. To do that, we need a graph that contains all of those dimensions in one place.</p>
 
 <h3 id="building-the-heterogeneous-graph">Building the Heterogeneous Graph</h3>
 
-<p>A regular <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a> has one type of node and one type of edge. A <a href="https://en.wikipedia.org/wiki/Heterogeneous_information_network">heterogeneous information network</a> (HIN) has multiple types of both. Think of it this way: a simple co-authorship graph is like a phone network where everyone is just “a person” and every connection is “called each other.” A heterogeneous graph is more like a real social system where there are people, companies, topics, and locations, all connected by different kinds of relationships.</p>
+<p>A regular graph has one type of node and one type of edge. A <a href="https://en.wikipedia.org/wiki/Heterogeneous_information_network">heterogeneous information network</a> (HIN) has multiple types of both. A simple co-authorship graph is like a phone network where everyone is just “a person” and every connection is “called each other.” A heterogeneous graph is more like a real social system where there are people, companies, topics, and locations, all connected by different kinds of relationships.</p>
 
-<p>I built a HIN with five node types and four edge types:</p>
+<p>I constructed a HIN with five node types and four edge types:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Author (39,206)  --authored--&gt;      Paper (11,500)
-Paper            --tagged_with--&gt;   MeSH Topic (2,094)
+Paper            --tagged_with--&gt;   MeSH Topic (2,502)
 Paper            --published_in--&gt;  Journal (1,601)
 Author           --affiliated--&gt;    Institution (5,799)
 </code></pre></div></div>
 
-<p>This single graph encodes the full research identity of every author. It captures not just who collaborates with whom, but what they study (through shared MeSH topics), where they publish (through shared journals), and where they’re based (through institutional affiliation). The total graph has about 58,000 nodes and over 200,000 edges across the four relationship types.</p>
+<p>This single graph encodes the full research identity of every author. It captures not just who collaborates with whom, but what they study (through shared MeSH topics), where they publish (through shared journals), and where they’re based (through institutional affiliation). The total graph has about 60,000 nodes and roughly 165,000 edges across the four relationship types.</p>
 
 <h3 id="metapath2vec-learning-research-fingerprints">metapath2vec: Learning Research Fingerprints</h3>
 
-<p>To learn embeddings from this heterogeneous graph, I used <a href="https://ericdongyx.github.io/metapath2vec/m2v.html">metapath2vec</a>, a method designed specifically for heterogeneous networks. It’s an extension of the <a href="https://en.wikipedia.org/wiki/Word2vec">Word2Vec</a> idea (which learns word meanings from the company they keep in sentences) applied to graphs.</p>
+<p>To learn embeddings from this heterogeneous graph, I used <a href="https://ericdongyx.github.io/metapath2vec/m2v.html">metapath2vec</a>, designed specifically for heterogeneous networks. It’s an extension of the <a href="https://en.wikipedia.org/wiki/Word2vec">Word2Vec</a> idea (which learns word embeddings from the company they keep in sentences) applied to graphs.</p>
 
-<p>Here’s how it works. I define a “metapath,” a recipe for walking through the graph that follows a specific sequence of node types:</p>
+<p>Here’s how it works. we define a “metapath,” a recipe for walking through the graph that follows a specific sequence of node types:</p>
 
 <p><strong>Author -&gt; Paper -&gt; MeSH Topic -&gt; Paper -&gt; Author</strong></p>
 
 <p>The algorithm performs thousands of random walks following this recipe. Starting at a researcher, it hops to one of their papers, then to a MeSH topic on that paper, then to <em>another</em> paper with the same topic, then to that paper’s author. By doing this over and over (20 walks per node, each 10 steps long), the algorithm collects evidence about which researchers appear in similar “contexts.”</p>
 
-<p>The key insight: two researchers who frequently appear at the end of these walks from similar starting points are doing similar research, even if they’ve never directly collaborated. The algorithm compresses all of this context information into a compact 128-dimensional vector for each researcher.</p>
+<p>The key insight: two researchers who frequently appear at the end of these walks from similar starting points are doing similar research, even if they’ve never directly collaborated. The algorithm compresses all of this topic-context information into a compact 128-dimensional vector for each researcher.</p>
 
-<p>Think of it like this: if you told me “this researcher appears in the context of Pseudomonas topics, pediatric pulmonology journals, and European hospital affiliations,” I’d have a pretty good picture of their research profile. Metapath2vec automates that intuition across all 39,206 researchers simultaneously.</p>
+<p>A note on what this metapath actually captures. The walk goes Author → Paper → Topic → Paper → Author, so the embedding learns who shares <strong>research topics</strong>. Co-authorship is captured indirectly: when two authors are on the same paper, a length-2 segment of the same metapath links them through that paper. The journal and institution edges are present in the graph and could be exploited by additional metapaths (for example, Author → Institution → Author to capture institutional similarity), but for this post the topic metapath is the most informative single recipe to walk.</p>
 
-<p>I trained the embeddings over 5 epochs with 20 walks per node. The training took about 20 minutes on CPU.</p>
+<p>I trained the embeddings over 5 epochs with 20 walks per node. The training took about 20 minutes on my rather modest CPU setup.</p>
 
 <h3 id="the-umap-landscape">The UMAP Landscape</h3>
 
-<p>128 dimensions are impossible for humans to visualize, so I used <a href="https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection">UMAP</a> (Uniform Manifold Approximation and Projection) to squash those 128 dimensions down to 2 for plotting. UMAP is a <a href="https://en.wikipedia.org/wiki/Dimensionality_reduction">dimensionality reduction</a> technique that preserves the local neighborhood structure of the data: researchers who are close in 128 dimensions stay close in 2 dimensions.</p>
+<p>128 dimensions are impossible to visualize, so I used UMAP (Uniform Manifold Approximation and Projection) to reduce those 128 dimensions down to 2 for plotting. UMAP is a dimensionality reduction algorithm that preserves the local neighborhood structure of the data: researchers who are close in 128 dimensions stay close in 2 dimensions.</p>
 
 <iframe src="/assets/plotly/tier7_embedding_umap.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Hover over any point to see the researcher’s name, institution, and country.</em></p>
 
-<p>The result is striking. The communities detected by the Leiden algorithm back in Part 4 map cleanly onto the embedding space, even though the embeddings were learned independently. Researchers in the same community cluster together, confirming that the embeddings are capturing real structure. But the embeddings also reveal something the Leiden communities don’t: gradients <em>between</em> communities. Researchers who work at the boundary of two topics (say, infection research and modulator therapy) appear in the transition zones between clusters, exactly where you’d expect to find interdisciplinary researchers.</p>
+<p>The result is interesting. The communities detected by the Leiden algorithm back in Part 4 map cleanly onto the embedding space, even though the embeddings were learned independently. Researchers in the same community cluster together, confirming that the embeddings are capturing real structure. But the embeddings also reveal something the Leiden communities don’t: gradients <em>between</em> communities. Researchers who work at the boundary of two topics (say, infection research and modulator therapy) appear in the transition zones between clusters, exactly where we’d expect to find interdisciplinary researchers.</p>
 
 <h3 id="research-twins-who-should-be-collaborating-but-isnt">Research Twins: Who Should Be Collaborating But Isn’t?</h3>
 
-<p>Here’s the payoff. For each researcher with at least 3 publications, I found their <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">nearest neighbor</a> in embedding space who they’ve <em>never co-authored with</em>. These are “Research Twins”: people doing remarkably similar work in different parts of the world who’ve somehow never connected.</p>
+<p>For each researcher with at least 3 publications, I found their nearest neighbor in the embeddings space who they’ve <em>never co-authored with</em>. These are “Research Twins”: people doing remarkably similar work in different parts of the world who’ve never connected.</p>
 
 <table>
   <thead>
@@ -116,13 +114,13 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>A note on the similarity scores: they range from 0 (completely different research profiles) to 1 (identical). A score of 0.535 means these two researchers are more similar to each other than to the vast majority of the 39,206 researchers in the network. For comparison, researchers who actually co-author together typically have similarities around 0.6-0.8. So 0.535 for two people who’ve <em>never</em> met is remarkably high.</p>
+<p>A note on the similarity scores: cosine similarity ranges from -1 to 1, where 1 means two embedding vectors point in the exact same direction. To calibrate: random pairs of researchers in this dataset have a mean similarity around 0.01, frequent collaborators (10+ joint papers) average about 0.23, and even the most tightly bonded pairs in the entire network top out near 0.6. A non-co-author similarity of 0.535 sits in that very top tail, these are people whose topic profiles are about as close as it ever gets without them being literally the same person.</p>
 
-<p>Parkins (Calgary, Canada) and Zemanick (Colorado, US) have the highest twin similarity. Both work on CF microbiology and pulmonary infections, publish in similar journals, and have similar-sized collaboration networks. The embedding sees them as near-identical in terms of their research profile. They’re just a 3-hour flight apart.</p>
+<p>Parkins (Calgary, Canada) and Zemanick (Colorado, US) have the highest twin similarity. Both work on CF microbiology and pulmonary infections, and a quick check of their publication records shows they also tend to publish in the same journals and run similarly-sized collaboration networks. The embedding only “sees” their topic overlap directly, but the rest of the resemblance is striking once we look.</p>
 
-<p>The Hoffman/Pressler pair is particularly interesting because it crosses the Atlantic: a US-based microbiologist paired with a Danish clinician. Their research profiles are nearly identical despite working in completely different healthcare systems on different continents.</p>
+<p>The Hoffman/Pressler pair is particularly interesting because it crosses the Atlantic, a US-based microbiologist paired with a Danish clinician. Their research profiles are nearly identical despite working in completely different healthcare systems on different continents.</p>
 
-<p>Why does this matter? For a funding agency like the CF Foundation, this list is a concrete starting point for catalyzing new collaborations between researchers with the highest chance of productive partnership. Traditional approaches to matchmaking (conferences, personal introductions) are hit-or-miss. This is a data-driven approach based on the structure of the entire research network.</p>
+<p>Why does this matter? This could be a concrete starting point for catalyzing new collaborations between researchers with the highest chance of productive partnership. Traditional approaches to matchmaking (conferences, personal introductions) are hit-or-miss. This is a data-driven approach based on the structure of the entire research network.</p>
 
 <hr />
 
@@ -130,9 +128,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h3 id="beyond-betweenness">Beyond Betweenness</h3>
 
-<p><a href="https://en.wikipedia.org/wiki/Betweenness_centrality">Betweenness centrality</a> from Part 4 tells us who bridges different groups. But bridging isn’t the same as catalyzing innovation. A researcher might bridge two communities simply because they serve on a lot of clinical trial steering committees without doing any creative cross-pollination of ideas.</p>
-
-<p>I wanted to identify researchers who are structurally positioned to enable <em>new combinations of ideas</em>, the kind of recombinant innovation that leads to breakthroughs. The theory behind this comes from sociologist <a href="https://en.wikipedia.org/wiki/Structural_holes">Ronald Burt’s work on structural holes</a>: people who bridge disconnected groups have access to non-redundant information, which gives them an advantage in generating novel ideas.</p>
+<p>Betweenness centrality from Part 4 tells us who bridges different groups. But bridging isn’t the same as catalyzing innovation. I wanted to identify researchers who are structurally positioned to enable <em>new combinations of ideas</em>, the kind of innovation that leads to breakthroughs. The theory behind this comes from sociologist <a href="https://en.wikipedia.org/wiki/Structural_holes">Ronald Burt’s work on structural holes</a>: people who bridge disconnected groups have access to non-redundant information, which gives them an advantage in generating novel ideas.</p>
 
 <h3 id="the-brokerage-score">The Brokerage Score</h3>
 
@@ -140,13 +136,13 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <ol>
   <li>
-    <p><strong>Topic diversity</strong> (30% weight): Measured using <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">Shannon entropy</a> of each researcher’s MeSH topic distribution. A researcher who publishes across 20 different topics has higher entropy than one who focuses on 3. Topic diversity ranges from around 1 (narrow specialist) to 4.5+ (extreme generalist). Think of it as: how wide is your research menu?</p>
+    <p><strong>Topic diversity</strong> (30% weight): Measured using Shannon entropy of each researcher’s MeSH topic distribution. A researcher who publishes across 20 different topics has higher entropy than one who focuses on 3. Topic diversity ranges from around 1 (narrow specialist) to 4.5+ (extreme generalist).</p>
   </li>
   <li>
-    <p><strong>Topic novelty</strong> (25% weight): How often does a researcher bridge <em>unusual</em> topic combinations? Measured as the average rarity of topic pairs across their papers. If most of your papers combine topics that rarely appear together (say, “mental health” and “CFTR modulators”), you’re producing novel combinations that might spark new ideas. This captures <em>what</em> you combine, not just <em>how much</em> you cover.</p>
+    <p><strong>Topic novelty</strong> (25% weight): How often does a researcher bridge <em>unusual</em> topic combinations? Measured as the average rarity of topic pairs across their papers. If most of their papers combine topics that rarely appear together (say, “mental health” and “CFTR modulators”), they’re producing novel combinations that might spark new ideas. This captures <em>what</em> they combine, not just <em>how much</em> they cover.</p>
   </li>
   <li>
-    <p><strong><a href="https://en.wikipedia.org/wiki/Structural_holes">Structural holes</a></strong> (25% weight): Burt’s effective size metric. If your collaborators all collaborate with each other, you’re in a clique with no structural holes. There’s nothing unique flowing through you. But if your collaborators <em>don’t</em> know each other, you’re the only bridge between them, controlling unique information pathways. A researcher with an effective size of 742 (like Jane Davies) means she has 742 “non-redundant” connections: people she connects who wouldn’t otherwise be connected.</p>
+    <p><strong><a href="https://en.wikipedia.org/wiki/Structural_holes">Structural holes</a></strong> (25% weight): Burt’s effective size metric. If their collaborators all collaborate with each other, they’re in a clique with no structural holes. There’s nothing unique flowing through them. But if their collaborators <em>don’t</em> know each other, they’re a bridge between them, controlling unique information pathways. Effective size adjusts a researcher’s raw collaborator count by subtracting the redundancy created by mutual connections. Jane Davies, for instance, has 785 direct collaborators in the network but an effective size of 742, meaning her ego network is dominated by people who don’t densely overlap with each other.</p>
   </li>
   <li>
     <p><strong>Betweenness centrality</strong> (20% weight): The classic network bridging measure from Part 4, included to capture positional importance in the overall network topology.</p>
@@ -345,11 +341,9 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p><strong>COVID-19 stands out as the fastest-spreading topic in the entire dataset</strong>, with an adoption speed of 60%. Over half of the 277 cities that eventually published on COVID-19 in CF did so within 2 years of the first publications in 2020. That’s the global urgency of a pandemic at work: every CF center in the world needed to understand how COVID-19 affected their patients, and they needed to know now.</p>
+<p><strong>Among topics with substantial reach, COVID-19 is the fastest spreader in the dataset</strong>, with an adoption speed of 60%. Over half of the 277 cities that eventually published on COVID-19 in CF did so within 2 years of the first publications in 2020. That’s the global urgency of a pandemic at work: every CF center in the world likely needed to understand how COVID-19 affected their patients, and they needed to know fast.</p>
 
-<p>Compare that with the CFTR modulator topics (Quinolones, Aminophenols, Benzodioxoles) at 4-8% adoption speed. These topics reached 300+ cities eventually, so they have enormous <em>reach</em>, but the <em>speed</em> is slow. Why? Because modulator research requires clinical trial infrastructure, regulatory approval, and specialized molecular biology expertise. You can’t just start publishing on CFTR modulators because you read a paper about them. You need the whole ecosystem: approved drugs, consenting patients, laboratory facilities, IRB approvals.</p>
-
-<p>The contrast is stark: COVID-19 research spreads by urgency. Modulator research spreads by infrastructure. Understanding these diffusion patterns has real implications for how medical research capacity should be built and funded.</p>
+<p>Compare that with the CFTR modulator topics (Quinolones, Aminophenols, Benzodioxoles) at 4-8% adoption speed. These topics reached 300+ cities eventually, so they have enormous <em>reach</em>, but the <em>speed</em> is slow. Possibly because modulator research requires specialized infrastructure and expertise. The contrast is stark; COVID-19 research spreads by urgency. Modulator research spreads slowly but surely.</p>
 
 <h3 id="the-animated-diffusion-map">The Animated Diffusion Map</h3>
 
@@ -359,6 +353,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 <p>The animation tracks six key topics across time and geography. Watch Pseudomonas aeruginosa (infection research) cluster heavily in European cities, while the modulator topics start from a few centers and gradually light up across both North America and Europe. Quality of Life research is the most geographically even from the start, suggesting it requires less specialized infrastructure and spreads more organically.</p>
 
 <iframe src="/assets/plotly/tier7_diffusion_speed.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+<p><em>Top 30 topics plotted as reach (x-axis) versus 2-year adoption speed (y-axis). Bubble size is total publication count; color is the year the topic first appeared. The high-reach modulator topics sit in the bottom-right (slow-but-wide), while COVID-19 sits up and to the right.</em></p>
 
 <hr />
 
@@ -366,40 +361,38 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Each of these three analyses produces insights that are invisible to traditional bibliometrics:</p>
 
-<p><strong>Research Twins</strong> surface latent similarities across all dimensions of a researcher’s profile simultaneously. Citation analysis can tell you who cites whom. Co-authorship analysis can tell you who works with whom. But neither can find two people in different countries who study the same topics, publish in the same journals, and work in similar institutional contexts but have never connected. That requires encoding the full research identity into a shared vector space.</p>
+<p><strong>Research Twins</strong> surface deep topical similarity. Co-authorship analysis can tell us who works with whom but can’t find two people on opposite sides of the world whose entire research portfolios point at the same set of MeSH topics but who happen to have never appeared on a paper together. That requires compressing each researcher’s publication history into a vector and asking who’s nearby. The same heterogeneous graph could be re-walked along other metapaths to surface more novel insights.</p>
 
 <p><strong>Innovation Brokerage</strong> distinguishes researchers who are merely <em>well-connected</em> from those who are <em>structurally positioned to create new combinations of ideas</em>. A traditional h-index or publication count can’t capture the difference between a researcher who publishes 100 papers all within one subfield and one who publishes 80 papers that bridge three subfields. The brokerage score can, because it measures topic diversity, topic novelty, and structural position simultaneously.</p>
 
-<p><strong>Knowledge Diffusion</strong> reveals the geography of ideas at the topic level. Knowing that modulator expertise takes 5+ years to spread from clinical trial hubs to community hospitals has real implications. If you’re a research funder, you might invest in training programs at slow-adopting institutions. If you’re a pharmaceutical company, you might target awareness campaigns at cities that haven’t yet adopted your drug’s research topic. No existing bibliometric tool provides this kind of topic-level geographic diffusion analysis for specific therapeutic areas.</p>
+<p><strong>Knowledge Diffusion</strong> reveals the geography of ideas at the topic level. Knowing that modulator expertise takes 5+ years to spread from research hubs to community hospitals has real implications. A research funder might adapt by investing in training programs at slow-adopting institutions. A pharmaceutical company might target awareness campaigns at cities that haven’t yet adopted a drug’s research topic. Existing bibliometric tool cannot provide this kind of topic-level geographic diffusion analysis.</p>
 
 <hr />
 
 <h2 id="whats-next">What’s Next</h2>
 
-<p>This is the end of the series for now, but not the end of the analysis. The dataset and infrastructure are set up for several deeper investigations:</p>
+<p>This is the end of the series for now, but not the end of the analysis. The dataset and infrastructure are set up for deeper investigations:</p>
 
 <ul>
   <li><strong>Temporal embeddings</strong>: Training separate embeddings for each era and tracking how individual researchers’ “Research DNA” evolved across the Trikafta transition. Did some researchers completely reinvent their profiles?</li>
   <li><strong>Mentorship networks</strong>: Building directed graphs from first-author/last-author relationships to map the academic genealogy of CF research. Who trained whom?</li>
-  <li><strong>Succession planning</strong>: Identifying central researchers who are showing signs of winding down (fewer publications, more reviews, declining centrality) and whether there are clear successors in the network. Where are the gaps?</li>
-  <li><strong>Breakthrough prediction</strong>: Can the network patterns that preceded the Trikafta papers be detected in current data, pointing to the next breakthrough?</li>
 </ul>
 
-<p>If you’re a CF researcher, a research funder, or just someone interested in the science of science, I’d love to hear from you.</p>
+<p>I’m not a CF researcher and I have no medical background. This series is a side project I built for fun, mostly as an excuse to put graph ML and entity resolution to work on a real corpus. I can’t promise the insights here are scientifically meaningful. If you <em>are</em> a CF researcher and you’ve spotted something I got wrong, a missing nuance, a better question to ask of the data, or just a suggestion for where to take this next, I’d genuinely love to hear it.</p>
 
 <hr />
 
-<p><em>This is Part 7, the final part of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="graph-ml" /><category term="metapath2vec" /><category term="embeddings" /><category term="knowledge-diffusion" /><summary type="html"><![CDATA[Part 7: metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities]]></summary></entry><entry><title type="html">Part 6: The Institutional Backbone and Geography of CF Research</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions/" rel="alternate" type="text/html" title="Part 6: The Institutional Backbone and Geography of CF Research" /><published>2026-04-09T20:50:00+00:00</published><updated>2026-04-09T20:50:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions/"><![CDATA[<blockquote>
-  <p><em>Part 6 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<p><em>This is Part 7, the final part of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="network-analysis" /><category term="graph-ml" /><category term="cystic-fibrosis" /><category term="trikafta" /><category term="heterogeneous-network" /><category term="metapath2vec" /><category term="embeddings" /><category term="umap" /><category term="structural-holes" /><category term="knowledge-diffusion" /><summary type="html"><![CDATA[metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.]]></summary></entry><entry><title type="html">Part 6: The Institutional Backbone and Geography of CF Research</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions/" rel="alternate" type="text/html" title="Part 6: The Institutional Backbone and Geography of CF Research" /><published>2026-04-12T20:50:00+00:00</published><updated>2026-04-12T20:50:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part6-geography-institutions/"><![CDATA[<blockquote>
+  <p><em>Part 6 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr />
 
 <h2 id="the-institution-network">The Institution Network</h2>
 
-<p>So far I’ve been looking at the network through the lens of individual researchers. But there’s another way to slice it: by institution. If two institutions have authors who co-published a paper, those institutions are connected. The weight of the connection is the number of shared publications. This is essentially a <a href="https://en.wikipedia.org/wiki/Bipartite_graph">bipartite graph</a> projection: the original data has authors connected to papers, and I project it onto institutions by saying “two institutions are linked if they share at least one paper.”</p>
+<p>So far We’ve been looking at the network through the lens of individual researchers. But there’s another way to slice it: by institution. If two institutions have authors who co-published a paper, those institutions are connected. The weight of the connection is the number of shared publications. This is essentially a <a href="https://en.wikipedia.org/wiki/Bipartite_graph">bipartite graph</a> projection. The underlying bipartite structure has papers on one side and institutions on the other, with an edge whenever a paper has an author affiliated with that institution. Projecting that graph onto institutions gives us the collaboration network: two institutions are linked if they share at least one paper, weighted by the number of shared papers.</p>
 
-<p>This gives us a very different view. Instead of 39,206 nodes and 323,633 edges, the institution network has <strong>5,628 institutions connected by 61,059 collaboration edges</strong>. It’s a more tractable graph, and it reveals the organizational backbone of CF research.</p>
+<p>This gives us a very different view. Instead of 39,206 nodes and 323,633 edges, the institution network has <strong>5,628 institutions connected by 61,059 collaboration edges</strong> — the 5,628 figure is the subset of the 5,799 organizations from Part 2 that has at least one cross-institution collaboration (the rest only ever appeared on single-affiliation papers). It’s a much more tractable graph, and it reveals the organizational backbone of CF research.</p>
 
 <p>Here’s a bar chart of the top 30, with bars stacked by era to show how each institution’s output split between pre- and post-Trikafta:</p>
 
@@ -473,7 +466,7 @@ Author           --affiliated--&gt;    Institution (5,799)
     </tr>
     <tr>
       <td>8</td>
-      <td>Charite Campus Mitte</td>
+      <td>Charité Campus Mitte</td>
       <td>DE</td>
       <td>1,168</td>
       <td>467</td>
@@ -495,9 +488,9 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>The University of Toronto has the most institutional connections (554 collaborating institutions), even though the University of Washington has the most shared publications (2,102). This suggests UW has deeper relationships with fewer partners, while U of T has broader but shallower connections.</p>
+<p>The University of Toronto has the most institutional connections (554 collaborating institutions), even though the University of Washington has the most shared publications (2,102). The gap is real but modest: UW averages roughly 3.9 shared pubs per partner against U of T’s 3.1, so UW’s relationships are marginally deeper while U of T’s are marginally broader.</p>
 
-<p>The CF Foundation at #2 is interesting. It’s not a research university or hospital. It’s a nonprofit that funds and coordinates clinical trial networks, which is why it shows up as a shared affiliation on so many multi-center studies. Its structural position in the network reflects its role as an enabler of collaboration.</p>
+<p>The CF Foundation at #2 is interesting — a nonprofit, not a university or hospital, that funds and coordinates clinical trial networks, which is why it shows up as a shared affiliation on so many multi-center studies. Its structural position in the network reflects its role as an enabler of collaboration.</p>
 
 <hr />
 
@@ -505,7 +498,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>CF research has a significant industry component, mostly driven by Vertex Pharmaceuticals, which developed the CFTR modulator drugs. I classified the 5,799 organizations into broad types (academic, hospital, industry, government, other) and mapped the academic-industry collaboration patterns.</p>
 
-<p><strong>Vertex Pharmaceuticals dominates</strong> the industry side with 558 shared publications across its two main facilities (378 from the Boston campus, 180 from additional sites). No other company comes close.</p>
+<p><strong>Vertex Pharmaceuticals dominates</strong> the industry side with 558 shared publications — 378 from its Boston headquarters and another 180 from its other sites combined. No other company comes close.</p>
 
 <iframe src="/assets/plotly/tier5_industry_connections.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
@@ -534,13 +527,13 @@ Author           --affiliated--&gt;    Institution (5,799)
       <td>26</td>
     </tr>
     <tr>
-      <td>Universita di Napoli Federico II</td>
+      <td>Università di Napoli Federico II</td>
       <td>IT</td>
       <td>44</td>
       <td>5</td>
     </tr>
     <tr>
-      <td>Charite Campus Mitte</td>
+      <td>Charité Campus Mitte</td>
       <td>DE</td>
       <td>42</td>
       <td>20</td>
@@ -584,7 +577,7 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>An interesting contrast: Napoli Federico II has 44 shared publications with industry but only 5 industry partners. That’s a deep relationship with a small number of companies (likely Vertex and CEINGE Biotecnologie). Meanwhile, UAB has 46 publications spread across 26 different industry partners, a much broader portfolio.</p>
+<p>An interesting contrast: Napoli Federico II has 44 shared publications with industry but only 5 industry partners — a deeply consolidated portfolio centered on a handful of pharma collaborators. Meanwhile, UAB has 46 publications spread across 26 different industry partners, a much broader portfolio.</p>
 
 <hr />
 
@@ -643,7 +636,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <h2 id="the-age-of-research-how-old-are-these-institutions">The Age of Research: How Old Are These Institutions?</h2>
 
-<p>This is something I couldn’t have done with just the Google Places data. By enriching the top 1,000 institutions with data from the <a href="https://en.wikipedia.org/wiki/Research_Organization_Registry">Research Organization Registry (ROR)</a>, an open, community-led registry of research organizations worldwide, I got founding years for 937 of them. The results add a whole new dimension to the analysis.</p>
+<p>This is something we couldn’t have done with just the Google Places data. By enriching the top 1,000 institutions with data from the <a href="https://en.wikipedia.org/wiki/Research_Organization_Registry">Research Organization Registry (ROR)</a>, an open, community-led registry of research organizations worldwide, I got founding years for 937 of them. The results add a new interesting dimension to the analysis.</p>
 
 <h3 id="the-age-distribution">The Age Distribution</h3>
 
@@ -686,16 +679,16 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>Legacy institutions, places like the University of Washington (1861), University of Toronto (1827), UNC Chapel Hill (1789), and Charite (1710), make up about 40% of the institutions but account for nearly <strong>half of all CF research output</strong>. The accumulated advantages of centuries of infrastructure, reputation, and network position show up clearly in the data.</p>
+<p>Legacy institutions, places like the University of Washington (1861), University of Toronto (1827), UNC Chapel Hill (1789), and Charité (1710), make up about 40% of the institutions but account for nearly <strong>half of all CF research output</strong>. The accumulated advantages of centuries of infrastructure, reputation, and network position show up clearly in the data.</p>
 
-<p>But the newcomers are interesting too. Seattle Children’s Research Institute (2006) already has 674 shared publications. Perth Children’s Hospital (2018) and University Paris Cite (2019) are climbing fast despite being less than a decade old. Several of these “newcomer” institutions are actually reorganizations or spin-offs from existing legacy institutions, which explains their rapid rise.</p>
+<p>But the newcomers are interesting too. Seattle Children’s Research Institute (2006) already has 674 shared publications. Perth Children’s Hospital (2018) and Université Paris Cité (2019) are climbing fast despite being less than a decade old. Several of these “newcomer” institutions are actually reorganizations or spin-offs from existing legacy institutions, which explains their rapid rise.</p>
 
 <h3 id="does-age-predict-influence">Does Age Predict Influence?</h3>
 
 <iframe src="/assets/plotly/ror_age_vs_centrality.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 <p><em>Hover over points for details.</em></p>
 
-<p>I ran <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient">Spearman rank correlations</a> between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 (perfect inverse relationship) to +1 (perfect positive relationship), with 0 meaning no relationship:</p>
+<p>I ran <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient">Spearman rank correlations</a> between institutional age and four centrality metrics. Spearman correlation measures whether two variables tend to increase together, without assuming a linear relationship. It ranges from -1 to +1, with 0 meaning no relationship:</p>
 
 <table>
   <thead>
@@ -729,7 +722,7 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>The correlations are statistically significant but modest. Institutional age explains some of the variance in network position, but it’s far from deterministic. <strong>Betweenness centrality has the strongest age effect</strong> (rho = 0.223), meaning older institutions are disproportionately likely to be bridges between different research groups. This makes sense: centuries of accumulated alumni, collaborations, and institutional relationships create structural connections that newer institutions can’t replicate overnight.</p>
+<p>The correlations are statistically significant but modest. Institutional age explains some of the variance in network position, but it’s far from deterministic. <strong>Betweenness centrality has the strongest age effect</strong> (rho = 0.223), meaning older institutions are disproportionately likely to be bridges between different research groups. This makes sense: centuries of accumulated alumni, collaborations, and institutional relationships create structural connections providing them an edge.</p>
 
 <p>But the scatter plot tells a more nuanced story. There’s a cloud of legacy institutions at various centrality levels, meaning being old doesn’t guarantee being important. And there are newcomers punching well above their weight.</p>
 
@@ -776,21 +769,22 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>The shift is subtle but real. Legacy institutions lost 2.3 percentage points of network share between eras, while the Established cohort (1900-1960) gained 2.6 points. The Modern and Newcomer cohorts stayed flat.</p>
 
-<p>This doesn’t mean the Trikafta revolution redistributed power away from old institutions in any dramatic way. The legacy institutions still dominate. But the established mid-century institutions, places like the CF Foundation (1955), National Jewish Health (1899), and many of the major children’s hospitals, gained relative ground. These are exactly the institutions most deeply embedded in CF clinical trial networks, which expanded significantly in the Trikafta era.</p>
+<p>This doesn’t mean the Trikafta revolution redistributed power away from old institutions in any dramatic way. The legacy institutions still dominate. But the established institutions like the CF Foundation (1955), National Jewish Health (1899), and many of the major children’s hospitals, gained relative ground.</p>
 
 <h3 id="the-age-map">The Age Map</h3>
 
 <iframe src="/assets/plotly/ror_age_map.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old powerhouses still dominate.</p>
+<p>The geographic pattern is clear: legacy institutions (blue) cluster in the US Northeast, UK, and Western Europe. Newcomers (red) are more evenly distributed globally, appearing in Turkey, Australia, and Latin America as well as traditional research hubs. The Trikafta era is gradually diversifying the geographic and institutional landscape of CF research, even if the old ones still dominate.</p>
 
-<h3 id="ror-based-type-mixing">ROR-Based Type Mixing</h3>
+<h3 id="a-cleaner-cut-at-type-mixing">A Cleaner Cut at Type Mixing</h3>
 
-<p>With the ROR enrichment, I can also redo the type mixing analysis from earlier using ROR’s cleaner 18-type taxonomy instead of Google’s 278 fragmented categories. The biggest difference: ROR allows multi-valued types (49% of institutions have 2+ types like “education;funder;healthcare”), which captures the reality that a university hospital is both educational and clinical:</p>
+<p>One last unexpected bonus from the ROR enrichment: since ROR also classifies institutions by type, we can redo the type mixing analysis from earlier using its cleaner 18-type taxonomy instead of Google’s 278 fragmented categories. The biggest difference is that ROR allows multi-valued types (49% of institutions have 2+ types like “education;funder;healthcare”), which captures the reality that a university hospital is both educational and clinical:</p>
 
 <iframe src="/assets/plotly/ror_type_mixing.html" frameborder="0" scrolling="no" height="610px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The funder-education axis dominates, which makes sense: most research institutions are both educational and funded. The healthcare-funder axis is the next strongest, reflecting hospital-based research funded by grants.</p>
+<p>The education-funder axis dominates. Many major universities carry both <code class="language-plaintext highlighter-rouge">education</code> and <code class="language-plaintext highlighter-rouge">funder</code>. 
+The education-healthcare axis seems the next most interpretable, showcasing the university-hospital backbone of clinical CF research.</p>
 
 <hr />
 
@@ -806,13 +800,13 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <iframe src="/assets/plotly/cf_hubs_animated.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation’s Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston grows steadily (home of Vertex Pharmaceuticals). And the European hubs (Paris, London, Milan) maintain their positions throughout.</p>
+<p>Some highlights to watch for: Seattle surges from a minor hub to a global top-3 center (home of the CF Foundation’s Therapeutics Development Network). Ankara, Turkey emerges from nothing to become a significant contributor. Boston (home of Vertex Pharmaceuticals) grows steadily. The European hubs (Paris, London, Milan) maintain their positions throughout.</p>
 
 <h3 id="top-countries">Top Countries</h3>
 
 <iframe src="/assets/plotly/eda_top_countries.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group that showed up in the centrality rankings.</p>
+<p>The US accounts for roughly a third of all CF research output, followed by the UK, Italy, France, Germany, Canada, and Australia. Turkey has emerged as a significant contributor in Era 2, driven largely by the Hacettepe University group in Ankara — the same cluster that surfaced as a rising bridge in the Part 4 centrality rankings.</p>
 
 <h3 id="international-collaboration-corridors">International Collaboration Corridors</h3>
 
@@ -820,21 +814,29 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <iframe src="/assets/plotly/tier5_intl_corridors.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within Europe, Germany-France (912) and France-Italy (647) are the strongest continental partnerships.</p>
+<p>The US-UK corridor (2,526 shared publications) is the single strongest international research relationship in CF. The US-Canada (2,134) and US-Australia (1,618) corridors are next. Within mainland Europe, Germany-France (912) and France-Italy (647) are the strongest partnerships — and both come in well below top two.</p>
 
-<p>The Anglophone bias is obvious: the top 5 corridors all involve English-speaking countries. The European cross-language corridors (Germany-France, France-Italy, Germany-Netherlands) are strong but consistently smaller, suggesting that language and cultural barriers still shape who collaborates with whom, even in science.</p>
+<p>There is an obvious pattern at the top of the list: every one of the top 5 corridors links at least one of the US, UK, Canada, or Australia, and four of those five connect two of those countries directly. The strongest within-mainland-Europe pairs (Germany-France, France-Italy, Germany-Netherlands) sit consistently below them. It’s tempting to read this as shared language and cultural proximity shaping who collaborates with whom but we need more evidence to make that conclusion.</p>
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="institutions" /><category term="geography" /><category term="ror" /><summary type="html"><![CDATA[Part 6: Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping]]></summary></entry><entry><title type="html">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/" rel="alternate" type="text/html" title="Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community" /><published>2026-04-09T20:40:00+00:00</published><updated>2026-04-09T20:40:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/"><![CDATA[<blockquote>
-  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<h2 id="zooming-out">Zooming Out</h2>
+
+<p>Four very different slices of the data all point at the same organizational spine: a few dozen legacy university-hospital hubs in the US, UK, Canada, and Western Europe, stitched together by a dense academic-hospital axis domestically and by Anglophone corridors internationally. Vertex is the only industry player operating at that scale. Age buys structural advantage but not dominance — newcomers like Seattle Children’s and Université Paris Cité punch well above their weight — and the Trikafta era has nudged power subtly toward mid-century clinical-trial institutions rather than reshuffling the whole board.</p>
+
+<p>Part 7 drops the institutional lens entirely and goes back to individuals, this time with a machine-learning question: can a model learn each researcher’s “research DNA” from who, what, where, and with whom they publish — and use it to find pairs of scientists on opposite sides of the world who should already know each other?</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="network-analysis" /><category term="cystic-fibrosis" /><category term="trikafta" /><category term="institutions" /><category term="bipartite-projection" /><category term="ror" /><category term="academic-industry" /><category term="geography" /><summary type="html"><![CDATA[Institution networks, academic-industry collaboration, founding century analysis, 46% international corridors, and global mapping.]]></summary></entry><entry><title type="html">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/" rel="alternate" type="text/html" title="Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community" /><published>2026-04-12T20:40:00+00:00</published><updated>2026-04-12T20:40:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/"><![CDATA[<blockquote>
+  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr />
 
 <h2 id="before-and-after">Before and After</h2>
 
-<p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), I can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease.</p>
+<p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), We can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease. A caveat to keep in mind for everything that follows: Era 1 is 4 years long and Era 2 is 7 years long, so raw-size comparisons are inflated by the longer observation window. The per-researcher and structural claims below (average collaborators, clustering, edge turnover) don’t depend on that asymmetry, but the total-count numbers do.</p>
 
 <p>The growth numbers are dramatic:</p>
 
@@ -873,8 +875,8 @@ Author           --affiliated--&gt;    Institution (5,799)
       <td>Stable</td>
     </tr>
     <tr>
-      <td>Continuity researchers (span both)</td>
-      <td> </td>
+      <td>Continuity researchers (in both eras)</td>
+      <td>5,172</td>
       <td>5,172</td>
       <td>13.2% of total</td>
     </tr>
@@ -887,24 +889,38 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Era 2 has nearly twice the publications, 80% more unique authors, and almost double the number of unique MeSH topics. The donut chart (top left) shows how the author populations overlap between eras, and the bar charts compare the country-level and institution-type distributions.</p>
 
-<p>The field nearly doubled in size. But here’s the thing that surprised me: while the network grew 79% in researchers and 137% in collaboration pairs, the <a href="https://en.wikipedia.org/wiki/Clustering_coefficient">clustering coefficient</a> barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups off to the side. The social fabric of CF research held its structure even as it doubled in scale.</p>
+<p>The field nearly doubled in size. But here’s the thing that’s interesting: while the network grew 79% in researchers and 137% in collaboration pairs, the <a href="https://en.wikipedia.org/wiki/Clustering_coefficient">clustering coefficient</a> barely changed (0.880 to 0.877). That means the field expanded by adding new researchers who integrated into existing research teams, not by creating isolated new groups on the side. The social fabric of CF research held its structure even as it doubled in scale.</p>
 
-<p>The more interesting question isn’t the raw growth. It’s what happened <em>structurally</em>.</p>
+<p>The more interesting questions aren’t about the raw growth. They’re about what the field started studying, and who it started studying with.</p>
+
+<hr />
+
+<h2 id="the-topic-shift">The Topic Shift</h2>
+
+<p>The era comparison already showed the field doubled in size. Look at the research content alongside it and you see it also rotated on its axis: some topics surged into the Trikafta era, others quietly receded.</p>
+
+<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>Green bars on the right are MeSH topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.</p>
+
+<p>The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:</p>
+
+<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
+
+<p>That’s what researchers are studying now, and how sharply it pivoted around 2019. The next question is who they’re studying it with, and whether those partnerships changed just as sharply.</p>
 
 <hr />
 
 <h2 id="94-edge-turnover">94% Edge Turnover</h2>
 
-<p>Of the 237,350 collaboration pairs that exist in Era 2, only <strong>14,066 (5.9%) also existed in Era 1</strong>. That means 94.1% of the collaborations in the Trikafta era are brand new.</p>
-
-<p>Let that sink in. In a field with thousands of established researchers, nearly every collaboration pair in the post-Trikafta era is a connection that didn’t exist before 2019. To put this in perspective, in a stable scientific field you might expect 20-30% new edges per year as researchers start new projects. A 94% turnover over 4-7 years is extraordinary.</p>
+<p>Of the 237,350 collaboration pairs that exist in Era 2, only <strong>14,066 (5.9%) also existed in Era 1</strong>. That means 94.1% of the collaborations in the Trikafta era are brand new. In a field with thousands of established researchers, nearly every collaboration pair in the post-Trikafta era is a connection that didn’t exist before 2019. Seeing 94% of Era 2 edges being brand new across a comparison that spans barely a decade is interesting.</p>
 
 <p>Breaking it down:</p>
 
 <ul>
-  <li><strong>86,283 dissolved collaborations</strong>: These existed in Era 1 but didn’t continue into Era 2. Some of these researchers retired, some shifted to other disease areas, and many simply moved on to new projects with new teams.</li>
+  <li><strong>86,283 dissolved collaborations</strong>: These existed in Era 1 but didn’t continue into Era 2. Some of these researchers retired, some shifted to other disease areas, and some probably moved on to new projects.</li>
   <li><strong>14,066 continued collaborations</strong>: The durable partnerships. Researchers who published together before Trikafta and continued after. These are the long-term pairs, the mentor-mentee relationships, the lab groups that stuck together through the transition.</li>
-  <li><strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later. This is where the action is.</li>
+  <li><strong>223,284 new collaborations</strong>: Pairs who first published together in 2019 or later.</li>
 </ul>
 
 <iframe src="/assets/plotly/eda_network_evolution.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
@@ -919,34 +935,36 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>Here’s where I got to use some of the graph ML techniques from the Stanford course. The question is simple: of all those new Era 2 collaborations, how many would have happened anyway (because researchers were already trending toward each other) vs. how many are genuinely <em>caused</em> by the Trikafta revolution?</p>
 
-<p>To answer this, I built a <a href="https://en.wikipedia.org/wiki/Counterfactual_conditional">counterfactual</a> model. The idea is to learn how collaborations “naturally” form based on Era 1 patterns, then predict what the Era 2 network would have looked like if nothing had changed.</p>
+<p>To answer this, I built a counterfactual model. The idea is to learn how collaborations “naturally” form based on Era 1 patterns, then predict what the Era 2 network would have looked like if nothing had changed.</p>
 
 <h3 id="how-the-model-works">How the model works</h3>
 
 <p>First, I trained <a href="https://en.wikipedia.org/wiki/Node2vec">Node2Vec</a> embeddings on the Era 1 graph. Node2Vec is an algorithm that learns a compact numerical representation (a 64-dimensional vector) for each researcher based on their position in the network. It works by simulating random walks through the graph: starting at a researcher, randomly hopping to a collaborator, then to that person’s collaborator, and so on. Researchers who appear in similar “neighborhoods” during these walks get similar vectors. Think of it as: “tell me who you collaborate with, and I’ll tell you what kind of researcher you are.”</p>
 
-<p>Then I trained a simple <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> classifier on top of these embeddings. For each pair of researchers, I multiply their embedding vectors element-wise (this captures whether they’re in similar network positions) and the classifier predicts whether they’ll collaborate. I trained on real Era 1 edges (positive examples) and randomly sampled non-edges (negative examples).</p>
+<p>Then I trained a simple logistic regression classifier on top of these embeddings. For each pair of researchers, I built a single edge feature by multiplying their two embedding vectors element-wise to convert node embeddings into link-prediction features and the classifier predicts whether the pair will collaborate. I trained on real Era 1 edges (positive examples) and randomly sampled non-edges (negative examples).</p>
 
-<p>The model achieves an <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve">AUC</a> of 0.674 on Era 1 data. That’s not a perfect predictor, but it’s meaningfully above random chance (0.5), meaning it captures real patterns in how CF researchers form partnerships: things like institutional proximity, shared network neighborhoods, and similar structural positions.</p>
+<p>The model hits a training AUC of 0.674 on Era 1 (evaluated on the same edges it trained on, so this is a signal-check rather than a generalization benchmark). That’s not a perfect predictor, but it’s still meaningfully above random chance (0.5), meaning the embeddings carry real signal about how CF researchers form partnerships: institutional proximity, shared network neighborhoods, and similar structural positions.</p>
 
 <h3 id="the-counterfactual-results">The counterfactual results</h3>
 
-<p>Then I asked: if I apply this Era 1 model to the new Era 2 edges, how many would the pre-Trikafta model have predicted?</p>
+<p>If we apply this Era 1 model to the new Era 2 edges, how many would the pre-Trikafta model have predicted?</p>
 
 <p><strong>Only 37.5%.</strong></p>
 
 <iframe src="/assets/plotly/tier7_counterfactual.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
-<p>Of the new Era 2 collaborations I could score (27,319 edges where both researchers had Era 1 embeddings):</p>
+<p>A crucial scope note before the breakdown: the Era 1 model only has embeddings for researchers who were already active in 2015-2018. That means we can only score new Era 2 edges where <em>both</em> endpoints are continuity researchers. That works out to 27,319 edges, roughly 12% of the 223,284 new Era 2 edges. The other 88% involve at least one researcher who joined the field in Era 2, for whom the model simply has no prior. So every number below is about the “old guard rewiring itself” subset of the new edges, not the whole Era 2 growth.</p>
+
+<p>Of the 27,319 new-but-scoreable Era 2 collaborations:</p>
 
 <ul>
   <li><strong>10,257 (37.5%) were “expected”</strong>: The pre-Trikafta model predicted these would happen. They follow the natural dynamics of the field: people collaborating with people in similar network neighborhoods, gradual expansion of existing clusters.</li>
   <li><strong>17,062 (62.5%) were “Trikafta-created”</strong>: The model didn’t predict these. These are collaborations that only exist because the drug approval changed the research landscape. New research questions (long-term modulator outcomes, CF in aging patients, mental health in CF) brought together researchers who had no structural reason to collaborate before 2019.</li>
 </ul>
 
-<p>And on the other side: <strong>57,397 collaborations were “Trikafta-destroyed.”</strong> The model predicted they would continue based on Era 1 patterns, but they ended. These represent research directions and partnerships that became less relevant once Trikafta transformed the standard of care. Some of these were likely infection-focused collaborations that wound down as patients on modulators had fewer lung infections.</p>
+<p>And on the other side: of the 86,283 Era 1 pairs that did <em>not</em> continue into Era 2, the model predicted <strong>57,397 (about two-thirds)</strong> would continue if the field had stayed on its pre-2019 trajectory. Call these the “Trikafta-destroyed” edges. The model is saying: these partnerships should still be going, and they aren’t. They represent research directions and partnerships that became less relevant once Trikafta transformed the standard of care. Some were likely infection-focused collaborations that wound down as patients on modulators had fewer lung infections.</p>
 
-<p>A caveat: “Trikafta-created” doesn’t mean Trikafta literally caused each collaboration. It means these connections don’t follow pre-2019 network dynamics. Some might be driven by other factors (COVID-19, funding shifts, career moves). But the scale of the effect (62.5% of new edges are unexplained by the pre-Trikafta model) strongly suggests the drug approval was the dominant force reshaping the network.</p>
+<p>A few caveats on what this does and doesn’t show. “Trikafta-created” doesn’t mean Trikafta literally caused each collaboration, it means these connections don’t follow pre-2019 network dynamics, and some share of them is surely driven by other factors (COVID-19, funding shifts, career moves). The 62.5% figure is specific to continuity-researcher pairs, not to the Era 2 network as a whole. And the Era 1 model is a simple node2vec + logistic regression link predictor which has it’s limitations. Taken together, though, the picture is still interesting; even restricted to researchers who were already in the field, a clear majority of their new partnerships don’t fit the pre-2019 pattern, and most of their dissolved partnerships “should” still be going. Something field-wide and large happened around 2019, and Trikafta is the most likely candidate.</p>
 
 <hr />
 
@@ -1085,22 +1103,22 @@ Author           --affiliated--&gt;    Institution (5,799)
     <tr>
       <td>UK - US</td>
       <td>2,526</td>
-      <td>Shared language, major CF centers on both sides, joint clinical trials</td>
+      <td>Shared language, major CF centers on both sides</td>
     </tr>
     <tr>
       <td>Canada - US</td>
       <td>2,134</td>
-      <td>Geographic proximity, Toronto-Seattle axis</td>
+      <td>Geographic proximity, Toronto-Seattle</td>
     </tr>
     <tr>
       <td>Australia - US</td>
       <td>1,618</td>
-      <td>Anglophone connection, shared trial infrastructure</td>
+      <td>Shared language and possibly shared trial infrastructure?</td>
     </tr>
     <tr>
       <td>Germany - US</td>
       <td>1,400</td>
-      <td>Strong German CF program, Vertex partnerships</td>
+      <td>Strong German CF program &amp; possibly due to Vertex partnerships</td>
     </tr>
     <tr>
       <td>Australia - UK</td>
@@ -1110,28 +1128,28 @@ Author           --affiliated--&gt;    Institution (5,799)
     <tr>
       <td>France - US</td>
       <td>1,119</td>
-      <td>Major French CF program (INSERM)</td>
+      <td>Interesting, but I’m not sure why</td>
     </tr>
     <tr>
       <td>Germany - UK</td>
       <td>925</td>
-      <td>European clinical trial networks</td>
+      <td>Geographic proximity, EU Zone</td>
     </tr>
     <tr>
       <td>Germany - France</td>
       <td>912</td>
-      <td>Strongest intra-European corridor</td>
+      <td>Geographic proximity, EU Zone</td>
     </tr>
   </tbody>
 </table>
 
-<p>The Anglophone bias is striking: the top 5 corridors all involve English-speaking countries. Within continental Europe, Germany-France (912 shared publications) is the strongest partnership, but it’s less than half the UK-US corridor. Language and shared clinical trial infrastructure clearly shape who collaborates with whom, even in 2025.</p>
+<p>The top 5 corridors all involve English-speaking countries. Within continental Europe, Germany-France (912 shared publications) is the strongest partnership, but it’s less than half the UK-US corridor. Shared language and geographic proximity clearly shape who collaborates with whom, even in 2025.</p>
 
 <hr />
 
 <h2 id="rising-stars-whos-gaining-influence-fastest">Rising Stars: Who’s Gaining Influence Fastest?</h2>
 
-<p>By comparing <a href="https://en.wikipedia.org/wiki/Centrality#Degree_centrality">degree centrality</a> between Era 1 and Era 2, I identified researchers whose network influence grew the most. I filtered to researchers above the median Era 2 centrality to focus on people who became genuinely influential, not just someone who went from 0 to 1 connection.</p>
+<p>By comparing <a href="https://en.wikipedia.org/wiki/Centrality#Degree_centrality">degree centrality</a> between Era 1 and Era 2, we can flag researchers whose network position grew the most. I filtered to researchers above the median Era 2 centrality to screen out the trivial “0 to 1 connection” cases.</p>
 
 <table>
   <thead>
@@ -1182,27 +1200,45 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>An important caveat: high growth rates are easier from a low base. Lisa Morrison’s 82x growth sounds massive, but she started from essentially zero (a single connection in Era 1). The more interesting rising stars are people like Meghana Nitin Sathe (28 articles, 36x growth) and Dana P. Albon (26 articles, 20x growth), who have substantial publication records and went from peripheral to central.</p>
-
-<p>What these rising stars have in common: they were on the edge of the field in 2015-2018, maybe a postdoc or early-career investigator with one or two papers. Then in Era 2, they became hubs in new research areas that Trikafta opened up: long-term outcomes, rare mutations, CF-related diabetes, mental health. The network structure reveals their emergence years before traditional metrics (h-index, citation counts) would flag them. For a hiring committee or funding agency trying to identify the next generation of CF leaders, this kind of analysis is exactly what you’d want.</p>
+<p>A few caveats before anyone reads too much into this list. High growth multipliers are easy from a low base: Lisa Morrison’s 82x sounds massive, but she started from a single Era 1 connection, which inflates the ratio regardless of what she actually does now. Even the more substantial entries (Meghana Nitin Sathe at 28 articles and 36x, Dana P. Albon at 26 articles and ~20x) are only flagged by one metric — degree centrality growth — over two coarse time buckets. That is a shallow lens. It can’t tell you <em>why</em> someone’s connections grew, whether the growth is durable, or how they compare on the other centrality measures from Part 4 (betweenness, eigenvector, PageRank, weighted degree). Actually identifying genuine rising stars would need a much deeper look: tracking multiple centrality measures across a sliding window, checking whether the growth compounds or reverts, and sanity-checking against the person’s actual publication record and research topics. The table above is best read as a list of researchers worth investigating further, not a verdict on who the next generation of CF leaders will be.</p>
 
 <hr />
+
+<p>The dashboard below pulls the four main threads of this post into one view: the edge-turnover pie (continued vs dissolved vs brand new), the author population shift between eras, the domestic/international split for continued and new collaborations, and the density curve across the sliding windows.</p>
 
 <iframe src="/assets/plotly/tier4_trikafta_effect.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="temporal-analysis" /><category term="node2vec" /><category term="counterfactual" /><summary type="html"><![CDATA[Part 5: 94% edge turnover, counterfactual analysis showing 62.5% Trikafta-created collaborations, sliding windows, and rising stars]]></summary></entry><entry><title type="html">Part 4: The Small World of CF Research</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure/" rel="alternate" type="text/html" title="Part 4: The Small World of CF Research" /><published>2026-04-09T20:30:00+00:00</published><updated>2026-04-09T20:30:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure/"><![CDATA[<blockquote>
-  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ul>
+  <li><strong>A drug approval rewired the graph.</strong> 94% of Era 2 collaboration pairs are brand new compared to Era 1, far above the 20-30% per-year baseline for a stable field. The structural backbone held even as the field doubled: average clustering barely moved (0.880 → 0.877).</li>
+  <li><strong>Most of the rewiring doesn’t fit pre-2019 dynamics.</strong> Restricted to continuity-researcher pairs where a pre-Trikafta node2vec + logistic-regression model can actually vote, 62.5% of their new edges are unexplained by the Era 1 pattern, and two-thirds of their dissolved edges were predicted to survive.</li>
+  <li><strong>Topics rotated along with partnerships.</strong> Modulator-related MeSH topics surged and some infection-focused topics receded, normalized against publication counts per era.</li>
+  <li><strong>The post-Trikafta field is tighter, not just bigger.</strong> Across 3-year sliding windows, network density rose 14% (0.00097 → 0.00111) and the giant component expanded from 69.8% to 77.3% of researchers.</li>
+  <li><strong>Degree-centrality growth flags some candidate rising stars — tentatively.</strong> Filtering to above-median Era 2 centrality to screen out zero-base artifacts surfaces names like Meghana Nitin Sathe (28 articles, 36x) and Dana P. Albon (26 articles, ~20x). A single-metric, two-bucket comparison is a shallow lens, though; confirming anyone as a real rising star would need multi-metric, sliding-window analysis.</li>
+</ul>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Part 6 zooms out from researchers to institutions and geography: which organizations anchor CF research, how the map changes when you enrich it with ROR metadata, and why nearly half of institutional edges cross a national border.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="network-analysis" /><category term="graph-ml" /><category term="cystic-fibrosis" /><category term="trikafta" /><category term="temporal-analysis" /><category term="node2vec" /><category term="graph-embeddings" /><category term="link-prediction" /><category term="counterfactual" /><summary type="html"><![CDATA[Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.]]></summary></entry><entry><title type="html">Part 4: The Small World of CF Research</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure/" rel="alternate" type="text/html" title="Part 4: The Small World of CF Research" /><published>2026-04-12T20:30:00+00:00</published><updated>2026-04-12T20:30:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part4-network-structure/"><![CDATA[<blockquote>
+  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr />
 
+<p>In parts 2 and 3 we created a list of 39,206 researchers and 11,500 CF publications. This post is where that raw material finally becomes a graph, and where the graph starts answering questions. Three in particular: what does the CF research network <em>look like</em> as a structure, who are the most influential researchers once you accept that “influential” has more than one meaning, and how is the field organized into communities and the bridge-builders who connect them.</p>
+
 <h2 id="building-the-graph">Building the Graph</h2>
 
-<p>With 39,206 disambiguated authors and 11,500 publications from Parts 2 and 3, I can now build what this entire project has been leading to: the <a href="https://en.wikipedia.org/wiki/Co-authorship_network">co-authorship network</a>.</p>
+<p>In a co-authorship network, each researcher is a <strong>node</strong>, and two nodes are linked by an <strong>edge</strong> if those researchers share a paper. Everything that follows is built on top of those two primitives: we weigh nodes to measure influence and edges to measure collaboration depth.</p>
 
-<p>The basic idea is straightforward. Two researchers are connected if they co-authored a paper. But not all authorship positions carry the same meaning. In biomedical research, authorship order is a strong signal of contribution: the first author typically did most of the hands-on work (running experiments, analyzing data, writing the paper), and the last author is usually the senior investigator who led the project and whose lab it came out of. Middle authors contributed specific expertise, a statistical analysis, a patient cohort, a reagent, but their role in the direct collaboration is less central.</p>
+<p>With the 39,206 authors and 11,500 publications from Parts 2 and 3, we can now wire up the network. The basic idea is straightforward. Two researchers are connected if they co-authored a paper. But not all authorship positions carry the same meaning. In biomedical research, authorship order is a strong signal of contribution: the first author typically did most of the hands-on work (running experiments, analyzing data, writing the paper), and the last author is usually the senior investigator who led the project and whose lab it came out of. Middle authors contributed specific expertise, a statistical analysis, a patient cohort, a reagent, but their role in the direct collaboration is less central.</p>
 
 <p>So instead of treating every co-authorship equally, I used a position-weighted scheme:</p>
 
@@ -1243,7 +1279,7 @@ Author           --affiliated--&gt;    Institution (5,799)
   </tbody>
 </table>
 
-<p>The edge weight between two researchers equals the sum of their position weights across all shared papers. If Felix Ratjen (last author, weight 1.0) and a trainee (first author, weight 1.0) published 5 papers together, their edge weight is 5.0, a strong, repeated partnership. Compare that with two middle authors (weight 0.3 each) who appeared on a single large clinical trial: their edge weight is just 0.09. This distinction matters because a clinical trial with 40 authors doesn’t represent 780 meaningful collaborations. It represents one coordinated effort.</p>
+<p>For each paper two researchers share, multiply their position weights together; the edge weight is the sum of those per-paper products. If Felix Ratjen (last author, weight 1.0) and a trainee (first author, weight 1.0) published 5 papers together, their edge weight is 1.0 × 1.0 summed five times, or 5.0, a strong, repeated partnership. Compare that with two middle authors (weight 0.3 each) who appeared on a single large clinical trial: their edge weight is 0.3 × 0.3 = 0.09. This distinction matters because a clinical trial with 40 authors doesn’t represent 780 meaningful collaborations. It represents one coordinated effort.</p>
 
 <hr />
 
@@ -1288,7 +1324,7 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <p>That last number caught my eye. 819 distinct collaborators means this person has co-authored papers with more than 2% of the entire CF research community. This typically happens with researchers who coordinate large multi-center clinical trials, where a single Phase 3 trial paper might list 40+ authors from 20 different institutions. They’re not necessarily the deepest collaborators, but they’re the ultimate connectors.</p>
 
-<p>The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few “super-connectors” pull the average way up. This is the hallmark of a <a href="https://en.wikipedia.org/wiki/Power_law">power-law distribution</a>, and it’s exactly what you’d expect in a real scientific collaboration network.</p>
+<p>The gap between mean (16.5) and median (9) tells its own story. Most researchers have a modest number of collaborators, but a few “super-connectors” pull the average way up. This is the hallmark of a power-law distribution, and it’s exactly what you’d expect in a real scientific collaboration network.</p>
 
 <iframe src="/assets/plotly/degree_distribution.html" frameborder="0" scrolling="no" height="510px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
 
@@ -1392,7 +1428,7 @@ Author           --affiliated--&gt;    Institution (5,799)
       <td>Isabelle Sermet-Gaudelus</td>
       <td>123</td>
       <td>FR</td>
-      <td>Second-highest betweenness (0.026)</td>
+      <td>Third-highest betweenness (0.026)</td>
     </tr>
     <tr>
       <td>8</td>
@@ -1406,7 +1442,7 @@ Author           --affiliated--&gt;    Institution (5,799)
       <td>Carla Colombo</td>
       <td>91</td>
       <td>IT</td>
-      <td>Third-highest betweenness (0.029)</td>
+      <td>Second-highest betweenness (0.029)</td>
     </tr>
     <tr>
       <td>10</td>
@@ -1426,23 +1462,9 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<h2 id="what-are-people-studying-the-mesh-topic-landscape">What Are People Studying? The MeSH Topic Landscape</h2>
+<h2 id="the-major-communities-of-cf-research">The Major Communities of CF Research</h2>
 
-<p>Before looking at communities, it helps to understand what the research is actually about. The MeSH topic evolution chart shows which research topics grew and which shrank between eras:</p>
-
-<iframe src="/assets/plotly/eda_mesh_evolution.html" frameborder="0" scrolling="no" height="760px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
-
-<p>Green bars on the right are topics that grew in the Trikafta era. Red bars on the left are topics that shrank. The pattern is clear: modulator-related topics (CFTR, drug compounds) surged, while some traditional infection-focused topics declined. Quality of life and mental health research also grew, reflecting the new reality of patients living longer with better baseline health.</p>
-
-<p>The heatmap below shows the same story in more detail, tracking the top 20 MeSH topics year by year:</p>
-
-<iframe src="/assets/plotly/eda_mesh_heatmap.html" frameborder="0" scrolling="no" height="660px" width="100%" style="border: 1px solid #ddd; border-radius: 5px;"></iframe>
-
-<hr />
-
-<h2 id="the-seven-tribes-of-cf-research">The Seven Tribes of CF Research</h2>
-
-<p>Using the <a href="https://en.wikipedia.org/wiki/Leiden_algorithm">Leiden algorithm</a> for <a href="https://en.wikipedia.org/wiki/Community_structure">community detection</a>, I found <strong>1,231 communities</strong> with a <a href="https://en.wikipedia.org/wiki/Modularity_(networks)">modularity</a> of 0.815.</p>
+<p>Using the <a href="https://en.wikipedia.org/wiki/Leiden_algorithm">Leiden algorithm</a> for community detection, I found <strong>1,231 communities</strong> with a <a href="https://en.wikipedia.org/wiki/Modularity_(networks)">modularity</a> of 0.815.</p>
 
 <p>A quick explanation: the Leiden algorithm looks for groups of researchers who collaborate more with each other than you’d expect by chance. It’s an improvement over the older <a href="https://en.wikipedia.org/wiki/Louvain_method">Louvain method</a> because it guarantees that every detected community is internally well-connected, not just well-separated from others. Modularity is a score from 0 to 1 that measures how cleanly the network splits into communities. A score of 0.815 is very high, meaning CF research has genuinely distinct research clusters, not a homogeneous blob.</p>
 
@@ -1634,8 +1656,23 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="network-analysis" /><category term="graph-theory" /><category term="community-detection" /><category term="centrality" /><summary type="html"><![CDATA[Part 4: Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders]]></summary></entry><entry><title type="html">Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/" rel="alternate" type="text/html" title="Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence" /><published>2026-04-09T20:20:00+00:00</published><updated>2026-04-09T20:20:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/"><![CDATA[<blockquote>
-  <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ul>
+  <li><strong>It’s a village, not a web.</strong> A 4.31-hop average path length and a clustering coefficient of 0.862 mark CF research as a classic small-world network: sparse overall, but densely connected inside teams and shockingly close across them.</li>
+  <li><strong>Influence has five flavors.</strong> Degree, weighted degree, betweenness, eigenvector, and PageRank each capture a different kind of prominence. TOPSIS combines them into one ranking so local-network stars (the Hacettepe Turkish group) surface alongside global connectors (Davies, Sermet-Gaudelus, Ratjen, Colombo, Mall) in the same top 10.</li>
+  <li><strong>1,231 communities, organized mostly by country.</strong> A Leiden modularity of 0.815 says the communities are real, not artifacts of the algorithm, and the biggest ones anchor on single flagship institutions: Washington, INSERM, Rome, Hannover, Liverpool, Toronto, Carlos III, Sydney.</li>
+  <li><strong>14.2% of researchers are the connective tissue.</strong> 5,549 bridge builders link two or more communities; Jane Davies alone spans 40. Remove them and the field fragments into national and topical silos.</li>
+</ul>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Part 5 asks whether this structure actually held when Trikafta landed in late 2019, or whether a single drug approval was enough to rewire the graph.</p>
+
+<hr />
+
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="network-analysis" /><category term="cystic-fibrosis" /><category term="graph-theory" /><category term="small-world" /><category term="leiden" /><category term="community-detection" /><category term="centrality" /><category term="topsis" /><category term="networkx" /><summary type="html"><![CDATA[Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.]]></summary></entry><entry><title type="html">Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/" rel="alternate" type="text/html" title="Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence" /><published>2026-04-12T20:20:00+00:00</published><updated>2026-04-12T20:20:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/"><![CDATA[<blockquote>
+  <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -2155,8 +2192,8 @@ Author           --affiliated--&gt;    Institution (5,799)
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="co-authorship" /><category term="entity-resolution" /><category term="disambiguation" /><category term="orcid" /><summary type="html"><![CDATA[ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.]]></summary></entry><entry><title type="html">Part 2: From Messy Affiliations to a Master List of Institutions with LLMs</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/" rel="alternate" type="text/html" title="Part 2: From Messy Affiliations to a Master List of Institutions with LLMs" /><published>2026-04-09T20:10:00+00:00</published><updated>2026-04-09T20:10:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/"><![CDATA[<blockquote>
-  <p><em>Part 2 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="data-engineering" /><category term="entity-resolution" /><category term="author-disambiguation" /><category term="orcid" /><category term="union-find" /><category term="name-matching" /><category term="temporal-analysis" /><summary type="html"><![CDATA[ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.]]></summary></entry><entry><title type="html">Part 2: From Messy Affiliations to a Master List of Institutions with LLMs</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/" rel="alternate" type="text/html" title="Part 2: From Messy Affiliations to a Master List of Institutions with LLMs" /><published>2026-04-12T20:10:00+00:00</published><updated>2026-04-12T20:10:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/"><![CDATA[<blockquote>
+  <p><em>Part 2 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <hr />
@@ -2830,8 +2867,8 @@ You must output only valid JSON that matches the target schema exactly.
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="llm" /><category term="prompt-caching" /><category term="llm-evals" /><category term="pydantic" /><category term="entity-resolution" /><category term="mlflow" /><summary type="html"><![CDATA[LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.]]></summary></entry><entry><title type="html">Part 1: Building the Data Flywheel for CF Research Network Analysis</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/" rel="alternate" type="text/html" title="Part 1: Building the Data Flywheel for CF Research Network Analysis" /><published>2026-04-09T20:00:00+00:00</published><updated>2026-04-09T20:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/"><![CDATA[<blockquote>
-  <p><em>Part 1 of the series: <strong><a href="/blog/cf-research-network-analysis/">From Open Source Data to Powerful Insights on Cystic Fibrosis Research Collaboration</a></strong></em></p>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="data-engineering" /><category term="llm" /><category term="llm" /><category term="prompt-caching" /><category term="llm-evals" /><category term="structured-output" /><category term="pydantic" /><category term="entity-resolution" /><category term="mlflow" /><category term="openai-batch-api" /><category term="geocoding" /><summary type="html"><![CDATA[LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.]]></summary></entry><entry><title type="html">Part 1: Building the Data Flywheel for CF Research Network Analysis</title><link href="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/" rel="alternate" type="text/html" title="Part 1: Building the Data Flywheel for CF Research Network Analysis" /><published>2026-04-12T20:00:00+00:00</published><updated>2026-04-12T20:00:00+00:00</updated><id>https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline</id><content type="html" xml:base="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part1-data-pipeline/"><![CDATA[<blockquote>
+  <p><em>Part 1 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
 </blockquote>
 
 <blockquote>
@@ -2989,4 +3026,4 @@ You must output only valid JSON that matches the target schema exactly.
 
 <hr />
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2: From Messy Affiliations to a Master List of Institutions with LLMs</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="pubmed" /><category term="mesh" /><category term="cystic-fibrosis" /><category term="postgres" /><category term="prefect" /><summary type="html"><![CDATA[The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.]]></summary></entry></feed>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2: From Messy Affiliations to a Master List of Institutions with LLMs</a></em></p>]]></content><author><name></name></author><category term="data-science" /><category term="cystic-fibrosis" /><category term="data-engineering" /><category term="cystic-fibrosis" /><category term="pubmed" /><category term="mesh" /><category term="postgres" /><category term="prefect" /><category term="etl" /><category term="parquet" /><summary type="html"><![CDATA[The data flywheel behind the series: PubMed ingestion, Prefect ETL, and filtering 26M articles to a clean CF corpus.]]></summary></entry></feed>
