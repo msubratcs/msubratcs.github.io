@@ -2,7 +2,7 @@
 layout: post
 title: "Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence"
 date: 2026-04-12 20:20:00
-description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth."
+description: "A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996."
 tags: [entity-resolution, author-disambiguation, orcid, union-find, name-matching, temporal-analysis]
 categories: [data-science, cystic-fibrosis, data-engineering]
 series_part: true
@@ -12,7 +12,15 @@ mermaid:
   enabled: true
 ---
 
-> *Part 3 of the series: **[Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive](/blog/cf-research-network-analysis/)***
+> *Part 3 of the series: **[Mapping the Cystic Fibrosis Research Community](/blog/cf-research-network-analysis/)***
+
+> ***TL;DR:*** *85,194 author mentions collapse to 39,206 unique researchers via ORCID anchoring, collision-aware name matching, and a five-year temporal mobility window calibrated from real career-move data. Final disambiguation: F1 = 0.9996 against ORCID ground truth.*
+>
+> ***Read this if*** *you want to understand how author disambiguation works when nearly a third of researchers change institutions during the observation window.*
+>
+> ***Skip to*** *[Validating Against ORCID Ground Truth](#validating-against-orcid-ground-truth) for the accuracy numbers.*
+>
+> ***Why this matters for the graph:*** *A wrong merge stitches unrelated research groups together. A wrong split hides real collaborations. Every error here propagates into every downstream network metric.*
 
 ---
 
@@ -22,6 +30,8 @@ In PubMed, authors are identified by name. Not by a unique ID, not by an account
 
 1. **Name collisions**: "Wang, X" matches 4 different researchers. "Zhang, L" matches 3. Genuinely different people, same last name and initial.
 2. **Name variants**: "Gökçen" and "Gokcen" are the same person with and without Turkish diacritics. "Silva-Filho" and "Silva Filho" are the same person with and without a hyphen. "Greg", "Gregory", and "Gregory S" are the same person at three levels of name completeness.
+
+If we get this wrong in either direction, the co-authorship graph fills with edges that don't exist or loses edges that do, and every community and centrality measure downstream inherits the distortion.
 
 Part 1 left off with 85,194 author mentions attached to the 11,500 articles in the filtered CF corpus. Those mentions reduce to **42,949 unique (last name, first name, initials) combinations**. Some unknown fraction of those are duplicates. Some are collisions. The job of this post is to figure out which is which.
 
@@ -276,8 +286,8 @@ A few things that were not obvious going in:
 
 ## What's Next
 
-With 39,206 disambiguated researchers and their full affiliation timelines in hand, the raw material for the CF co-authorship network is finally ready. Part 4 builds the network, measures its structure, and finds the small set of bridge-building researchers who connect the entire community.
+This post produced 39,206 disambiguated researchers, each with a full affiliation timeline. Part 4 wires them into a co-authorship graph and measures what the resulting network looks like as a structure: path lengths, clustering, communities, and the bridge builders who connect them.
 
 ---
 
-*Next: [Part 4: The Small World of CF Research]({% post_url 2026-04-12-cf-research-network-analysis-part4-network-structure %})*
+*Next: [Part 4: What the co-authorship network looks like once you can actually measure it]({% post_url 2026-04-12-cf-research-network-analysis-part4-network-structure %})*

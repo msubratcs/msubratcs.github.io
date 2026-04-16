@@ -2,7 +2,7 @@
 layout: post
 title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community"
 date: 2026-04-12 20:40:00
-description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis."
+description: "94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics."
 tags: [cystic-fibrosis, trikafta, temporal-analysis, node2vec, graph-embeddings, link-prediction, counterfactual]
 categories: [data-science, cystic-fibrosis, network-analysis, graph-ml]
 series_part: true
@@ -10,11 +10,21 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 5 of the series: **[Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive](/blog/cf-research-network-analysis/)***
+> *Part 5 of the series: **[Mapping the Cystic Fibrosis Research Community](/blog/cf-research-network-analysis/)***
+
+> ***TL;DR:*** *94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual restricted to continuity researchers finds 62.5% of their new partnerships fall outside pre-2019 network dynamics, and two-thirds of their dissolved ones were predicted to survive. The field doubled in size but held its structural fabric.*
+>
+> ***Read this if*** *you want to see what happens to collaboration patterns when a breakthrough drug lands in the middle of the observation window.*
+>
+> ***Skip to*** *[The Counterfactual](#the-counterfactual-what-would-have-happened-without-trikafta) for the model that separates expected from unexpected rewiring.*
+>
+> ***Why this matters for the graph:*** *Without a before-and-after comparison, the network from Part 4 is a static portrait. This post turns it into a measurement of how collaboration responds to a scientific turning point.*
 
 ---
 
 ## Before and After
+
+If we don't separate the effects of the drug approval from normal field evolution, every claim that "Trikafta changed X" is confounded by the fact that research networks change on their own even when nothing dramatic happens.
 
 Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), We can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease. A caveat to keep in mind for everything that follows: Era 1 is 4 years long and Era 2 is 7 years long, so raw-size comparisons are inflated by the longer observation window. The per-researcher and structural claims below (average collaborators, clustering, edge turnover) don't depend on that asymmetry, but the total-count numbers do.
 
@@ -177,7 +187,7 @@ By comparing [degree centrality](https://en.wikipedia.org/wiki/Centrality#Degree
 | Meghana Nitin Sathe | 28 | 0.00013 | 0.00463 | 36x |
 | Rebecca M. Davidson | 16 | 0.00013 | 0.00421 | 32x |
 
-A few caveats before anyone reads too much into this list. High growth multipliers are easy from a low base: Lisa Morrison's 82x sounds massive, but she started from a single Era 1 connection, which inflates the ratio regardless of what she actually does now. Even the more substantial entries (Meghana Nitin Sathe at 28 articles and 36x, Dana P. Albon at 26 articles and ~20x) are only flagged by one metric — degree centrality growth — over two coarse time buckets. That is a shallow lens. It can't tell you *why* someone's connections grew, whether the growth is durable, or how they compare on the other centrality measures from Part 4 (betweenness, eigenvector, PageRank, weighted degree). Actually identifying genuine rising stars would need a much deeper look: tracking multiple centrality measures across a sliding window, checking whether the growth compounds or reverts, and sanity-checking against the person's actual publication record and research topics. The table above is best read as a list of researchers worth investigating further, not a verdict on who the next generation of CF leaders will be.
+A few caveats before anyone reads too much into this list. High growth multipliers are easy from a low base: Lisa Morrison's 82x sounds massive, but she started from a single Era 1 connection, which inflates the ratio regardless of what she actually does now. Even the more substantial entries (Meghana Nitin Sathe at 28 articles and 36x, Dana P. Albon at 26 articles and ~20x) are only flagged by one metric, degree centrality growth, over two coarse time buckets. That is a shallow lens. It can't tell you *why* someone's connections grew, whether the growth is durable, or how they compare on the other centrality measures from Part 4 (betweenness, eigenvector, PageRank, weighted degree). Actually identifying genuine rising stars would need a much deeper look: tracking multiple centrality measures across a sliding window, checking whether the growth compounds or reverts, and sanity-checking against the person's actual publication record and research topics. The table above is best read as a list of researchers worth investigating further, not a verdict on who the next generation of CF leaders will be.
 
 ---
 
@@ -193,12 +203,12 @@ The dashboard below pulls the four main threads of this post into one view: the 
 - **Most of the rewiring doesn't fit pre-2019 dynamics.** Restricted to continuity-researcher pairs where a pre-Trikafta node2vec + logistic-regression model can actually vote, 62.5% of their new edges are unexplained by the Era 1 pattern, and two-thirds of their dissolved edges were predicted to survive.
 - **Topics rotated along with partnerships.** Modulator-related MeSH topics surged and some infection-focused topics receded, normalized against publication counts per era.
 - **The post-Trikafta field is tighter, not just bigger.** Across 3-year sliding windows, network density rose 14% (0.00097 → 0.00111) and the giant component expanded from 69.8% to 77.3% of researchers.
-- **Degree-centrality growth flags some candidate rising stars — tentatively.** Filtering to above-median Era 2 centrality to screen out zero-base artifacts surfaces names like Meghana Nitin Sathe (28 articles, 36x) and Dana P. Albon (26 articles, ~20x). A single-metric, two-bucket comparison is a shallow lens, though; confirming anyone as a real rising star would need multi-metric, sliding-window analysis.
+- **Degree-centrality growth flags some candidate rising stars, tentatively.** Filtering to above-median Era 2 centrality to screen out zero-base artifacts surfaces names like Meghana Nitin Sathe (28 articles, 36x) and Dana P. Albon (26 articles, ~20x). A single-metric, two-bucket comparison is a shallow lens, though; confirming anyone as a real rising star would need multi-metric, sliding-window analysis.
 
 ## What's Next
 
-Part 6 zooms out from researchers to institutions and geography: which organizations anchor CF research, how the map changes when you enrich it with ROR metadata, and why nearly half of institutional edges cross a national border.
+This post measured the before-and-after at the researcher level: who rewired, who dissolved, who persisted. Part 6 lifts the lens from individuals to institutions and geography, using the same org IDs from Part 2 to ask which organizations anchor CF research and how the map changes when you enrich it with ROR metadata.
 
 ---
 
-*Next: [Part 6: The Institutional Backbone and Geography of CF Research]({% post_url 2026-04-12-cf-research-network-analysis-part6-geography-institutions %})*
+*Next: [Part 6: The organizational and geographic scaffolding underneath the researcher network]({% post_url 2026-04-12-cf-research-network-analysis-part6-geography-institutions %})*

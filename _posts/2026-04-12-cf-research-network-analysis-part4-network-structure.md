@@ -10,11 +10,21 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 4 of the series: **[Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive](/blog/cf-research-network-analysis/)***
+> *Part 4 of the series: **[Mapping the Cystic Fibrosis Research Community](/blog/cf-research-network-analysis/)***
+
+> ***TL;DR:*** *The CF co-authorship network is a small-world graph: 39,206 researchers, 4.31-hop average path length, 0.862 clustering coefficient. Five centrality measures fused via TOPSIS rank influence, 1,231 Leiden communities map the field's tribal structure, and 14.2% of researchers bridge two or more communities.*
+>
+> ***Read this if*** *you want to see what a real scientific collaboration network looks like once you measure its structure, rank its members, and map its communities.*
+>
+> ***Skip to*** *[The Bridge Builders](#the-bridge-builders) for the researchers who hold the field together.*
+>
+> ***Why this matters for the graph:*** *This is where the graph becomes an instrument. The structural baselines here -- small-world properties, community map, bridge builder list -- are what Parts 5 through 7 measure change against.*
 
 ---
 
 In parts 2 and 3 we created a list of 39,206 researchers and 11,500 CF publications. This post is where that raw material finally becomes a graph, and where the graph starts answering questions. Three in particular: what does the CF research network *look like* as a structure, who are the most influential researchers once you accept that "influential" has more than one meaning, and how is the field organized into communities and the bridge-builders who connect them.
+
+If the graph construction makes bad choices -- treating a 40-author clinical trial as 780 equally meaningful partnerships, or ignoring authorship position -- then the centrality rankings, community boundaries, and bridge builder lists reflect construction artifacts rather than the actual structure of the field.
 
 ## Building the Graph
 
@@ -185,8 +195,8 @@ In total, **5,549 researchers** (14.2% of the network) bridge two or more commun
 
 ## What's Next
 
-Part 5 asks whether this structure actually held when Trikafta landed in late 2019, or whether a single drug approval was enough to rewire the graph.
+This post established the structural baseline: a small-world network with 1,231 communities and a handful of bridge builders holding it together. Part 5 splits that same graph at October 2019 and asks whether a single drug approval was enough to rewire the structure.
 
 ---
 
-*Next: [Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community]({% post_url 2026-04-12-cf-research-network-analysis-part5-trikafta-effect %})*
+*Next: [Part 5: What happened to the collaboration graph when Trikafta arrived]({% post_url 2026-04-12-cf-research-network-analysis-part5-trikafta-effect %})*

@@ -12,13 +12,13 @@ mermaid:
   enabled: true
 ---
 
-> *Part 1 of the series: **[Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive](/blog/cf-research-network-analysis/)***
+> *Part 1 of the series: **[Mapping the Cystic Fibrosis Research Community](/blog/cf-research-network-analysis/)***
 
 > ***TL;DR:*** *This post is about the plumbing behind the whole series: the data flywheel that turns PubMed's firehose into a clean local mirror of biomedical literature, and the frozen snapshot of that mirror the rest of this series runs on. If you came here for findings, you probably want [Part 5]({% post_url 2026-04-12-cf-research-network-analysis-part5-trikafta-effect %}) or the [series landing page](/blog/cf-research-network-analysis/). If you want to see how the sausage is made, read on.*
 
 ---
 
-Data is the foundation that every post in this series stands on. So before writing a single line of analysis code, I built a local mirror of PubMed that refreshes itself every week, and some SQL that distills 26 million indexed articles (everything in PubMed from 2000 onward) down to the 11,500 that actually matter for Cystic Fibrosis research. This post is that build, and an honest look at the choices that went into it.
+Data is the foundation that every post in this series stands on. If the pipeline drops articles, misclassifies publication types, or lets in papers that only mention CF in passing, every count, every edge, and every community boundary in the rest of the series inherits the error. So before writing a single line of analysis code, I built a local mirror of PubMed that refreshes itself every week, and some SQL that distills 26 million indexed articles (everything in PubMed from 2000 onward) down to the 11,500 that actually matter for Cystic Fibrosis research. This post is that build, and an honest look at the choices that went into it.
 
 ## The Data: 26 Million Articles in a Local PostgreSQL Database
 

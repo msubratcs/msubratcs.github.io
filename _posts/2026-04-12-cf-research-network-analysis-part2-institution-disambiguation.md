@@ -2,7 +2,7 @@
 layout: post
 title: "Part 2: From Messy Affiliations to a Master List of Institutions with LLMs"
 date: 2026-04-12 20:10:00
-description: "LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication."
+description: "An LLM pipeline turns 97,167 messy affiliation strings into 5,799 geocoded research organizations for $82."
 tags: [llm, prompt-caching, llm-evals, structured-output, pydantic, entity-resolution, mlflow, openai-batch-api, geocoding]
 categories: [data-science, cystic-fibrosis, data-engineering, llm]
 series_part: true
@@ -12,7 +12,15 @@ mermaid:
   enabled: true
 ---
 
-> *Part 2 of the series: **[Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive](/blog/cf-research-network-analysis/)***
+> *Part 2 of the series: **[Mapping the Cystic Fibrosis Research Community](/blog/cf-research-network-analysis/)***
+
+> ***TL;DR:*** *97,167 free-text affiliation strings go in; 5,799 geocoded research organizations come out. An LLM pipeline with structured output, a six-model MLflow evaluation, and a geo-search dedup step do the work for about $82.*
+>
+> ***Read this if*** *you want to see how LLM-based entity resolution works end-to-end on messy real-world data, including the eval that chose the model and the cost engineering that kept the bill under $100.*
+>
+> ***Skip to*** *[Coverage and Costs](#coverage-and-costs) if you just want the final numbers.*
+>
+> ***Why this matters for the graph:*** *Every unresolved institution variant becomes a fake node. Get this wrong and the co-authorship network fragments into a story about spelling, not collaboration.*
 
 ---
 
@@ -227,7 +235,7 @@ Stratification matters because aggregate F1 can hide catastrophic failure on the
 
 ### The MLflow Setup
 
-Quick shout-out before getting into the mechanics: [Corey Zumar](https://www.linkedin.com/in/corey-zumar) and the rest of the fantastic folks at [MLflow](https://mlflow.org/) have been absolutely killing it with the GenAI features they have been shipping. Prompt registry, dataset lineage, auto-tracing across providers, `mlflow.genai.evaluate`, GEPA-based prompt optimization: these are genuinely new capabilities that did not exist in a usable form a year ago, and this project leans on all of them. Four features worth calling out:
+The evaluation leans heavily on several recent [MLflow](https://mlflow.org/) GenAI features. [Corey Zumar](https://www.linkedin.com/in/corey-zumar) and the MLflow team have shipped a lot of useful tooling here: prompt registry, dataset lineage, auto-tracing across providers, `mlflow.genai.evaluate`, GEPA-based prompt optimization. This project uses all of them. Four features worth calling out:
 
 **Prompt Registry.** The Jinja2 prompt template is registered as a versioned artifact in MLflow with `mlflow.genai.register_prompt("affiliation-parser", ...)`. Re-running the eval only creates a new prompt version if the template text actually changed. Every model run is then tagged with `prompt_uri`, so any metric I look at months later can be traced back to the exact prompt that produced it. No "wait, which prompt was that again" confusion.
 
@@ -374,7 +382,7 @@ Total cost of the whole institution disambiguation pipeline:
 
 $82 to turn a pile of messy free text into a clean, geocoded master list of institutions that the rest of this series runs on.
 
-Money well spent, and with a second life ahead of it. Every affiliation that went through the LLM is now a training example: the raw text on the input side, the clean structured record on the output side. Roughly 50,000 of them, spanning academic, hospital, industry, government, and multilingual affiliations. That is exactly the kind of dataset you would want to fine-tune a small language model on, one that could parse future affiliations locally at zero per-token cost. Turning this dataset into a locally runnable SLM for affiliation parsing is the follow-up I am planning next. Stay tuned over the coming days, we will be building it soon!
+$82 for the full pipeline. A useful byproduct: every affiliation that went through the LLM is now a labeled training example, the raw text on one side and the clean structured record on the other. Roughly 50,000 of them, spanning academic, hospital, industry, government, and multilingual affiliations. That is the kind of dataset you would want for fine-tuning a small language model that could parse future affiliations locally at zero per-token cost.
 
 ---
 
@@ -391,10 +399,8 @@ A few things that were not obvious going in:
 
 ## What's Next
 
-With 5,799 organizations resolved and geocoded, the harder entity-resolution problem finally has a fighting chance: **author disambiguation**. Organization IDs become a critical signal. "Smith, John at MIT" on two papers is probably the same person. But "Smith, John at MIT" and "Smith, John at Stanford" might be the same person who moved, or two different people entirely.
-
-Part 3 walks through a temporal-aware disambiguation algorithm that uses publication dates, ORCID anchoring, and each author's affiliation history over time to tell the difference between real career moves and coincidental name collisions, built on top of the org IDs this post just finished producing.
+This post turned 97,167 messy affiliation strings into 5,799 geocoded institutions, each with a stable Place ID. Part 3 needs those IDs as a disambiguation signal: "Smith, John at MIT" on two papers is probably the same person, but only if both affiliation strings actually resolved to the same org. "Smith, John at MIT" and "Smith, John at Stanford" might be the same person who moved, or two different people entirely, and telling the difference requires temporal awareness on top of the org IDs this post just finished producing.
 
 ---
 
-*Next: [Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence]({% post_url 2026-04-12-cf-research-network-analysis-part3-author-disambiguation %})*
+*Next: [Part 3: Why author disambiguation needs those org IDs before it can start]({% post_url 2026-04-12-cf-research-network-analysis-part3-author-disambiguation %})*

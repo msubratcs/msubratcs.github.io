@@ -112,11 +112,17 @@ pagination:
         </p>
         <h3 class="card-title mb-2">
           <a href="{{ '/blog/cf-research-network-analysis/' | relative_url }}" style="text-decoration: none; color: inherit;">
-            Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive
+            Mapping the Cystic Fibrosis Research Community
           </a>
         </h3>
         <p class="card-text mb-3">
           PubMed ingestion, LLM-based entity resolution, network analysis, graph ML, and topic diffusion across 1,688 cities. <a href="{{ '/blog/cf-research-network-analysis/' | relative_url }}">Series overview</a>.
+        </p>
+        <p class="text-muted mb-2" style="font-size: 0.92em;">
+          <strong>Start here:</strong>
+          <a href="{% post_url 2026-04-12-cf-research-network-analysis-part5-trikafta-effect %}">Part 5</a> for the clearest story &middot;
+          <a href="{% post_url 2026-04-12-cf-research-network-analysis-part2-institution-disambiguation %}">Part 2</a> for the most practical engineering problem &middot;
+          <a href="{% post_url 2026-04-12-cf-research-network-analysis-part7-graph-ml %}">Part 7</a> for the graph ML payoff
         </p>
         <ul class="series-parts list-unstyled mb-0">
           {% for post in series_posts %}

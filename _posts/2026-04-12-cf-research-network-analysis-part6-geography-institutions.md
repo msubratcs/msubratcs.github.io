@@ -10,11 +10,21 @@ giscus_comments: false
 related_posts: false
 ---
 
-> *Part 6 of the series: **[Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive](/blog/cf-research-network-analysis/)***
+> *Part 6 of the series: **[Mapping the Cystic Fibrosis Research Community](/blog/cf-research-network-analysis/)***
+
+> ***TL;DR:*** *A bipartite projection produces a 5,628-institution network where 46% of edges cross national borders. Pre-1900 universities still account for nearly half of CF output, Vertex is the only industry player at scale, and the strongest international corridors are overwhelmingly Anglophone.*
+>
+> ***Read this if*** *you want to see CF research through the lens of institutions and geography rather than individual researchers.*
+>
+> ***Skip to*** *[The Global Map](#the-global-map) for the geographic distribution of CF research hubs.*
+>
+> ***Why this matters for the graph:*** *The researcher network from Parts 4-5 captures who works with whom, but not the organizational and geographic scaffolding that shapes those choices. This post adds that layer.*
 
 ---
 
 ## The Institution Network
+
+If institutions remain disaggregated by name variants or their types are mislabeled, the institutional backbone looks fragmented, corridor counts are inflated by duplicates, and the industry-academic mixing analysis becomes unreliable.
 
 So far We've been looking at the network through the lens of individual researchers. But there's another way to slice it: by institution. If two institutions have authors who co-published a paper, those institutions are connected. The weight of the connection is the number of shared publications. This is essentially a [bipartite graph](https://en.wikipedia.org/wiki/Bipartite_graph) projection. The underlying bipartite structure has papers on one side and institutions on the other, with an edge whenever a paper has an author affiliated with that institution. Projecting that graph onto institutions gives us the collaboration network: two institutions are linked if they share at least one paper, weighted by the number of shared papers.
 
@@ -198,12 +208,10 @@ There is an obvious pattern at the top of the list: every one of the top 5 corri
 
 ---
 
-## Zooming Out
+## What's Next
 
-Four very different slices of the data all point at the same organizational spine: a few dozen legacy university-hospital hubs in the US, UK, Canada, and Western Europe, stitched together by a dense academic-hospital axis domestically and by Anglophone corridors internationally. Vertex is the only industry player operating at that scale. Age buys structural advantage but not dominance &mdash; newcomers like Seattle Children's and Université Paris Cité punch well above their weight &mdash; and the Trikafta era has nudged power subtly toward mid-century clinical-trial institutions rather than reshuffling the whole board.
-
-Part 7 drops the institutional lens entirely and goes back to individuals, this time with a machine-learning question: can a model learn each researcher's "research DNA" from who, what, where, and with whom they publish &mdash; and use it to find pairs of scientists on opposite sides of the world who should already know each other?
+This post established the institutional backbone: a 5,628-node network shaped by national borders, legacy advantage, and a single dominant industry partner. Part 7 returns to the researcher level with a different class of method -- metapath2vec embeddings over a heterogeneous graph -- and tests whether learned representations surface patterns that the classical metrics in Parts 4-6 did not.
 
 ---
 
-*Next: [Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion]({% post_url 2026-04-12-cf-research-network-analysis-part7-graph-ml %})*
+*Next: [Part 7: What graph ML adds once the classical network metrics are exhausted]({% post_url 2026-04-12-cf-research-network-analysis-part7-graph-ml %})*
