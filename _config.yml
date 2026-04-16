@@ -134,7 +134,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: Subrat's Blog # blog_name will be displayed in your blog page
-blog_description: "Practical writing on data science, software, healthcare, and applied AI."
+blog_description: "Technical writing on data science, healthcare, AI, LLMs, graph machine learning, and network analysis."
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
