@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.">
+<meta name="description" content="A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -36,14 +36,14 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Subrat Mishra | Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">
-  <meta property="og:description" content="ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.">
+  <meta property="og:description" content="A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence">
-  <meta name="twitter:description" content="ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.">
+  <meta name="twitter:description" content="A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.">
   
   
 
@@ -97,7 +97,7 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part3-author-disambiguation/",
         "@type": "BlogPosting",
-        "description": "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
+        "description": "A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.",
         "headline": "Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
@@ -487,7 +487,17 @@
     
     <div id="markdown-content">
       <blockquote>
-  <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
+  <p><em>Part 3 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community</a></strong></em></p>
+</blockquote>
+
+<blockquote>
+  <p><strong><em>TL;DR:</em></strong> <em>85,194 author mentions collapse to 39,206 unique researchers via ORCID anchoring, collision-aware name matching, and a five-year temporal mobility window calibrated from real career-move data. Final disambiguation: F1 = 0.9996 against ORCID ground truth.</em></p>
+
+  <p><strong><em>Read this if</em></strong> <em>you want to understand how author disambiguation works when nearly a third of researchers change institutions during the observation window.</em></p>
+
+  <p><strong><em>Skip to</em></strong> <em><a href="#validating-against-orcid-ground-truth">Validating Against ORCID Ground Truth</a> for the accuracy numbers.</em></p>
+
+  <p><strong><em>Why this matters for the graph:</em></strong> <em>A wrong merge stitches unrelated research groups together. A wrong split hides real collaborations. Every error here propagates into every downstream network metric.</em></p>
 </blockquote>
 
 <hr>
@@ -502,6 +512,8 @@
   <li>
 <strong>Name variants</strong>: “Gökçen” and “Gokcen” are the same person with and without Turkish diacritics. “Silva-Filho” and “Silva Filho” are the same person with and without a hyphen. “Greg”, “Gregory”, and “Gregory S” are the same person at three levels of name completeness.</li>
 </ol>
+
+<p>If we get this wrong in either direction, the co-authorship graph fills with edges that don’t exist or loses edges that do, and every community and centrality measure downstream inherits the distortion.</p>
 
 <p>Part 1 left off with 85,194 author mentions attached to the 11,500 articles in the filtered CF corpus. Those mentions reduce to <strong>42,949 unique (last name, first name, initials) combinations</strong>. Some unknown fraction of those are duplicates. Some are collisions. The job of this post is to figure out which is which.</p>
 
@@ -1020,11 +1032,11 @@
 
 <h2 id="whats-next">What’s Next</h2>
 
-<p>With 39,206 disambiguated researchers and their full affiliation timelines in hand, the raw material for the CF co-authorship network is finally ready. Part 4 builds the network, measures its structure, and finds the small set of bridge-building researchers who connect the entire community.</p>
+<p>This post produced 39,206 disambiguated researchers, each with a full affiliation timeline. Part 4 wires them into a co-authorship graph and measures what the resulting network looks like as a structure: path lengths, clustering, communities, and the bridge builders who connect them.</p>
 
 <hr>
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a></em></p>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: What the co-authorship network looks like once you can actually measure it</a></em></p>
 
     </div>
   </article>
@@ -1341,11 +1353,11 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
-            },{id: "post-part-7-research-dna-innovation-catalysts-and-knowledge-diffusion",
+            },{id: "post-part-7-topic-profile-embeddings-structural-brokerage-and-topic-diffusion",
           
-            title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+            title: "Part 7: Topic-Profile Embeddings, Structural Brokerage, and Topic Diffusion",
           
-          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
+          description: "metapath2vec embeddings encode each researcher&#39;s topic profile. Three analyses test what graph ML adds over classical network metrics.",
           section: "Posts",
           handler: () => {
             
@@ -1367,7 +1379,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
+          description: "94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.",
           section: "Posts",
           handler: () => {
             
@@ -1389,7 +1401,7 @@
           
             title: "Part 3: From Ambiguous Author Names to a Master List of Researchers with...",
           
-          description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
+          description: "A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.",
           section: "Posts",
           handler: () => {
             
@@ -1400,7 +1412,7 @@
           
             title: "Part 2: From Messy Affiliations to a Master List of Institutions with LLMs...",
           
-          description: "LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.",
+          description: "An LLM pipeline turns 97,167 messy affiliation strings into 5,799 geocoded research organizations for $82.",
           section: "Posts",
           handler: () => {
             

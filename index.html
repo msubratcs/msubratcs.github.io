@@ -405,7 +405,7 @@
 
   <div class="header-bar">
     <h1>Subrat's Blog</h1>
-    <h2>Data science, healthcare, and AI, with frequent detours into curiosity.</h2>
+    <h2>Practical writing on data science, software, healthcare, and applied AI.</h2>
   </div>
   
 
@@ -425,11 +425,17 @@
         </p>
         <h3 class="card-title mb-2">
           <a href="/blog/cf-research-network-analysis/" style="text-decoration: none; color: inherit;">
-            Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive
+            Mapping the Cystic Fibrosis Research Community
           </a>
         </h3>
         <p class="card-text mb-3">
           PubMed ingestion, LLM-based entity resolution, network analysis, graph ML, and topic diffusion across 1,688 cities. <a href="/blog/cf-research-network-analysis/">Series overview</a>.
+        </p>
+        <p class="text-muted mb-2" style="font-size: 0.92em;">
+          <strong>Start here:</strong>
+          <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5</a> for the clearest story ·
+          <a href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2</a> for the most practical engineering problem ·
+          <a href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7</a> for the graph ML payoff
         </p>
         <ul class="series-parts list-unstyled mb-0">
           
@@ -445,18 +451,18 @@
             
             <li class="mb-2">
               <a class="post-title" href="/blog/2026/cf-research-network-analysis-part2-institution-disambiguation/">Part 2: From Messy Affiliations to a Master List of Institutions with LLMs</a>
-              <p class="mb-0 text-muted">LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.</p>
+              <p class="mb-0 text-muted">An LLM pipeline turns 97,167 messy affiliation strings into 5,799 geocoded research organizations for $82.</p>
               <p class="post-meta mb-0">
-                28 min read · Apr 12, 2026
+                29 min read · Apr 12, 2026
               </p>
             </li>
           
             
             <li class="mb-2">
               <a class="post-title" href="/blog/2026/cf-research-network-analysis-part3-author-disambiguation/">Part 3: From Ambiguous Author Names to a Master List of Researchers with Temporal Intelligence</a>
-              <p class="mb-0 text-muted">ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.</p>
+              <p class="mb-0 text-muted">A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.</p>
               <p class="post-meta mb-0">
-                18 min read · Apr 12, 2026
+                19 min read · Apr 12, 2026
               </p>
             </li>
           
@@ -465,16 +471,16 @@
               <a class="post-title" href="/blog/2026/cf-research-network-analysis-part4-network-structure/">Part 4: The Small World of CF Research</a>
               <p class="mb-0 text-muted">Co-authorship graph construction, centrality rankings with TOPSIS, Leiden community detection, and bridge builders.</p>
               <p class="post-meta mb-0">
-                16 min read · Apr 12, 2026
+                17 min read · Apr 12, 2026
               </p>
             </li>
           
             
             <li class="mb-2">
               <a class="post-title" href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a>
-              <p class="mb-0 text-muted">Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.</p>
+              <p class="mb-0 text-muted">94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.</p>
               <p class="post-meta mb-0">
-                16 min read · Apr 12, 2026
+                17 min read · Apr 12, 2026
               </p>
             </li>
           
@@ -489,8 +495,8 @@
           
             
             <li class="mb-2">
-              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion</a>
-              <p class="mb-0 text-muted">metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.</p>
+              <a class="post-title" href="/blog/2026/cf-research-network-analysis-part7-graph-ml/">Part 7: Topic-Profile Embeddings, Structural Brokerage, and Topic Diffusion</a>
+              <p class="mb-0 text-muted">metapath2vec embeddings encode each researcher's topic profile. Three analyses test what graph ML adds over classical network metrics.</p>
               <p class="post-meta mb-0">
                 17 min read · Apr 12, 2026
               </p>
@@ -796,11 +802,11 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
-            },{id: "post-part-7-research-dna-innovation-catalysts-and-knowledge-diffusion",
+            },{id: "post-part-7-topic-profile-embeddings-structural-brokerage-and-topic-diffusion",
           
-            title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+            title: "Part 7: Topic-Profile Embeddings, Structural Brokerage, and Topic Diffusion",
           
-          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
+          description: "metapath2vec embeddings encode each researcher&#39;s topic profile. Three analyses test what graph ML adds over classical network metrics.",
           section: "Posts",
           handler: () => {
             
@@ -822,7 +828,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
+          description: "94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.",
           section: "Posts",
           handler: () => {
             
@@ -844,7 +850,7 @@
           
             title: "Part 3: From Ambiguous Author Names to a Master List of Researchers with...",
           
-          description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
+          description: "A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.",
           section: "Posts",
           handler: () => {
             
@@ -855,7 +861,7 @@
           
             title: "Part 2: From Messy Affiliations to a Master List of Institutions with LLMs...",
           
-          description: "LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.",
+          description: "An LLM pipeline turns 97,167 messy affiliation strings into 5,799 geocoded research organizations for $82.",
           section: "Posts",
           handler: () => {
             

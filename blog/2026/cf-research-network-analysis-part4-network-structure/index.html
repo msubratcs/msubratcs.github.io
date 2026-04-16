@@ -501,12 +501,24 @@
     
     <div id="markdown-content">
       <blockquote>
-  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
+  <p><em>Part 4 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community</a></strong></em></p>
+</blockquote>
+
+<blockquote>
+  <p><strong><em>TL;DR:</em></strong> <em>The CF co-authorship network is a small-world graph: 39,206 researchers, 4.31-hop average path length, 0.862 clustering coefficient. Five centrality measures fused via TOPSIS rank influence, 1,231 Leiden communities map the field’s tribal structure, and 14.2% of researchers bridge two or more communities.</em></p>
+
+  <p><strong><em>Read this if</em></strong> <em>you want to see what a real scientific collaboration network looks like once you measure its structure, rank its members, and map its communities.</em></p>
+
+  <p><strong><em>Skip to</em></strong> <em><a href="#the-bridge-builders">The Bridge Builders</a> for the researchers who hold the field together.</em></p>
+
+  <p><strong><em>Why this matters for the graph:</em></strong> <em>This is where the graph becomes an instrument. The structural baselines here – small-world properties, community map, bridge builder list – are what Parts 5 through 7 measure change against.</em></p>
 </blockquote>
 
 <hr>
 
 <p>In parts 2 and 3 we created a list of 39,206 researchers and 11,500 CF publications. This post is where that raw material finally becomes a graph, and where the graph starts answering questions. Three in particular: what does the CF research network <em>look like</em> as a structure, who are the most influential researchers once you accept that “influential” has more than one meaning, and how is the field organized into communities and the bridge-builders who connect them.</p>
+
+<p>If the graph construction makes bad choices – treating a 40-author clinical trial as 780 equally meaningful partnerships, or ignoring authorship position – then the centrality rankings, community boundaries, and bridge builder lists reflect construction artifacts rather than the actual structure of the field.</p>
 
 <h2 id="building-the-graph">Building the Graph</h2>
 
@@ -946,11 +958,11 @@
 
 <h2 id="whats-next">What’s Next</h2>
 
-<p>Part 5 asks whether this structure actually held when Trikafta landed in late 2019, or whether a single drug approval was enough to rewire the graph.</p>
+<p>This post established the structural baseline: a small-world network with 1,231 communities and a handful of bridge builders holding it together. Part 5 splits that same graph at October 2019 and asks whether a single drug approval was enough to rewire the structure.</p>
 
 <hr>
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community</a></em></p>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">Part 5: What happened to the collaboration graph when Trikafta arrived</a></em></p>
 
     </div>
   </article>
@@ -1225,11 +1237,11 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
-            },{id: "post-part-7-research-dna-innovation-catalysts-and-knowledge-diffusion",
+            },{id: "post-part-7-topic-profile-embeddings-structural-brokerage-and-topic-diffusion",
           
-            title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+            title: "Part 7: Topic-Profile Embeddings, Structural Brokerage, and Topic Diffusion",
           
-          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
+          description: "metapath2vec embeddings encode each researcher&#39;s topic profile. Three analyses test what graph ML adds over classical network metrics.",
           section: "Posts",
           handler: () => {
             
@@ -1251,7 +1263,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
+          description: "94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.",
           section: "Posts",
           handler: () => {
             
@@ -1273,7 +1285,7 @@
           
             title: "Part 3: From Ambiguous Author Names to a Master List of Researchers with...",
           
-          description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
+          description: "A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.",
           section: "Posts",
           handler: () => {
             
@@ -1284,7 +1296,7 @@
           
             title: "Part 2: From Messy Affiliations to a Master List of Institutions with LLMs...",
           
-          description: "LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.",
+          description: "An LLM pipeline turns 97,167 messy affiliation strings into 5,799 geocoded research organizations for $82.",
           section: "Posts",
           handler: () => {
             

@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Subrat Mishra">
-<meta name="description" content="Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.">
+<meta name="description" content="94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -36,14 +36,14 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Subrat Mishra | Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community">
   <meta property="og:url" content="https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/">
-  <meta property="og:description" content="Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.">
+  <meta property="og:description" content="94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.">
   
   <meta property="og:locale" content="en">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community">
-  <meta name="twitter:description" content="Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.">
+  <meta name="twitter:description" content="94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.">
   
   
 
@@ -97,7 +97,7 @@
         },
         "url": "https://msubratcs.github.io/blog/2026/cf-research-network-analysis-part5-trikafta-effect/",
         "@type": "BlogPosting",
-        "description": "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
+        "description": "94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.",
         "headline": "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community",
         
         "sameAs": ["https://orcid.org/0009-0004-6615-873X", "https://github.com/msubratcs", "https://www.linkedin.com/in/msubratcs"],
@@ -502,12 +502,24 @@
     
     <div id="markdown-content">
       <blockquote>
-  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community: A Data Science Deep Dive</a></strong></em></p>
+  <p><em>Part 5 of the series: <strong><a href="/blog/cf-research-network-analysis/">Mapping the Cystic Fibrosis Research Community</a></strong></em></p>
+</blockquote>
+
+<blockquote>
+  <p><strong><em>TL;DR:</em></strong> <em>94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual restricted to continuity researchers finds 62.5% of their new partnerships fall outside pre-2019 network dynamics, and two-thirds of their dissolved ones were predicted to survive. The field doubled in size but held its structural fabric.</em></p>
+
+  <p><strong><em>Read this if</em></strong> <em>you want to see what happens to collaboration patterns when a breakthrough drug lands in the middle of the observation window.</em></p>
+
+  <p><strong><em>Skip to</em></strong> <em><a href="#the-counterfactual-what-would-have-happened-without-trikafta">The Counterfactual</a> for the model that separates expected from unexpected rewiring.</em></p>
+
+  <p><strong><em>Why this matters for the graph:</em></strong> <em>Without a before-and-after comparison, the network from Part 4 is a static portrait. This post turns it into a measurement of how collaboration responds to a scientific turning point.</em></p>
 </blockquote>
 
 <hr>
 
 <h2 id="before-and-after">Before and After</h2>
+
+<p>If we don’t separate the effects of the drug approval from normal field evolution, every claim that “Trikafta changed X” is confounded by the fact that research networks change on their own even when nothing dramatic happens.</p>
 
 <p>Trikafta was approved in October 2019. By splitting the data into Era 1 (2015-2018) and Era 2 (2019-2025), We can see exactly what happened to the collaboration network when a breakthrough drug transformed a disease. A caveat to keep in mind for everything that follows: Era 1 is 4 years long and Era 2 is 7 years long, so raw-size comparisons are inflated by the longer observation window. The per-researcher and structural claims below (average collaborators, clustering, edge turnover) don’t depend on that asymmetry, but the total-count numbers do.</p>
 
@@ -878,7 +890,7 @@
   </tbody>
 </table>
 
-<p>A few caveats before anyone reads too much into this list. High growth multipliers are easy from a low base: Lisa Morrison’s 82x sounds massive, but she started from a single Era 1 connection, which inflates the ratio regardless of what she actually does now. Even the more substantial entries (Meghana Nitin Sathe at 28 articles and 36x, Dana P. Albon at 26 articles and ~20x) are only flagged by one metric — degree centrality growth — over two coarse time buckets. That is a shallow lens. It can’t tell you <em>why</em> someone’s connections grew, whether the growth is durable, or how they compare on the other centrality measures from Part 4 (betweenness, eigenvector, PageRank, weighted degree). Actually identifying genuine rising stars would need a much deeper look: tracking multiple centrality measures across a sliding window, checking whether the growth compounds or reverts, and sanity-checking against the person’s actual publication record and research topics. The table above is best read as a list of researchers worth investigating further, not a verdict on who the next generation of CF leaders will be.</p>
+<p>A few caveats before anyone reads too much into this list. High growth multipliers are easy from a low base: Lisa Morrison’s 82x sounds massive, but she started from a single Era 1 connection, which inflates the ratio regardless of what she actually does now. Even the more substantial entries (Meghana Nitin Sathe at 28 articles and 36x, Dana P. Albon at 26 articles and ~20x) are only flagged by one metric, degree centrality growth, over two coarse time buckets. That is a shallow lens. It can’t tell you <em>why</em> someone’s connections grew, whether the growth is durable, or how they compare on the other centrality measures from Part 4 (betweenness, eigenvector, PageRank, weighted degree). Actually identifying genuine rising stars would need a much deeper look: tracking multiple centrality measures across a sliding window, checking whether the growth compounds or reverts, and sanity-checking against the person’s actual publication record and research topics. The table above is best read as a list of researchers worth investigating further, not a verdict on who the next generation of CF leaders will be.</p>
 
 <hr>
 
@@ -900,16 +912,16 @@
   <li>
 <strong>The post-Trikafta field is tighter, not just bigger.</strong> Across 3-year sliding windows, network density rose 14% (0.00097 → 0.00111) and the giant component expanded from 69.8% to 77.3% of researchers.</li>
   <li>
-<strong>Degree-centrality growth flags some candidate rising stars — tentatively.</strong> Filtering to above-median Era 2 centrality to screen out zero-base artifacts surfaces names like Meghana Nitin Sathe (28 articles, 36x) and Dana P. Albon (26 articles, ~20x). A single-metric, two-bucket comparison is a shallow lens, though; confirming anyone as a real rising star would need multi-metric, sliding-window analysis.</li>
+<strong>Degree-centrality growth flags some candidate rising stars, tentatively.</strong> Filtering to above-median Era 2 centrality to screen out zero-base artifacts surfaces names like Meghana Nitin Sathe (28 articles, 36x) and Dana P. Albon (26 articles, ~20x). A single-metric, two-bucket comparison is a shallow lens, though; confirming anyone as a real rising star would need multi-metric, sliding-window analysis.</li>
 </ul>
 
 <h2 id="whats-next">What’s Next</h2>
 
-<p>Part 6 zooms out from researchers to institutions and geography: which organizations anchor CF research, how the map changes when you enrich it with ROR metadata, and why nearly half of institutional edges cross a national border.</p>
+<p>This post measured the before-and-after at the researcher level: who rewired, who dissolved, who persisted. Part 6 lifts the lens from individuals to institutions and geography, using the same org IDs from Part 2 to ask which organizations anchor CF research and how the map changes when you enrich it with ROR metadata.</p>
 
 <hr>
 
-<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6: The Institutional Backbone and Geography of CF Research</a></em></p>
+<p><em>Next: <a href="/blog/2026/cf-research-network-analysis-part6-geography-institutions/">Part 6: The organizational and geographic scaffolding underneath the researcher network</a></em></p>
 
     </div>
   </article>
@@ -1184,11 +1196,11 @@
               handler: () => {
                 window.location.href = "/publications/";
               },
-            },{id: "post-part-7-research-dna-innovation-catalysts-and-knowledge-diffusion",
+            },{id: "post-part-7-topic-profile-embeddings-structural-brokerage-and-topic-diffusion",
           
-            title: "Part 7: Research DNA, Innovation Catalysts, and Knowledge Diffusion",
+            title: "Part 7: Topic-Profile Embeddings, Structural Brokerage, and Topic Diffusion",
           
-          description: "metapath2vec embeddings, Research Twins, brokerage scoring, and topic diffusion across 1,688 cities.",
+          description: "metapath2vec embeddings encode each researcher&#39;s topic profile. Three analyses test what graph ML adds over classical network metrics.",
           section: "Posts",
           handler: () => {
             
@@ -1210,7 +1222,7 @@
           
             title: "Part 5: The Trikafta Effect: How a Drug Approval Rewired a Research Community...",
           
-          description: "Pre vs post-Trikafta era comparison, 94% edge turnover, a Node2Vec link-prediction counterfactual on continuity-researcher collaborations, and sliding-window analysis.",
+          description: "94% of post-Trikafta collaboration pairs are new. A Node2Vec counterfactual measures how much of the rewiring fits pre-2019 dynamics.",
           section: "Posts",
           handler: () => {
             
@@ -1232,7 +1244,7 @@
           
             title: "Part 3: From Ambiguous Author Names to a Master List of Researchers with...",
           
-          description: "ORCID anchoring, collision-aware name matching, temporal-aware cluster disambiguation, and validating against real ground truth.",
+          description: "A temporal-aware disambiguation algorithm collapses 85,194 author mentions into 39,206 unique researchers at F1 = 0.9996.",
           section: "Posts",
           handler: () => {
             
@@ -1243,7 +1255,7 @@
           
             title: "Part 2: From Messy Affiliations to a Master List of Institutions with LLMs...",
           
-          description: "LLM-based affiliation parsing, an MLflow-tracked evaluation across 6 models, and geo-search deduplication.",
+          description: "An LLM pipeline turns 97,167 messy affiliation strings into 5,799 geocoded research organizations for $82.",
           section: "Posts",
           handler: () => {
             
