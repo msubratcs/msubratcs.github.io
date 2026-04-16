@@ -102,3 +102,19 @@ This project only exists because a lot of other people did the hard work first a
 - **Data sources**: [PubMed / NCBI](https://pubmed.ncbi.nlm.nih.gov/) for the literature, [MeSH](https://www.nlm.nih.gov/mesh/meshhome.html) for topic vocabulary, [ORCID](https://orcid.org/) for author identity, and the [Research Organization Registry (ROR)](https://ror.org/) for institution identity.
 - **LLM and API providers**: OpenAI, Anthropic, and Google for the models used in the Part 2 entity-resolution eval; Google Places for geocoding institutions.
 - **Open-source tooling**: [Prefect](https://www.prefect.io/) for the ETL pipeline, [MLflow](https://mlflow.org/) for experiment tracking, [NetworkX](https://networkx.org/) and [python-igraph](https://python.igraph.org/) for the graph work, [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/) for metapath2vec, [UMAP](https://umap-learn.readthedocs.io/) for dimensionality reduction, and [Plotly](https://plotly.com/python/) for the interactive charts.
+
+---
+
+## Citation
+
+If you found this series useful, please cite it as:
+
+```bibtex
+@misc{cf2026mishra,
+  author = {Subrat Mishra},
+  title = {Mapping the Cystic Fibrosis Research Community},
+  year = {2026},
+  howpublished = {Blog series},
+  url = {https://msubratcs.github.io/blog/cf-research-network-analysis/}
+}
+```
