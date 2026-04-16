@@ -26,7 +26,9 @@
   {% else %}
     {% capture title %}{{ site.title }}{% endcapture %}
   {% endif %}
-  {% if page.url == '/blog/index.html' %}
+  {% if page.seo_title %}
+    {{ title }} | {{ page.seo_title }}
+  {% elsif page.url == '/blog/index.html' %}
     {{ page.title }} | {{ title }}
   {% elsif page.title != 'blank' and page.url != '/' %}
     {% if page.title == null or page.title == '' %}
@@ -231,6 +233,21 @@
         "@type": "{% if is_blog_post %}BlogPosting{% else %}WebSite{% endif %}",
         "description": "{% if page.description %}{{ page.description }}{% else if site.description %}{{ site.description }}{% endif %}",
         "headline": "{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}",
+        {% if is_blog_post %}
+        "datePublished": "{{ page.date | date_to_xmlschema }}",
+        "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date_to_xmlschema }}{% else %}{{ page.date | date_to_xmlschema }}{% endif %}",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ page.url | prepend: site.baseurl | prepend: site.url }}"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "{{ author_name }}"
+        },
+        {% endif %}
+        {% if page.og_image or site.og_image %}
+        "image": "{% if page.og_image %}{{ page.og_image }}{% else %}{{ site.og_image }}{% endif %}",
+        {% endif %}
         {% if sameaslinks != blank %}
         "sameAs": {{ sameaslinks }},
         {% endif %}

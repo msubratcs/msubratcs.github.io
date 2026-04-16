@@ -1,0 +1,48 @@
+{% comment %}
+  Renders a "Related in this series" navigation block for posts with series_part: true.
+  Auto-computes previous / next / series-overview links based on post date ordering.
+  Series overview URL is read from the first series post's series_overview_url front-matter,
+  or falls back to the path below.
+{% endcomment %}
+
+{% if page.series_part %}
+  {% assign series_posts = site.posts | where: "series_part", true | sort: "date" %}
+  {% assign series_total = series_posts.size %}
+  {% assign current_index = -1 %}
+  {% for post in series_posts %}
+    {% if post.url == page.url %}
+      {% assign current_index = forloop.index0 %}
+    {% endif %}
+  {% endfor %}
+
+  {% if current_index >= 0 %}
+    {% assign overview_url = page.series_overview_url | default: '/blog/cf-research-network-analysis/' %}
+    {% assign overview_title = page.series_overview_title | default: 'Mapping the Cystic Fibrosis Research Community' %}
+
+    <aside class="series-nav" aria-label="Related in this series">
+      <h3 class="series-nav-heading">Related in this series</h3>
+      <ul class="series-nav-list">
+        <li>
+          <span class="series-nav-label">Series overview:</span>
+          <a href="{{ overview_url | relative_url }}">{{ overview_title }}</a>
+        </li>
+        {% if current_index > 0 %}
+          {% assign prev_index = current_index | minus: 1 %}
+          {% assign prev_post = series_posts[prev_index] %}
+          <li>
+            <span class="series-nav-label">Previous:</span>
+            <a href="{{ prev_post.url | relative_url }}">{{ prev_post.title }}</a>
+          </li>
+        {% endif %}
+        {% assign next_index = current_index | plus: 1 %}
+        {% if next_index < series_total %}
+          {% assign next_post = series_posts[next_index] %}
+          <li>
+            <span class="series-nav-label">Next:</span>
+            <a href="{{ next_post.url | relative_url }}">{{ next_post.title }}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </aside>
+  {% endif %}
+{% endif %}

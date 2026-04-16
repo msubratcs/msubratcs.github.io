@@ -73,6 +73,10 @@ layout: default
     </div>
   </article>
 
+  {% if page.series_part %}
+    {% include series_nav.liquid %}
+  {% endif %}
+
   {% if page.citation %}
     {% include citation.liquid %}
   {% endif %}

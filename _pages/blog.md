@@ -2,6 +2,8 @@
 layout: default
 permalink: /
 title: blog
+seo_title: "Data Science, Healthcare, AI, LLMs, Graph ML, and Network Analysis"
+description: "Technical writing by Subrat Mishra on data science, healthcare, AI, LLMs, graph machine learning, and network analysis."
 nav: true
 nav_order: 1
 pagination:
