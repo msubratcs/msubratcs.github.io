@@ -97,7 +97,7 @@ The series splits cleanly into two halves. The first half is **data engineering*
 
 ## Acknowledgments
 
-This project only exists because a lot of other people did the hard work first and made it public. I'm grateful to Prof. [Jure Leskovec](https://profiles.stanford.edu/jure-leskovec) ([CS224W: Machine Learning with Graphs](https://web.stanford.edu/class/cs224w/)) and Prof. [Chris Potts](https://profiles.stanford.edu/christopher-potts) ([CS224U: Natural Language Understanding](https://web.stanford.edu/class/cs224u/)), whose courses gave me the foundation to take on a project like this. The series also stands on:
+This project only exists because a lot of other people did the hard work first and made it public. I'm grateful to [Ryan Sowers](https://www.linkedin.com/in/rhsowers/), who provided all the inspiration for this work, and to Prof. [Jure Leskovec](https://profiles.stanford.edu/jure-leskovec) ([CS224W: Machine Learning with Graphs](https://web.stanford.edu/class/cs224w/)) and Prof. [Chris Potts](https://profiles.stanford.edu/christopher-potts) ([CS224U: Natural Language Understanding](https://web.stanford.edu/class/cs224u/)), whose courses gave me the foundation to take on a project like this. The series also stands on:
 
 - **Data sources**: [PubMed / NCBI](https://pubmed.ncbi.nlm.nih.gov/) for the literature, [MeSH](https://www.nlm.nih.gov/mesh/meshhome.html) for topic vocabulary, [ORCID](https://orcid.org/) for author identity, and the [Research Organization Registry (ROR)](https://ror.org/) for institution identity.
 - **LLM and API providers**: OpenAI, Anthropic, and Google for the models used in the Part 2 entity-resolution eval; Google Places for geocoding institutions.
