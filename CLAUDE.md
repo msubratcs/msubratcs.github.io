@@ -99,6 +99,6 @@ Push to `main` triggers `.github/workflows/deploy.yml`:
 
 GitHub Pages source must be set to **GitHub Actions** in repo Settings → Pages.
 
-## Open Tasks
+### Open Graph / Social Previews
 
-- **Choose a site-wide OG image (`og_image` in `_config.yml`).** Currently unset, so shared links (LinkedIn, Twitter, Slack) render without a preview card. Options: (a) use `assets/img/prof_pic.jpg` as a stopgap — works but crops awkwardly since it's not 1200×630, (b) author per-post `og_image` front matter as thumbnails are created, (c) design a branded 1200×630 card. The `<meta property="og:image">` plumbing in `_includes/metadata.liquid` already reads `page.og_image` then falls back to `site.og_image`, so it's a one-line config change once an image is chosen.
+Site-wide `og_image` is set to `assets/img/og-image.jpeg` (absolute URL in `_config.yml`). Individual posts can override via `og_image:` front matter; see `_includes/metadata.liquid` for the fallback logic.
