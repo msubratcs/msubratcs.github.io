@@ -113,7 +113,7 @@ pagination:
           Series &middot; {{ series_posts.size }} parts
         </p>
         <h3 class="card-title mb-2">
-          <a href="{{ '/blog/cf-research-network-analysis/' | relative_url }}" style="text-decoration: none; color: inherit;">
+          <a class="post-title" href="{{ '/blog/cf-research-network-analysis/' | relative_url }}">
             Mapping the Cystic Fibrosis Research Community
           </a>
         </h3>
