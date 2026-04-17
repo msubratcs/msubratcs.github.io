@@ -516,14 +516,28 @@ footer.sticky-bottom {
 // Blog
 
 .header-bar {
+  position: relative;
   border-bottom: 1px solid var(--global-divider-color);
   text-align: center;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  padding: 5rem 1.5rem;
+  margin-bottom: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url("/assets/img/background-image.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  overflow: hidden;
 
   h1 {
-    color: var(--global-text-color);
+    color: #fff;
     font-size: 5rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  h2 {
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -696,9 +710,6 @@ footer.sticky-bottom {
 
     li {
       margin-bottom: 1rem;
-
-      .preview {
-      }
 
       .abbr {
         margin-bottom: 0.5rem;
